@@ -2,13 +2,14 @@ import tw, { styled } from 'twin.macro';
 import Icon from './assets/logo.svg?react';
 import { useEffect, useState } from 'react';
 import { ApiHttpService } from './services/http/http-service';
-import { Alert } from 'flowbite-react';
+import { Alert, Button } from 'flowbite-react';
+import { Link } from 'react-router-dom';
 
 const Title = styled.h1`
   color: #ff2219;
-  ${tw`font-black flex items-center flex-col`}
+  ${tw`text-5xl font-black flex items-center flex-col`}
   p {
-    ${tw`font-bold text-lg text-gray-700`}
+    ${tw`font-bold text-lg text-gray-700 mb-4`}
   }
 `;
 
@@ -51,6 +52,9 @@ const App: ReactFC = () => {
         </Logo>
         <div>Invasion QC</div>
         <p>Made with ❤︎ in Québec</p>
+        <Link to="/dashboard">
+          <Button color="dark">Log In</Button>
+        </Link>
       </Title>
     </Container>
   );
