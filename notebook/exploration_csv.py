@@ -11,5 +11,9 @@ df = spark.createDataFrame(pd_df)
 
 # COMMAND ----------
 
-from pyspark.sql.functions import schema_of_json
-taxon_schema = df.s
+from pyspark.sql.functions import schema_of_json, col
+taxon_schema = df.select(schema_of_json(col("taxon"))).collect()
+
+# COMMAND ----------
+
+
