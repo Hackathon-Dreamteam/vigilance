@@ -24,7 +24,7 @@ const CustomStyles = styled.createGlobalStyle`
     min-height: 100vh;
     display: flex;
     flex-direction: column;
-    ${tw`text-base overflow-hidden`}
+    ${tw`text-base`}
   }
 `;
 
