@@ -12,9 +12,9 @@ const Title = styled.h1`
   }
 `;
 
-const StickyHeader = styled.div<{ visible?: boolean }>`
+const StickyHeader = styled.div<{ $visible?: boolean }>`
   ${tw`absolute top-0 w-full p-4 opacity-0 transition-all`}
-  ${({ visible }) => visible && tw`opacity-100`}
+  ${({ $visible }) => $visible && tw`opacity-100`}
 `;
 
 const Container = tw.div`min-h-screen flex justify-center items-center flex-col bg-gray-50`;
@@ -42,7 +42,7 @@ const App: ReactFC = () => {
 
   return (
     <Container>
-      <StickyHeader visible={!!alert}>
+      <StickyHeader $visible={!!alert}>
         <Alert color="failure">{alert}</Alert>
       </StickyHeader>
       <Title>
