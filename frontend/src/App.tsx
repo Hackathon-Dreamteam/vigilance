@@ -50,7 +50,7 @@ const App: ReactFC = () => {
         <Logo>
           <Icon />
         </Logo>
-        <div>Invasion QC</div>
+        <div>Invasion Québec</div>
         <p>Made with ❤︎ in Québec</p>
         <Link to="/dashboard">
           <Button color="dark">Log In</Button>
