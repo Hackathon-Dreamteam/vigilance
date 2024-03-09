@@ -3,11 +3,10 @@
 namespace InvasionQc.Api.Controllers;
 
 [ApiController]
-[Route("HelloWorld")]
+[Route("api/[controller]")]
 public class HelloWorldController : ControllerBase
 {
     [HttpGet]
-    [Route("hello-dinde")]
     [ProducesResponseType<string>(200)]
     public IActionResult Get()
     {

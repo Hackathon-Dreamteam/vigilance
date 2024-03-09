@@ -7,9 +7,7 @@ internal static class Startup
     internal static IHostApplicationBuilder RegisterDependencies(this IHostApplicationBuilder builder)
     {
         builder.Services.AddControllers();
-
         builder.Services.AddProblemDetails();
-
         builder.Services.AddOpenApi();
 
         return builder;
@@ -18,7 +16,7 @@ internal static class Startup
     internal static WebApplication ConfigureMiddleware(this WebApplication app)
     {
         app.UseExceptionHandler();
-
+        app.UseCors(x => x.AllowAnyOrigin());
         app.UseStatusCodePages();
 
         if (app.Environment.IsDevelopment())
@@ -27,7 +25,6 @@ internal static class Startup
         }
 
         app.UseOpenApi();
-
         app.MapControllers();
 
         return app;

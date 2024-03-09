@@ -1,5 +1,7 @@
 import tw, { styled } from 'twin.macro';
 import Icon from './assets/logo.svg?react';
+import { useEffect, useState } from 'react';
+import { ApiHttpService } from './services/http/http-service';
 
 const Title = styled.h1`
   color: #ff2219;
@@ -19,6 +21,17 @@ const Logo = styled.div`
 `;
 
 const App: ReactFC = () => {
+  const [alert, setAlert] = useState<string>();
+
+  const getAlert = async () => {
+    const { response } = await ApiHttpService.get<string>('/helloworld');
+    setAlert(response);
+  };
+
+  useEffect(() => {
+    getAlert();
+  }, []);
+
   return (
     <Container>
       <Title>
@@ -26,7 +39,7 @@ const App: ReactFC = () => {
           <Icon />
         </Logo>
         <div>Invasion QC</div>
-        <p>Bonjour Monde!</p>
+        <p>{alert}</p>
       </Title>
     </Container>
   );
