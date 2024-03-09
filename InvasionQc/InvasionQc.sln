@@ -1,0 +1,28 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InvasionQc.Api", "InvasionQc.Api\InvasionQc.Api.csproj", "{D9BCF44F-E84A-4C87-AE3D-9A5C09E0ED31}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InvasionQc.Core", "InvasionQc.Core\InvasionQc.Core.csproj", "{B6972824-2AAA-43C8-A28B-B0C5D02A462C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InvasionQc.Job", "InvasionQc.Job\InvasionQc.Job.csproj", "{4A69A4E8-8A8B-4223-A46E-FE38353A5C60}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{D9BCF44F-E84A-4C87-AE3D-9A5C09E0ED31}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D9BCF44F-E84A-4C87-AE3D-9A5C09E0ED31}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D9BCF44F-E84A-4C87-AE3D-9A5C09E0ED31}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D9BCF44F-E84A-4C87-AE3D-9A5C09E0ED31}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B6972824-2AAA-43C8-A28B-B0C5D02A462C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B6972824-2AAA-43C8-A28B-B0C5D02A462C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B6972824-2AAA-43C8-A28B-B0C5D02A462C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B6972824-2AAA-43C8-A28B-B0C5D02A462C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4A69A4E8-8A8B-4223-A46E-FE38353A5C60}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4A69A4E8-8A8B-4223-A46E-FE38353A5C60}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4A69A4E8-8A8B-4223-A46E-FE38353A5C60}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4A69A4E8-8A8B-4223-A46E-FE38353A5C60}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
