@@ -10,6 +10,6 @@ public class HelloWorldController : ControllerBase
     [ProducesResponseType<string>(200)]
     public IActionResult Get()
     {
-          return Ok("Alerte de Dinde Noir!");
+        return Ok("Alerte de Dinde Noir!");
     }
 }

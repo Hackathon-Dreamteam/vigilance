@@ -13,6 +13,12 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Files", "Files", "{27FC9513
 		.editorconfig = .editorconfig
 	EndProjectSection
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Data", "Data", "{C77008A7-287C-4A95-95D1-277AB3EEC38B}"
+	ProjectSection(SolutionItems) = preProject
+		..\notebook\data\inaturalist_data.csv = ..\notebook\data\inaturalist_data.csv
+		..\notebook\data\laval_with_species.csv = ..\notebook\data\laval_with_species.csv
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
