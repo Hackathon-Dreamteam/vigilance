@@ -2,6 +2,7 @@ import tw, { styled } from 'twin.macro';
 import Icon from './assets/logo.svg?react';
 import { useEffect, useState } from 'react';
 import { ApiHttpService } from './services/http/http-service';
+import { Alert } from 'flowbite-react';
 
 const Title = styled.h1`
   color: #ff2219;
@@ -9,6 +10,11 @@ const Title = styled.h1`
   p {
     ${tw`font-bold text-lg text-gray-700`}
   }
+`;
+
+const StickyHeader = styled.div<{ visible?: boolean }>`
+  ${tw`absolute top-0 w-full p-4 opacity-0 transition-all`}
+  ${({ visible }) => visible && tw`opacity-100`}
 `;
 
 const Container = tw.div`min-h-screen flex justify-center items-center flex-col bg-gray-50`;
@@ -29,17 +35,22 @@ const App: ReactFC = () => {
   };
 
   useEffect(() => {
-    getAlert();
+    setTimeout(() => {
+      getAlert();
+    }, 1000);
   }, []);
 
   return (
     <Container>
+      <StickyHeader visible={!!alert}>
+        <Alert color="failure">{alert}</Alert>
+      </StickyHeader>
       <Title>
         <Logo>
           <Icon />
         </Logo>
         <div>Invasion QC</div>
-        <p>{alert}</p>
+        <p>Made with ❤︎ in Québec</p>
       </Title>
     </Container>
   );

@@ -1,0 +1,4 @@
+/* Needed for Flowbite components */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
