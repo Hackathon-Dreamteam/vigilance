@@ -1,4 +1,5 @@
-﻿using InvasionQc.Api.OpenApi;
+﻿using System.Text.Json.Serialization;
+using InvasionQc.Api.OpenApi;
 using InvasionQc.Core;
 
 namespace InvasionQc.Api;
