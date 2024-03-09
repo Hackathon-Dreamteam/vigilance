@@ -1,0 +1,19 @@
+# Top-most EditorConfig file
+root = true
+
+[*]
+# Set the default charset to UTF-8
+charset = utf-8
+
+# Indentation settings
+indent_style = space
+indent_size = 4
+
+# End each file with a single newline
+end_of_line = lf
+
+# Trim trailing whitespace
+trim_trailing_whitespace = true
+
+# Ensure file uses LF for line endings
+insert_final_newline = true

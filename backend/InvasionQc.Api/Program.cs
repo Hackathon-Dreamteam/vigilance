@@ -1,6 +1,11 @@
+using InvasionQc.Api;
+
 var builder = WebApplication.CreateBuilder(args);
+
+builder.RegisterDependencies();
+
 var app = builder.Build();
 
-app.MapGet("/", () => "Bonjour Monde!");
+app.ConfigureMiddleware();
 
 app.Run();
