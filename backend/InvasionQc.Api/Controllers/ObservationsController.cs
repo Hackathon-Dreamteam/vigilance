@@ -1,6 +1,6 @@
 ﻿using InvasionQc.Core.Constants;
-using InvasionQc.Core.FileDataLoader;
 using InvasionQc.Core.Observations;
+using InvasionQc.Core.Utils;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
@@ -18,11 +18,9 @@ public class ObservationsController: ControllerBase
     }
 
     [HttpGet]
-    [ProducesResponseType<FileObservations[]>(200)]
-    public async Task<IActionResult> Get(Locations location)
+    [ProducesResponseType<Observation[]>(200)]
+    public IAsyncEnumerable<Observation> Get(Locations location, CancellationToken cancellationToken)
     {
-        var observations = await this._mediator.Send(new GetObservationsQuery(location));
-        return this.Ok(observations);
+        return this._mediator.CreateStream(new GetObservationsQuery(location), cancellationToken);
     }
-
 }

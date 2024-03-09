@@ -4,9 +4,14 @@
     <PackageReference Include="MediatR.Contracts" Version="2.0.1" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="..\..\notebook\laval_with_species.json">
-      <Link>Data\laval_with_species.json</Link>
+    <Content Include="..\..\notebook\species_with_location.json">
+      <Link>Data\species_with_location.json</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="Microsoft.Extensions.Logging.Abstractions">
+      <HintPath>..\..\..\..\Program Files\dotnet\shared\Microsoft.AspNetCore.App\8.0.0\Microsoft.Extensions.Logging.Abstractions.dll</HintPath>
+    </Reference>
   </ItemGroup>
 </Project>

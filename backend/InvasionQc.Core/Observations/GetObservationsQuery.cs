@@ -1,33 +1,36 @@
-﻿using InvasionQc.Core.Constants;
+﻿using System.Runtime.CompilerServices;
+using InvasionQc.Core.Constants;
 using InvasionQc.Core.FileDataLoader;
+using InvasionQc.Core.Utils;
 using MediatR;
 
 namespace InvasionQc.Core.Observations;
 
-public record GetObservationsQuery(Locations Location) : IRequest< IReadOnlyCollection<Observations>>;
+public record GetObservationsQuery(Locations Location) : IStreamRequest<Observation>;
 
-public class GetObservationsQueryHandler : IRequestHandler<GetObservationsQuery, IReadOnlyCollection<Observations>>
+public class GetObservationsQueryHandler : IStreamRequestHandler<GetObservationsQuery, Observation>
 {
-    public Task<IReadOnlyCollection<Observations>> Handle(GetObservationsQuery request, CancellationToken cancellationToken)
+    private readonly FileObservationsLoader _fileObservationsLoader;
+
+    public GetObservationsQueryHandler(FileObservationsLoader fileObservationsLoader)
     {
-        var fileObservations = FileObservationsLoader.GetSpecies(request.Location);
-
-        var observations = fileObservations.Select(x => new Observations
-        {
-            SpeciesName = x.SpeciesName,
-            Location = x.Location,
-            IsInvasive = x.IsInvasive
-        }).ToList();
-
-        return Task.FromResult<IReadOnlyCollection<Observations>>(observations);
+        this._fileObservationsLoader = fileObservationsLoader;
     }
-}
 
-public class Observations
-{
-    public string SpeciesName { get; set; } = string.Empty;
+    public async IAsyncEnumerable<Observation> Handle(GetObservationsQuery request, [EnumeratorCancellation] CancellationToken cancellationToken)
+    {
+        await foreach (var observation in _fileObservationsLoader.GetSpecies(request.Location, cancellationToken))
+        {
+            yield return new Observation()
+            {
+                SpeciesName = observation.SpeciesName,
+                Location = observation.Location,
+                IsInvasive = observation.IsInvasive,
+                IsPrecarious = true,
+                Date = DateTimeOffset.UtcNow,
+                GeoLocation = new GeoLocation(100, 100)
 
-    public string Location { get; set; } = string.Empty;
-
-    public bool IsInvasive { get; set; }
+            };
+        }
+    }
 }

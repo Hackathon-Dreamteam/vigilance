@@ -16,7 +16,7 @@ internal static class Startup
         builder.Services.AddProblemDetails();
         builder.Services.AddOpenApi();
 
-        builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblies(CoreAssembly.Reference));
+        builder.Services.AddInvasionQcCore();
 
         return builder;
     }
