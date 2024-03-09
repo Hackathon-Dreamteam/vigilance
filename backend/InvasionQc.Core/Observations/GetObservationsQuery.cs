@@ -1,7 +1,6 @@
 ﻿using System.Runtime.CompilerServices;
 using InvasionQc.Core.Constants;
 using InvasionQc.Core.FileDataLoader;
-using InvasionQc.Core.Utils;
 using MediatR;
 
 namespace InvasionQc.Core.Observations;
@@ -19,17 +18,17 @@ public class GetObservationsQueryHandler : IStreamRequestHandler<GetObservations
 
     public async IAsyncEnumerable<Observation> Handle(GetObservationsQuery request, [EnumeratorCancellation] CancellationToken cancellationToken)
     {
-        await foreach (var observation in _fileObservationsLoader.GetSpecies(request.Location, cancellationToken))
+        await foreach (var observationData in _fileObservationsLoader.GetSpecies(request.Location, cancellationToken))
         {
             yield return new Observation()
             {
-                SpeciesName = observation.SpeciesName,
-                Location = observation.Location,
-                IsInvasive = observation.IsInvasive,
+                SpeciesName = observationData.SpeciesName,
+                Location = observationData.Location,
+                IsInvasive = observationData.IsInvasive,
                 IsPrecarious = true,
-                Date = DateTimeOffset.UtcNow,
-                GeoLocation = new GeoLocation(100, 100)
-
+                GeoLocation = new GeoLocation(observationData.Latitude, observationData.Longitude),
+                Source = observationData.Source,
+                Date = observationData.ObservationDate,
             };
         }
     }

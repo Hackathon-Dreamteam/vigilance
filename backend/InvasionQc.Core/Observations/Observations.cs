@@ -13,4 +13,6 @@ public class Observation
     public DateTimeOffset Date { get; set; }
 
     public GeoLocation GeoLocation { get; set; } = new (0, 0);
+
+    public string Source { get; set; } = string.Empty;
 }

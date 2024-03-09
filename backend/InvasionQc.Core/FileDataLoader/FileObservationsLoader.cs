@@ -52,8 +52,20 @@ public class FileObservations
     [JsonPropertyName("location")]
     public string Location { get; set; } = string.Empty;
 
-    [JsonPropertyName("isEnvahissant")]
+    [JsonPropertyName("isInvasive")]
     public bool IsInvasive { get; set; }
+
+    [JsonPropertyName("observation_date")]
+    public DateTimeOffset ObservationDate { get; set; }
+
+    [JsonPropertyName("latitude")]
+    public double Latitude { get; set; }
+
+    [JsonPropertyName("longitude")]
+    public double Longitude { get; set; }
+
+    [JsonPropertyName("source")]
+    public string Source { get; set; } = string.Empty;
 }
 
 [JsonSerializable(typeof(List<FileObservations>))]
