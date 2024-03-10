@@ -65,6 +65,9 @@ public class FileObservations
 
     [JsonPropertyName("source")]
     public string Source { get; set; } = string.Empty;
+
+    [JsonPropertyName("image_url")]
+    public string ImageUrl { get; set; }  = string.Empty;
 }
 
 [JsonSerializable(typeof(List<FileObservations>))]

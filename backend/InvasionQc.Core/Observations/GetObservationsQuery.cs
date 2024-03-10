@@ -27,6 +27,7 @@ public class GetObservationsQueryHandler : IStreamRequestHandler<GetObservations
                 IsInvasive = observationData.IsInvasive,
                 IsPrecarious = true,
                 GeoLocation = new GeoLocation(observationData.Latitude, observationData.Longitude),
+                ImageUrl = observationData.ImageUrl,
                 Source = observationData.Source,
                 Date = observationData.ObservationDate,
             };
