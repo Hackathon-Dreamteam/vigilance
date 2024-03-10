@@ -22,16 +22,16 @@ public class INaturalistObservationsLoader
         // Rest call to Inaturalist API
         var client = new HttpClient();
         // Filter call on a certain user
-        
+
         string apiUrl = "https://api.inaturalist.org/v1/observations?user_id=sebastien37537";
         var response = await client.GetAsync(apiUrl);
 
         var content = await response.Content.ReadAsStringAsync();
-       
+
         // deserialize the field Results and then get the list in the field Results
         var observations = JsonSerializer.Deserialize<Result>(content);
 
-        foreach (var observation in observations.Results)
+        foreach (var observation in observations!.Results)
         {
             yield return observation;
         }
@@ -56,7 +56,7 @@ public class NatObservations
     public bool IsInvasive { get; set; }
 
     [JsonPropertyName("observed_on")]
-    public String ObservationDate { get; set; }
+    public string ObservationDate { get; set; } = string.Empty;
 
     [JsonPropertyName("latitude")]
     public double Latitude { get; set; }

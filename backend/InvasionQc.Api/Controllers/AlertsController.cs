@@ -1,3 +1,4 @@
+using InvasionQc.Core.Advisory;
 using InvasionQc.Core.Alerting;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
@@ -29,5 +30,14 @@ public class AlertsController: ControllerBase
     {
         await this._mediator.Send(new DeleteAlertsCommand(alertId), cancellationToken);
         return this.Ok();
+    }
+
+    [HttpGet]
+    [Route("alerts/{alertId}/advice")]
+    [ProducesResponseType<string>(200)]
+    public async Task<IActionResult> Get(Guid alertId, CancellationToken cancellationToken)
+    {
+        var message = await this._mediator.Send(new GetActionableAdviceOnAlertQuery(alertId), cancellationToken);
+        return this.Ok(message);
     }
 }

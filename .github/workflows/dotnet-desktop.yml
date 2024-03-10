@@ -14,7 +14,7 @@ jobs:
     - name: Setup .NET
       uses: actions/setup-dotnet@v1
       with:
-        dotnet-version: '8.1'  # Set your .NET version here
+        dotnet-version: '8.0'  # Set your .NET version here
 
     - name: Restore dependencies
       run: dotnet restore ./backend
@@ -26,4 +26,12 @@ jobs:
       run: dotnet test --no-restore --verbosity normal ./backend
 
     - name: Publish
-      run: dotnet publish --configuration Release --no-build --output ./output ./backend
+      run: dotnet publish --configuration Release --no-build --output ./output
+
+    - name: Deploy to Azure App Service
+      uses: azure/webapps-deploy@v2
+      with:
+        app-name: 'your-app-name'  # Set your App Service name here
+        slot-name: 'production'  # Set your slot name here (optional)
+        publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE }}  # Set your Azure publish profile secret here
+        package: ./output
