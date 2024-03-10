@@ -19,14 +19,11 @@ public static class OpenApiConfigureExtensions
 
     public static IApplicationBuilder UseOpenApi(this WebApplication app)
     {
-        if (!app.Environment.IsProduction())
-        {
-            // Add Swagger middleware that can generate the OpenApi Specification file
-            app.UseSwagger();
+        // Add Swagger middleware that can generate the OpenApi Specification file
+        app.UseSwagger();
 
-            // Add Swagger UI middleware that provide a UI to display interactive documentation
-            app.UseSwaggerUI();
-        }
+        // Add Swagger UI middleware that provide a UI to display interactive documentation
+        app.UseSwaggerUI();
 
         return app;
     }
