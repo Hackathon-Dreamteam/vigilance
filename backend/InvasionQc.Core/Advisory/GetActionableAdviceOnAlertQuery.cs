@@ -3,9 +3,9 @@ using MediatR;
 
 namespace InvasionQc.Core.Advisory;
 
-public record GetActionableAdviceOnAlertQuery(Guid alertId) : IRequest<string>;
+public record GetActionableAdviceOnAlertQuery(Guid alertId) : IRequest<AlertAdvice>;
 
-public class GetActionableAdviceOnAlertQueryHandler : IRequestHandler<GetActionableAdviceOnAlertQuery, string>
+public class GetActionableAdviceOnAlertQueryHandler : IRequestHandler<GetActionableAdviceOnAlertQuery, AlertAdvice>
 {
     private readonly IAdvisor _advisor;
     private readonly AlertRepositories _alertRepositories;
@@ -16,13 +16,18 @@ public class GetActionableAdviceOnAlertQueryHandler : IRequestHandler<GetActiona
         this._alertRepositories = alertRepositories;
     }
 
-    public async Task<string> Handle(GetActionableAdviceOnAlertQuery request, CancellationToken cancellationToken)
+    public async Task<AlertAdvice> Handle(GetActionableAdviceOnAlertQuery request, CancellationToken cancellationToken)
     {
         var alert = _alertRepositories.GetAlert(request.alertId);
 
         var advice = await this._advisor.GetMessage(this.GetAssistantContext(), GetAssistantInstruction(alert));
 
-        return advice;
+        var adviceTask =  this._advisor.GetMessage(this.GetAssistantContext(), GetAssistantInstruction(alert));
+        var imageTask = this._advisor.GetImage(GetImagePrompt(alert));
+
+        await Task.WhenAll(adviceTask, imageTask);
+
+        return new AlertAdvice(adviceTask.Result, new Uri(imageTask.Result));
     }
 
     private string GetAssistantContext()
@@ -49,4 +54,10 @@ public class GetActionableAdviceOnAlertQueryHandler : IRequestHandler<GetActiona
             _ => throw new ArgumentOutOfRangeException()
         };
     }
+    private string GetImagePrompt(Alert alert)
+    {
+        return $"Crée une image réaliste d'un {alert.SpeciesName}, le but est de crée conscientisation des citoyens à cette situation: {GetAssistantInstruction(alert)}.";
+    }
 }
+
+public record AlertAdvice(string Message, Uri ImageUri);
