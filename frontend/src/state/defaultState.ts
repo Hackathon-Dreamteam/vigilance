@@ -25,23 +25,5 @@ export const defaultState: Partial<AppState> = {
   filterTo: new Date(),
   showInvasive: true,
   alertsCount: 3,
-  observations: [
-    createObservation('Monstera'),
-    createObservation('Lapin sauvage'),
-    createObservation('Faucon pelerin', { isInvasive: false }),
-    createObservation('Écureuil albinos'),
-    createObservation('Cerf'),
-    createObservation('Cerf 2'),
-    createObservation('Cerf 3'),
-    createObservation('Cerf 4'),
-    createObservation('Cerf 5'),
-    createObservation('Cerf 6'),
-    createObservation('Cerf 7'),
-    createObservation('Cerf 8'),
-    createObservation('Cerf 9'),
-    createObservation('Cerf 10'),
-    createObservation('Cerf 11'),
-    createObservation('Cerf 12'),
-    createObservation('Cerf 13')
-  ]
+  observations: []
 };

@@ -6,7 +6,7 @@ import DashboardMap from './components/DashboardMap';
 
 const DashboardPage: ReactFC = () => {
   const {
-    computed: { filteredObservations }
+    computed: { filteredInvasiveObservations }
   } = useAppStore();
 
   return (
@@ -26,10 +26,13 @@ const DashboardPage: ReactFC = () => {
         </div>
         <div className="col-span-2">
           <Card>
-            <div className="flex items-center">
-              <h3>Observations récentes</h3>
+            <div className="flex">
+              <div className="mb-2">
+                <h3>Observations</h3>
+                <p className="text-gray-500 mt-0.5">Espèces invasives</p>
+              </div>
               <div className="ml-auto">
-                <Badge size="lg">{filteredObservations.length}</Badge>
+                <Badge size="lg">{filteredInvasiveObservations.length}</Badge>
               </div>
             </div>
             <DashboardObservations />
