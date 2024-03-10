@@ -1,51 +1,35 @@
-import { Table } from 'flowbite-react';
+import { Button, Table } from 'flowbite-react';
+import { useAppState } from '../../../state/useAppState';
+import { format } from 'date-fns/format';
+import { FaCheckCircle } from 'react-icons/fa';
 
 const DashboardObservations: ReactFC = () => {
+  const { observations } = useAppState();
+  const formatDate = (date: Date | null) => (date ? format(date, 'PP') : '');
+
   return (
     <Table>
       <Table.Head>
-        <Table.HeadCell>Product name</Table.HeadCell>
-        <Table.HeadCell>Color</Table.HeadCell>
-        <Table.HeadCell>Category</Table.HeadCell>
-        <Table.HeadCell>Price</Table.HeadCell>
-        <Table.HeadCell>
-          <span className="sr-only">Edit</span>
-        </Table.HeadCell>
+        <Table.HeadCell align="left">Date observée</Table.HeadCell>
+        <Table.HeadCell align="left">Nom de l'espèce</Table.HeadCell>
+        <Table.HeadCell align="center">Espèce invasive</Table.HeadCell>
+        <Table.HeadCell></Table.HeadCell>
       </Table.Head>
       <Table.Body className="divide-y">
-        <Table.Row className="bg-white dark:border-gray-700 dark:bg-gray-800">
-          <Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">{'Apple MacBook Pro 17"'}</Table.Cell>
-          <Table.Cell>Sliver</Table.Cell>
-          <Table.Cell>Laptop</Table.Cell>
-          <Table.Cell>$2999</Table.Cell>
-          <Table.Cell>
-            <a href="#" className="font-medium text-cyan-600 hover:underline dark:text-cyan-500">
-              Edit
-            </a>
-          </Table.Cell>
-        </Table.Row>
-        <Table.Row className="bg-white dark:border-gray-700 dark:bg-gray-800">
-          <Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">Microsoft Surface Pro</Table.Cell>
-          <Table.Cell>White</Table.Cell>
-          <Table.Cell>Laptop PC</Table.Cell>
-          <Table.Cell>$1999</Table.Cell>
-          <Table.Cell>
-            <a href="#" className="font-medium text-cyan-600 hover:underline dark:text-cyan-500">
-              Edit
-            </a>
-          </Table.Cell>
-        </Table.Row>
-        <Table.Row className="bg-white dark:border-gray-700 dark:bg-gray-800">
-          <Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">Magic Mouse 2</Table.Cell>
-          <Table.Cell>Black</Table.Cell>
-          <Table.Cell>Accessories</Table.Cell>
-          <Table.Cell>$99</Table.Cell>
-          <Table.Cell>
-            <a href="#" className="font-medium text-cyan-600 hover:underline dark:text-cyan-500">
-              Edit
-            </a>
-          </Table.Cell>
-        </Table.Row>
+        {observations.map(x => (
+          <Table.Row key={x.id} className="bg-white dark:border-gray-700 dark:bg-gray-800">
+            <Table.Cell align="left">{formatDate(x.date)}</Table.Cell>
+            <Table.Cell align="left" className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
+              {x.speciesName}
+            </Table.Cell>
+            <Table.Cell align="center">{x.isEnvasive && <FaCheckCircle className="fill-green-500 size-5" />}</Table.Cell>
+            <Table.Cell align="right">
+              <Button outline size="xs">
+                Détails
+              </Button>
+            </Table.Cell>
+          </Table.Row>
+        ))}
       </Table.Body>
     </Table>
   );

@@ -1,13 +1,14 @@
 import { createContext, useCallback, useMemo, useState } from 'react';
+import { Observation } from './models';
 
 export interface AppState {
-  // Filters and workspace selection
+  // Dashboard
   region: string;
   regions: string[];
   filterFrom: Date | null;
   filterTo: Date | null;
   showInvasive: boolean;
-
+  observations: Observation[];
   // Alerts
   alertsCount: number | null;
 
@@ -21,6 +22,7 @@ const defaultState = (): AppState => ({
   filterTo: null,
   showInvasive: false,
   alertsCount: null,
+  observations: [],
   setState: () => {}
 });
 

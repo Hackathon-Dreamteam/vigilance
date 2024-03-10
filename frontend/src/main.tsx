@@ -7,6 +7,10 @@ import DashboardPage from './pages/dashboard/DashboardPage.tsx';
 import AlertPage from './pages/alert/AlertPage.tsx';
 import './styles/main.css';
 import LoginPage from './pages/login/LoginPage.tsx';
+import { setDefaultOptions } from 'date-fns/setDefaultOptions';
+import { fr } from 'date-fns/locale/fr';
+
+setDefaultOptions({ locale: fr });
 
 const router = createBrowserRouter([
   {
