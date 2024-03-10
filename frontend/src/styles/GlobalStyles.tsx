@@ -11,8 +11,6 @@ const CustomStyles = styled.createGlobalStyle`
     line-height: 1.5;
     font-weight: 400;
 
-    color-scheme: light dark;
-
     font-synthesis: none;
     text-rendering: optimizeLegibility;
     -webkit-font-smoothing: antialiased;
