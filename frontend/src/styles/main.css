@@ -21,3 +21,9 @@ h5 {
 h6 {
   @apply h6;
 }
+
+/* Hide Mapbox components */
+.mapboxgl-ctrl-logo,
+.mapboxgl-ctrl-attrib-inner {
+  display: none !important;
+}

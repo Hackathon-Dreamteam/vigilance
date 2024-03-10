@@ -2,6 +2,7 @@ import { Badge, Card } from 'flowbite-react';
 import DashboardFilters from './components/DashboardFilters';
 import DashboardObservations from './components/DashboardObservations';
 import { useAppState } from '../../state/useAppState';
+import DashboardMap from './components/DashboardMap';
 
 const DashboardPage: ReactFC = () => {
   const { observations } = useAppState();
@@ -15,6 +16,9 @@ const DashboardPage: ReactFC = () => {
             <Card>
               <h4>Alertes</h4>
             </Card>
+            <div className="mt-4 rounded overflow-clip">
+              <DashboardMap />
+            </div>
           </div>
           <div className="col-span-2">
             <Card>
