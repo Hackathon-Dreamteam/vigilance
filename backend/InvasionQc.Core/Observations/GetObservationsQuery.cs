@@ -1,6 +1,6 @@
 ﻿using System.Runtime.CompilerServices;
 using InvasionQc.Core.Constants;
-using InvasionQc.Core.FileDataLoader;
+using InvasionQc.Core.DataLoader;
 using MediatR;
 
 namespace InvasionQc.Core.Observations;
