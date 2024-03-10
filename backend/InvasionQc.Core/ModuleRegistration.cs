@@ -13,7 +13,9 @@ public static class ModuleRegistration
         services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblies(CoreAssembly.Reference));
 
         services.AddSingleton<FileObservationsLoader>();
-
+        services.AddSingleton<NaturalistObservationsLoader>();
+        services.AddSingleton<InvasiveSpeciesLoader>();
+        services.AddSingleton<PrecariousSpeciesLoader>();
         services.AddSingleton<NaturalistObservationsLoader>();
 
         services.AddSingleton<AlertRepositories>();
