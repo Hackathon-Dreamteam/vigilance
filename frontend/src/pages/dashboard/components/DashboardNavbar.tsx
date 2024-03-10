@@ -9,8 +9,7 @@ const DashboardNavbar: ReactFC = () => {
   return (
     <Navbar fluid rounded>
       <Navbar.Brand href="/">
-        <Icon className="h-8 w-32 mr-3" />
-        <span className="self-center whitespace-nowrap text-xl font-semibold dark:text-white">Invasion Québec</span>
+        <Icon className="h-8 w-32" />
       </Navbar.Brand>
       <div className="ml-6">
         <Dropdown label={region} inline>

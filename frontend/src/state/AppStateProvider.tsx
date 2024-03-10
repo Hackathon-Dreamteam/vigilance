@@ -5,6 +5,7 @@ export interface AppState {
   regions: string[];
   filterFrom: Date | null;
   filterTo: Date | null;
+  showInvasive: boolean;
   setState: (state: Partial<AppState>) => void;
 }
 
@@ -13,6 +14,7 @@ const defaultState = (): AppState => ({
   regions: [],
   filterFrom: null,
   filterTo: null,
+  showInvasive: false,
   setState: () => {}
 });
 
