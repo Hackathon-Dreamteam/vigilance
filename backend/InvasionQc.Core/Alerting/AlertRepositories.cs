@@ -35,9 +35,9 @@ public class AlertRepositories
     {
         var alertsSeeds = new List<Alert>()
         {
-            new (Guid.NewGuid(), Alert.AlertType.ObservationsDropping, "Lapin", Locations.Gatineau, DateTimeOffset.Now),
-            new (Guid.NewGuid(), Alert.AlertType.UnexpectedSpecies, "T-Rex", Locations.Laval, DateTimeOffset.Now),
-            new (Guid.NewGuid(), Alert.AlertType.ObservationsRaising, "Dinde Noir", Locations.Laval, DateTimeOffset.Now),
+            new (Guid.NewGuid(), Alert.AlertType.ObservationsRaising, "roseau commun", Locations.Gatineau, DateTimeOffset.Now),
+            new (Guid.NewGuid(), Alert.AlertType.ObservationsDropping, "Pluvier siffleur melodus", Locations.Laval, DateTimeOffset.Now),
+            new (Guid.NewGuid(), Alert.AlertType.UnexpectedSpecies, "Dinde Noir", Locations.Montreal, DateTimeOffset.Now),
         };
 
         return alertsSeeds.ToDictionary(a => a.Id);
