@@ -1,11 +1,16 @@
 import Icon from '@/assets/logo.svg?react';
 import { Avatar, Badge, Button, Dropdown, Navbar } from 'flowbite-react';
 import { IoIosNotifications } from 'react-icons/io';
-import { useAppState } from '../../state/useAppState';
+import { useAppStore } from '../../state/useAppStore';
 import { Link } from 'react-router-dom';
 
 const Header: ReactFC = () => {
-  const { region, regions, alertsCount, setState } = useAppState();
+  const {
+    region,
+    alertsCount,
+    computed: { regions },
+    setState
+  } = useAppStore();
 
   return (
     <Navbar fluid rounded className="sticky top-0 z-10 drop-shadow-md">

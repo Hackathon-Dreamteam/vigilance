@@ -1,13 +1,13 @@
 import { Badge, Card } from 'flowbite-react';
 import DashboardFilters from './components/DashboardFilters';
 import DashboardObservations from './components/DashboardObservations';
-import { useAppState } from '../../state/useAppState';
+import { useAppStore } from '../../state/useAppStore';
 import DashboardMap from './components/DashboardMap';
 
 const DashboardPage: ReactFC = () => {
   const {
     computed: { filteredObservations }
-  } = useAppState();
+  } = useAppStore();
 
   return (
     <main className="bg-gray-50 min-h-screen flex flex-col gap-5 pt-6 px-8 overflow-hidden pb-24">
@@ -20,9 +20,7 @@ const DashboardPage: ReactFC = () => {
           <div className="rounded overflow-clip">
             <Card>
               <h4>Carte intéractive</h4>
-              <div className="border rounded-lg overflow-hidden">
-                <DashboardMap />
-              </div>
+              <DashboardMap />
             </Card>
           </div>
         </div>
