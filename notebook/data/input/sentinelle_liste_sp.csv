@@ -1,0 +1,73 @@
+Regne,Categorie,Code_espece,Nom_francais,Nom_latin,Nom_anglais
+,,zzz,Espèce non répertoriée,,Unlisted species
+Faune,Insectes,COCCA,Coccinelle asiatique,"Harmonia axyridis",Asian ladybeetle
+Faune,Insectes,LONGI,Longicorne étoilé,"Anoplophora glabripennis",Asian long-horned beetle
+Faune,Insectes,SCARJ,Scarabée japonais,"Popillia japonica",Japanese beetle
+Faune,Mollusques et crustacés,CLADE,Cladocère épineux,"Bythotrephes longimanus",Spiny water flea
+Faune,Mollusques et crustacés,CCAM,Crabe chinois à mitaines,"Eriocheir sinensis",Chinese mitten crab
+Faune,Mollusques et crustacés,CRERS,Crevette rouge sang,"Hemimysis anomala",Bloody red shrimp
+Faune,Mollusques et crustacés,ECREV,Écrevisse à taches rouges,"Orconectes rusticus",Rusty crayfish
+Faune,Mollusques et crustacés,MOULQ,Moule quagga,"Dreissena bugensis",Quagga mussel
+Faune,Mollusques et crustacés,MOULE,Moule zébrée,"Dreissena polymorpha",Zebra mussels
+Faune,Mollusques et crustacés,NASNZ,Nasse de la Nouvelle-Zélande,"Potamopyrgus antipodarum",New Zealand mud snail
+Faune,Mollusques et crustacés,PCORA,Petite corbeille d’Asie,"Corbicula fluminea",Asiatic clam
+Faune,Mollusques et crustacés,PCRED,Petite crevette d’eau douce,"Echinogammarus ischnus",Freshwater shrimp
+Faune,Mollusques et crustacés,VIVIC,Vivipare chinoise,"Bellamya chinensis",Chinese mystery snail
+Faune,Oiseaux et mammifères,CERFR,Cerf rouge,"Cervus elaphus",Red deer
+Faune,Oiseaux et mammifères,CYGNE,Cygne tuberculé,"Cygnus olor",Mute swan
+Faune,Reptiles et poissons,CARPE,Carpe de roseau,"Ctenopharyngodon idella",Grass carp
+Faune,Reptiles et poissons,CRAPV,Crapet vert,"Lepomis cyanellus",Green sunfish
+Faune,Reptiles et poissons,FGARD,Faux gardon,"Pseudorasbora parva",Stone moroko
+Faune,Reptiles et poissons,GARDR,Gardon rouge,"Scardinius erythrophthalmus",Common rudd
+Faune,Reptiles et poissons,GOBIE,Gobie à taches noires,"Neogobius melanostomus",Round goby
+Faune,Reptiles et poissons,CARA,Poisson rouge,"Carassius auratus",Goldfish
+Faune,Reptiles et poissons,TANCH,Tanche,"Tinca tinca",Tench
+Faune,Reptiles et poissons,TETES,Tête-de-serpent,"Channa sp., Parachanna sp.",Snakehead
+Faune,Reptiles et poissons,TORTU,Tortue à oreilles rouges,"Trachemys scripta elegans",Red-eared slider
+Flore,Plantes aquatiques flottantes,CHATA,Châtaigne d'eau,"Trapa natans",Water chestnut
+Flore,Plantes aquatiques flottantes,FAUXN,Faux-nymphéa pelté,"Nymphoides peltata",Yellow floatingheart
+Flore,Plantes aquatiques flottantes,HYDRO,Hydrocharide grenouillette,"Hydrocharis morsus-ranae",European frog-bit
+Flore,Plantes aquatiques flottantes,JACYN,Jacinthe d'eau,"Eichhornia crassipes",Water hyacinth
+Flore,Plantes aquatiques flottantes,LAITU,Laitue d'eau,"Pistia stratiotes",Water lettuce
+Flore,Plantes aquatiques flottantes,SALVI,Salvinia,"Salvinia spp.",Water moss
+Flore,Plantes aquatiques submergées,CABOM,Cabomba de Caroline,"Cabomba caroliniana",Fanwort
+Flore,Plantes aquatiques submergées,ELODE,Élodée dense,"Egeria densa",Brazilian waterweed
+Flore,Plantes aquatiques submergées,HYDRI,Hydrille verticillé,"Hydrilla verticillata",Hydrilla
+Flore,Plantes aquatiques submergées,MYREP,Myriophylle à épis,"Myriophyllum spicatum",Eurasian water-milfoil
+Flore,Plantes aquatiques submergées,MYRAQ,Myriophylle aquatique,"Myriophyllum aquaticum",Parrot feather
+Flore,Plantes aquatiques submergées,NITET,Nitelle étoilée,"Nitellopsis obtusa",Starry stonewort
+Flore,Plantes aquatiques submergées,PETNA,Petite naïade,"Najas minor",Brittle-leaved naid
+Flore,Plantes aquatiques submergées,POTAM,Potamot crépu,"Potamogeton crispus",Curly-leaved pondweed
+Flore,Plantes de milieux terrestres,ALLIA,Alliaire officinale,"Alliaria petiolata",Garlic mustard
+Flore,Plantes de milieux terrestres,ANTHR,Anthrisque des bois,"Anthriscus sylvestris",Wild chervil
+Flore,Plantes de milieux terrestres,BECO,Berce commune,"Heracleum sphondylium",Meadow cow-parsnip
+Flore,Plantes de milieux terrestres,BERCE,Berce du Caucase,"Heracleum mantegazzianum",Giant hogweed
+Flore,Plantes de milieux terrestres,CONSO,Consoude officinale,"Symphytum officinale",Common comfrey
+Flore,Plantes de milieux terrestres,DOMPR,Dompte-venin de Russie,"Vincetoxicum rossicum",European swallowwort
+Flore,Plantes de milieux terrestres,DOMPN,Dompte-venin noir,"Vincetoxicum nigrum",Black swallowwort
+Flore,Plantes de milieux terrestres,EGOPO,Égopode podagraire,"Aegopodium podagraria",Goutweed
+Flore,Plantes de milieux terrestres,ACENU,Érable à Giguère,"Acer negundo",Manitoba Maple
+Flore,Plantes de milieux terrestres,ERANO,Érable de Norvège,"Acer platanoides",Norway maple
+Flore,Plantes de milieux terrestres,GAILL,Gaillet mollugine,"Galium mollugo",Smooth bedstraw
+Flore,Plantes de milieux terrestres,IMPAT,Impatiente glanduleuse,"Impatiens glandulifera",Himalayan balsam
+Flore,Plantes de milieux terrestres,LYSIM,Lysimaque nummulaire,"Lysimachia nummularia",Creeping yellow loosestrife
+Flore,Plantes de milieux terrestres,MISCA,Miscanthus commun,"Miscanthus sacchariflorus",Amur silvergrass
+Flore,Plantes de milieux terrestres,NERPB,Nerprun bourdaine,"Frangula alnus",Glossy buckthorn
+Flore,Plantes de milieux terrestres,NERPC,Nerprun cathartique,"Rhamnus cathartica",European buckthorn
+Flore,Plantes de milieux terrestres,ULMU,Orme de Sibérie,"Ulmus pumila",Siberian elm
+Flore,Plantes de milieux terrestres,PANAI,Panais sauvage,"Pastinaca sativa",Wild parsnip
+Flore,Plantes de milieux terrestres,PETAJ,Pétasite du Japon,"Petasites japonicus",Japanese sweet coltsfoot
+Flore,Plantes de milieux terrestres,RENFI,Renoncule ficaire,"Ficaria verna,Lesser celandine", fig buttercup
+Flore,Plantes de milieux terrestres,RENOB,Renouée de Bohème,"Reynoutria ×bohemica",Bohemian knotweed
+Flore,Plantes de milieux terrestres,RENOS,Renouée de Sakhaline,"Reynoutria sachalinensis",Giant knotweed
+Flore,Plantes de milieux terrestres,RENOJ,Renouée du Japon,"Reynoutria japonica var. japonica",Japanese knotweed
+Flore,Plantes de milieux terrestres,TOPI,Topinambour,"Helianthus tuberosus",Jerusalem artichoke
+Flore,Plantes de milieux terrestres,VALO,Valériane officinale,"Valeriana officinalis",Common valerian
+Flore,Plantes émergentes,ALPIS,Alpiste roseau,"Phalaris arundinacea",Reed canary grass
+Flore,Plantes émergentes,BUTOM,Butome à ombelle,"Butomus umbellatus",Flowering-rush
+Flore,Plantes émergentes,GLYCE,Glycérie aquatique,"Glyceria maxima",Rough mannagrass
+Flore,Plantes émergentes,IRISF,Iris faux-acore,"Iris pseudacorus",Yellow iris
+Flore,Plantes émergentes,RORIP,Rorippe amphibie,"Rorippa amphibia",Amphibious yellowcress
+Flore,Plantes émergentes,ROSEA,Roseau commun,"Phragmites australis subsp. australis",Common reed
+Flore,Plantes émergentes,SALIC,Salicaire commune,"Lythrum salicaria",Purple loosestrife
+Flore,Plantes émergentes,ALOES,Stratiote faux-aloès,"Stratiotes aloides",Water soldier
