@@ -1,28 +1,30 @@
 import { createContext, useCallback, useMemo, useState } from 'react';
 import { Observation } from './models';
-
-export interface ComputedAppState {
-  filteredObservations: Observation[];
-}
+import { chain } from 'lodash';
 
 export interface AppState {
   // Dashboard
   region: string;
-  regions: string[];
   filterFrom: Date | null;
   filterTo: Date | null;
   showInvasive: boolean;
   observations: Observation[];
   // Alerts
   alertsCount: number | null;
-
-  setState: (state: Partial<AppState>) => void;
-  computed: ComputedAppState;
 }
 
-const defaultState = (): AppState => ({
+export interface ComputedAppState {
+  regions: string[];
+  filteredObservations: Observation[];
+}
+
+type AppStore = AppState & {
+  setState: (state: Partial<AppState>) => void;
+  computed: ComputedAppState;
+};
+
+const defaultState = (): AppStore => ({
   region: '',
-  regions: [],
   filterFrom: null,
   filterTo: null,
   showInvasive: false,
@@ -30,14 +32,15 @@ const defaultState = (): AppState => ({
   observations: [],
   setState: () => {},
   computed: {
-    filteredObservations: []
+    filteredObservations: [],
+    regions: []
   }
 });
 
-export const AppStateContext = createContext<AppState>(defaultState());
+export const AppStoreContext = createContext<AppStore>(defaultState());
 
-const AppStateProvider: ReactFC<{ state: Partial<AppState> }> = ({ children, state }) => {
-  const [appState, setAppState] = useState({ ...defaultState(), ...state });
+const AppStoreProvider: ReactFC<{ state: Partial<AppState> }> = ({ children, state }) => {
+  const [appState, setAppState] = useState<AppStore>({ ...defaultState(), ...state });
 
   const setState = useCallback(
     (state: Partial<AppState>) => {
@@ -50,15 +53,19 @@ const AppStateProvider: ReactFC<{ state: Partial<AppState> }> = ({ children, sta
     (): ComputedAppState => ({
       filteredObservations: appState.observations
         .filter(x => x.date >= (appState.filterFrom ?? new Date()) && x.date <= (appState.filterTo ?? new Date()))
-        .filter(x => x.isEnvasive || !appState.showInvasive)
-        .filter(x => x.region === appState.region)
+        .filter(x => x.isInvasive || !appState.showInvasive)
+        .filter(x => x.location === appState.region),
+      regions: chain(appState.observations)
+        .map(x => x.location)
+        .uniq()
+        .value()
     }),
     [appState]
   );
 
   const value = useMemo(() => ({ ...appState, setState, computed }), [appState, computed, setState]);
 
-  return <AppStateContext.Provider value={value}>{children}</AppStateContext.Provider>;
+  return <AppStoreContext.Provider value={value}>{children}</AppStoreContext.Provider>;
 };
 
-export default AppStateProvider;
+export default AppStoreProvider;

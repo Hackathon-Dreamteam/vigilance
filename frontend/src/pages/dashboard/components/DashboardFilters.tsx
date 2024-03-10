@@ -1,5 +1,5 @@
 import { Datepicker as FlowbiteDatepicker } from 'flowbite-react';
-import { useAppState } from '../../../state/useAppState';
+import { useAppStore } from '../../../state/useAppStore';
 import styled from 'styled-components';
 import tw from 'twin.macro';
 import { format } from 'date-fns/format';
@@ -10,7 +10,7 @@ const Datepicker = styled(FlowbiteDatepicker)`
 `;
 
 const DashboardFilters: React.FC = () => {
-  const { filterFrom, filterTo, showInvasive, setState } = useAppState();
+  const { filterFrom, filterTo, showInvasive, setState } = useAppStore();
   const formatDate = (date: Date | null) => (date ? format(date, 'PP') : '');
 
   return (

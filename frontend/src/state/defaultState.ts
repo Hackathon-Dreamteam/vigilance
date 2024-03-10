@@ -1,34 +1,34 @@
-import { addMonths } from 'date-fns/addMonths';
-import { AppState } from './AppStateProvider';
 import { Observation } from './models';
 import { v4 as uuidv4 } from 'uuid';
+import { AppState } from './AppStoreProvider';
+import { addYears } from 'date-fns/addYears';
 
 const createObservation = (speciesName: string, obs?: Partial<Observation>): Observation => ({
-  id: uuidv4(),
+  observationId: uuidv4(),
   date: new Date(),
   imageUrl: '',
-  isEnvasive: Boolean(Math.round(Math.random())),
+  isInvasive: Boolean(Math.round(Math.random())),
   isPrecarious: Boolean(Math.round(Math.random())),
-  location: {
+  geoLocation: {
     latitude: 45.6 + Math.random() / 10,
     longitude: -73.72115787038962 + Math.random() / 10
   },
   speciesName,
-  region: 'Laval',
+  location: 'Laval',
+  source: 'Community',
   ...obs
 });
 
 export const defaultState: Partial<AppState> = {
   region: 'Laval',
-  regions: ['Laval', 'Montréal', 'Shawinigan'],
-  filterFrom: addMonths(new Date(), -1),
+  filterFrom: addYears(new Date(), -1),
   filterTo: new Date(),
   showInvasive: true,
   alertsCount: 3,
   observations: [
     createObservation('Monstera'),
     createObservation('Lapin sauvage'),
-    createObservation('Faucon pelerin', { isEnvasive: false }),
+    createObservation('Faucon pelerin', { isInvasive: false }),
     createObservation('Écureuil albinos'),
     createObservation('Cerf'),
     createObservation('Cerf 2'),

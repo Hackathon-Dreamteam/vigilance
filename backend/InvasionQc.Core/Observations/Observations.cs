@@ -2,6 +2,8 @@
 
 public class Observation
 {
+    public string ObservationId { get; set; } = string.Empty;
+
     public string SpeciesName { get; set; } = string.Empty;
 
     public string Location { get; set; } = string.Empty;

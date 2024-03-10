@@ -1,11 +1,13 @@
-import { useAppState } from '../../../state/useAppState';
 import Map, { Source, Layer } from 'react-map-gl';
 import { HeatmapType, heatmapLayer } from './HeatmapLayer';
+import { useAppStore } from '../../../state/useAppStore';
 import { Badge } from 'flowbite-react';
 import { HiOutlineQuestionMarkCircle } from 'react-icons/hi';
 
 const DashboardMap: ReactFC = () => {
-  const { observations } = useAppState();
+  const {
+    computed: { filteredObservations }
+  } = useAppStore();
 
   return (
     <>
@@ -23,17 +25,17 @@ const DashboardMap: ReactFC = () => {
           mapStyle="mapbox://styles/felixlechat21/cltltffsh00xw01qpceyi4h9l"
         >
           <>
-            {observations && (
+            {filteredObservations && (
               <Source
                 type="geojson"
                 data={{
                   type: 'GeometryCollection',
-                  geometries: observations
+                  geometries: filteredObservations
                     .filter(observation => observation.isPrecarious)
                     .map(observation => {
                       return {
                         type: 'Point',
-                        coordinates: [observation.location.longitude, observation.location.latitude]
+                        coordinates: [observation.geoLocation.longitude, observation.geoLocation.latitude]
                       };
                     })
                 }}
@@ -41,17 +43,17 @@ const DashboardMap: ReactFC = () => {
                 <Layer {...heatmapLayer(HeatmapType.Precarious)} />
               </Source>
             )}
-            {observations && (
+            {filteredObservations && (
               <Source
                 type="geojson"
                 data={{
                   type: 'GeometryCollection',
-                  geometries: observations
-                    .filter(observation => observation.isEnvasive)
+                  geometries: filteredObservations
+                    .filter(observation => observation.isInvasive)
                     .map(observation => {
                       return {
                         type: 'Point',
-                        coordinates: [observation.location.longitude, observation.location.latitude]
+                        coordinates: [observation.geoLocation.longitude, observation.geoLocation.latitude]
                       };
                     })
                 }}

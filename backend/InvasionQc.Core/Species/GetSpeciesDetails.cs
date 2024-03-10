@@ -28,9 +28,6 @@ public class GetSpeciesDetailsHandler : IRequestHandler<GetSpeciesDetails, Speci
         var observationsForSpecies = observations.Where(o => string.Equals(request.SpeciesName, o.SpeciesName, StringComparison.InvariantCultureIgnoreCase)).ToList();
 
         return new SpeciesDetails(
-            request.SpeciesName,
-            "TODO",
-            observationsForSpecies.FirstOrDefault()?.ImageUrl ?? string.Empty,
             alerts,
             observationsForSpecies);
     }

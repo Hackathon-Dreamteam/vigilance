@@ -1,4 +1,5 @@
-﻿using Azure.AI.OpenAI;
+﻿using Azure;
+using Azure.AI.OpenAI;
 using Microsoft.Extensions.Options;
 
 namespace InvasionQc.Core.Advisory;
@@ -12,7 +13,7 @@ public class OpenAiAdvisor: IAdvisor
         this._openAiClient = new OpenAIClient(options.Value.ApiKey);
     }
 
-    public async Task<string> GetAdvice(string assistantContext, string userMessage)
+    public async Task<string> GetMessage(string assistantContext, string userMessage)
     {
         var chatCompletionsOptions = new ChatCompletionsOptions()
         {
@@ -28,5 +29,25 @@ public class OpenAiAdvisor: IAdvisor
         var responseMessage = response.Value.Choices[0].Message;
 
         return responseMessage.Content;
+    }
+
+    public async Task<string> GetImage(string prompt)
+    {
+        var response = await _openAiClient.GetImageGenerationsAsync(
+            new ImageGenerationOptions()
+            {
+                DeploymentName = "dall-e-3",
+                Prompt = prompt,
+                Size = ImageSize.Size1024x1024,
+                Quality = ImageGenerationQuality.Standard
+            });
+
+        var generatedImage = response.Value.Data[0];
+        if (!string.IsNullOrEmpty(generatedImage.RevisedPrompt))
+        {
+            Console.WriteLine($"Input prompt automatically revised to: {generatedImage.RevisedPrompt}");
+        }
+
+        return generatedImage.Url.AbsoluteUri;
     }
 }

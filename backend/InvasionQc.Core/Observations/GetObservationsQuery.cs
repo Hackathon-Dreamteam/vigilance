@@ -22,6 +22,7 @@ public class GetObservationsQueryHandler : IStreamRequestHandler<GetObservations
         {
             yield return new Observation()
             {
+                ObservationId = observationData.ObservationId,
                 SpeciesName = observationData.SpeciesName,
                 Location = observationData.Location,
                 IsInvasive = observationData.IsInvasive,
