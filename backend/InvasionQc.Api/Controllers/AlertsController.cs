@@ -34,7 +34,7 @@ public class AlertsController: ControllerBase
 
     [HttpGet]
     [Route("alerts/{alertId}/advice")]
-    [ProducesResponseType<string>(200)]
+    [ProducesResponseType<AlertAdvice>(200)]
     public async Task<IActionResult> Get(Guid alertId, CancellationToken cancellationToken)
     {
         var message = await this._mediator.Send(new GetActionableAdviceOnAlertQuery(alertId), cancellationToken);

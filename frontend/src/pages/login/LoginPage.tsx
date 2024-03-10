@@ -2,6 +2,7 @@ import { Button } from 'flowbite-react';
 import { Link } from 'react-router-dom';
 import tw, { styled } from 'twin.macro';
 import Icon from '@/assets/logo.svg?react';
+import { HiOutlineHeart } from 'react-icons/hi';
 
 const Title = styled.h1`
   ${tw`text-5xl font-black flex items-center flex-col`}
@@ -30,7 +31,11 @@ const LoginPage: ReactFC = () => {
         <Logo>
           <Icon />
         </Logo>
-        <p>Made with ❤︎ in Québec</p>
+        <p>
+          <span>Fait avec</span>
+          <HiOutlineHeart className="inline-block mx-1" color="red" />
+          <span>au Québec</span>
+        </p>
         <Link to="/dashboard">
           <Button color="dark">Log In</Button>
         </Link>

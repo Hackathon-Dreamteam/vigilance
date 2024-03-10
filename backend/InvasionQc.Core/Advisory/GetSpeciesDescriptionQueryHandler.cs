@@ -4,27 +4,25 @@ using MediatR;
 
 namespace InvasionQc.Core.Advisory;
 
-public record GetSpeciesDescriptionQuery(string SpeciesName, Locations Location) : IRequest<SpeciesDescription>;
+public record GetSpeciesDetailsQuery(string SpeciesName, Locations Location) : IRequest<SpeciesDetails>;
 
-public class GetSpeciesDescriptionQueryHandler : IRequestHandler<GetSpeciesDescriptionQuery, SpeciesDescription>
+public class GetSpeciesDetailsQueryHandler : IRequestHandler<GetSpeciesDetailsQuery, SpeciesDetails>
 {
     private readonly IAdvisor _advisor;
-    private readonly AlertRepositories _alertRepositories;
 
-    public GetSpeciesDescriptionQueryHandler(IAdvisor advisor, AlertRepositories alertRepositories)
+    public GetSpeciesDetailsQueryHandler(IAdvisor advisor)
     {
         this._advisor = advisor;
-        this._alertRepositories = alertRepositories;
     }
 
-    public async Task<SpeciesDescription> Handle(GetSpeciesDescriptionQuery request, CancellationToken cancellationToken)
+    public async Task<SpeciesDetails> Handle(GetSpeciesDetailsQuery request, CancellationToken cancellationToken)
     {
         var descriptionTask = this._advisor.GetMessage(GetAssistantContext(), GetAssistantInstruction(request.SpeciesName));
         var imageTask = this._advisor.GetImage(GetImagePrompt(request.SpeciesName, request.Location));
 
         await Task.WhenAll(descriptionTask, imageTask);
 
-        return new SpeciesDescription(descriptionTask.Result, new Uri(imageTask.Result));
+        return new SpeciesDetails(descriptionTask.Result, new Uri(imageTask.Result));
     }
 
     private string GetAssistantContext()
@@ -49,4 +47,4 @@ public class GetSpeciesDescriptionQueryHandler : IRequestHandler<GetSpeciesDescr
     }
 }
 
-public record SpeciesDescription(string Description, Uri ImageUri);
+public record SpeciesDetails(string Description, Uri ImageUri);
