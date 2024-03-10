@@ -48,9 +48,10 @@ const AppStateProvider: ReactFC<{ state: Partial<AppState> }> = ({ children, sta
 
   const computed = useMemo(
     (): ComputedAppState => ({
-      filteredObservations: appState.observations.filter(
-        x => x.date >= (appState.filterFrom ?? new Date()) && x.date <= (appState.filterTo ?? new Date())
-      )
+      filteredObservations: appState.observations
+        .filter(x => x.date >= (appState.filterFrom ?? new Date()) && x.date <= (appState.filterTo ?? new Date()))
+        .filter(x => x.isEnvasive || !appState.showInvasive)
+        .filter(x => x.region === appState.region)
     }),
     [appState]
   );

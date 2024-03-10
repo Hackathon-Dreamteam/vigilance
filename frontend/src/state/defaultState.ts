@@ -28,7 +28,7 @@ export const defaultState: Partial<AppState> = {
   observations: [
     createObservation('Monstera'),
     createObservation('Lapin sauvage'),
-    createObservation('Faucon pelerin'),
+    createObservation('Faucon pelerin', { isEnvasive: false }),
     createObservation('Écureuil albinos'),
     createObservation('Cerf')
   ]

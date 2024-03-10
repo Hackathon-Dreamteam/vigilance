@@ -25,7 +25,7 @@ const DashboardObservations: ReactFC = () => {
             <Table.Cell align="left" className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
               {x.speciesName}
             </Table.Cell>
-            <Table.Cell align="center">{x.isEnvasive && <FaCheckCircle className="fill-green-500 size-5" />}</Table.Cell>
+            <Table.Cell align="center">{x.isEnvasive ? <FaCheckCircle className="fill-green-500 size-5" /> : '-'}</Table.Cell>
             <Table.Cell align="left">{formatDate(x.date)}</Table.Cell>
             <Table.Cell align="left">{x.region}</Table.Cell>
             <Table.Cell align="right">
