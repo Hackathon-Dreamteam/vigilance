@@ -22,4 +22,11 @@ public class ObservationsController: ControllerBase
     {
             return this._mediator.CreateStream(new GetObservationsQuery(location), cancellationToken);
     }
+
+    [HttpGet("latest")]
+    [ProducesResponseType<Observation[]>(200)]
+    public IAsyncEnumerable<Observation> GetLatest(Locations location, CancellationToken cancellationToken)
+    {
+        return this._mediator.CreateStream(new GetObservationsLatestQuery(location), cancellationToken);
+    }
 }
