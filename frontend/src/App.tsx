@@ -1,12 +1,14 @@
-import AppStateProvider, { AppState } from './state/AppStateProvider';
-
-const defaultState: Partial<AppState> = {
-  region: 'Laval',
-  regions: ['Laval', 'Montréal', 'Shawinigan']
-};
+import Header from './components/layout/Header';
+import AppStateProvider from './state/AppStateProvider';
+import { defaultState } from './state/defaultState';
 
 const App: ReactFC = ({ children }) => {
-  return <AppStateProvider state={defaultState}>{children}</AppStateProvider>;
+  return (
+    <AppStateProvider state={defaultState}>
+      <Header />
+      {children}
+    </AppStateProvider>
+  );
 };
 
 export default App;

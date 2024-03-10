@@ -1,4 +1,4 @@
-﻿using InvasionQc.Core.Advisory;
+using InvasionQc.Core.Advisory;
 using InvasionQc.Core.Alerting;
 using InvasionQc.Core.DataLoader;
 using Microsoft.Extensions.Configuration;
@@ -13,6 +13,8 @@ public static class ModuleRegistration
         services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblies(CoreAssembly.Reference));
 
         services.AddSingleton<FileObservationsLoader>();
+
+        services.AddSingleton<INaturalistObservationsLoader>();
 
         services.AddSingleton<AlertRepositories>();
 

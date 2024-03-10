@@ -399,3 +399,5 @@ FodyWeavers.xsd
 
 .venv/
 .DS_Store
+
+frontend/.env
