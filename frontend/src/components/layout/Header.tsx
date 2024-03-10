@@ -37,11 +37,10 @@ const Header: ReactFC = () => {
               <a href="mailto:admin@laval.qc.ca">admin@laval.qc.ca</a>
             </span>
           </Dropdown.Header>
-          <Dropdown.Item>Dashboard</Dropdown.Item>
-          <Dropdown.Item>Settings</Dropdown.Item>
-          <Dropdown.Item>Earnings</Dropdown.Item>
+          <Dropdown.Item href="/dashboard">Tableau de bord</Dropdown.Item>
+          <Dropdown.Item href="/alerts">Alertes</Dropdown.Item>
           <Dropdown.Divider />
-          <Dropdown.Item>Sign out</Dropdown.Item>
+          <Dropdown.Item>Déconnexion</Dropdown.Item>
         </Dropdown>
       </div>
     </Navbar>

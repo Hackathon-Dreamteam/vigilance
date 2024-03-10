@@ -35,8 +35,8 @@ public class GetObservationsLatestQueryHandler : IStreamRequestHandler<GetObserv
                 {
                     SpeciesName = observationData.taxon.name,
                     Location = observationData.Location,
-                    IsInvasive = observationData.IsInvasive,
-                    GeoLocation = new GeoLocation(observationData.Latitude, observationData.Longitude),
+                    IsInvasive = true,
+                    GeoLocation = new GeoLocation(observationData.geojson.coordinates[0], observationData.geojson.coordinates[1]),
                     Source = observationData.Source,
                     Date = observationDate
                 };
