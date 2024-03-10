@@ -20,9 +20,7 @@ const DashboardPage: ReactFC = () => {
           <div className="rounded overflow-clip">
             <Card>
               <h4>Carte intéractive</h4>
-              <div className="border rounded-lg overflow-hidden">
-                <DashboardMap />
-              </div>
+              <DashboardMap />
             </Card>
           </div>
         </div>
