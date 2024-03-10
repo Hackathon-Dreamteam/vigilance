@@ -29,7 +29,7 @@ const DashboardFilters: React.FC = () => {
         onSelectedDateChanged={x => setState({ filterTo: x })}
         showClearButton={false}
       />
-      <Toggle label="Espèces invasives" checked={showInvasive} onUpdate={x => setState({ showInvasive: x })} />
+      <Toggle label="Espèces invasives" checked={showInvasive} onChange={x => setState({ showInvasive: x })} />
     </div>
   );
 };

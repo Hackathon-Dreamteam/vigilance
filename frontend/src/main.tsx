@@ -14,26 +14,29 @@ setDefaultOptions({ locale: fr });
 
 const router = createBrowserRouter([
   {
-    path: '/',
-    Component: LoginPage,
+    Component: App,
+    children: [
+      {
+        path: '/dashboard',
+        Component: DashboardPage
+      },
+      {
+        path: '/alerts',
+        Component: AlertPage
+      }
+    ],
     errorElement: <div>Error!</div>
   },
   {
-    path: '/dashboard',
-    Component: DashboardPage
-  },
-  {
-    path: '/alerts',
-    Component: AlertPage
+    path: '/',
+    Component: LoginPage
   }
 ]);
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
     <GlobalStyles />
-    <App>
-      <RouterProvider router={router} />
-    </App>
+    <RouterProvider router={router} />
   </React.StrictMode>
 );
 
