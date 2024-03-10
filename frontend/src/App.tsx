@@ -1,3 +1,4 @@
+import Header from './components/layout/Header';
 import AppStateProvider, { AppState } from './state/AppStateProvider';
 import { addMonths } from 'date-fns/addMonths';
 
@@ -11,7 +12,12 @@ const defaultState: Partial<AppState> = {
 };
 
 const App: ReactFC = ({ children }) => {
-  return <AppStateProvider state={defaultState}>{children}</AppStateProvider>;
+  return (
+    <AppStateProvider state={defaultState}>
+      <Header />
+      {children}
+    </AppStateProvider>
+  );
 };
 
 export default App;

@@ -1,14 +1,14 @@
 import Icon from '@/assets/logo.svg?react';
 import { Avatar, Badge, Button, Dropdown, Navbar } from 'flowbite-react';
 import { IoIosNotifications } from 'react-icons/io';
-import { useAppState } from '../../../state/useAppState';
+import { useAppState } from '../../state/useAppState';
 
-const DashboardNavbar: ReactFC = () => {
+const Header: ReactFC = () => {
   const { region, regions, alertsCount, setState } = useAppState();
 
   return (
-    <Navbar fluid rounded className="sticky top-0 z-10">
-      <Navbar.Brand href="/">
+    <Navbar fluid rounded className="sticky top-0 z-10 drop-shadow-md">
+      <Navbar.Brand href="/dashboard">
         <Icon className="h-8 w-32" />
       </Navbar.Brand>
       <div className="ml-6">
@@ -22,7 +22,7 @@ const DashboardNavbar: ReactFC = () => {
       </div>
 
       <div className="flex gap-4 ml-auto">
-        <Button size="xs" className="bg-transparent enabled:hover:bg-gray-200">
+        <Button size="xs" className="bg-transparent enabled:hover:bg-gray-200" href="/alerts">
           <IoIosNotifications className="h-6 w-6 fill-black" />
           <Badge className="-ml-2">{alertsCount}</Badge>
         </Button>
@@ -48,4 +48,4 @@ const DashboardNavbar: ReactFC = () => {
   );
 };
 
-export default DashboardNavbar;
+export default Header;
