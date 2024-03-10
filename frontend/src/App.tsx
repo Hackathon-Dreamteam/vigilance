@@ -21,7 +21,7 @@ const useFetchAppData = () => {
     const { response: observations } = await ApiHttpService.get<Observation[]>('/observations');
 
     const state: Partial<AppState> = {
-      observations
+      observations: observations?.map(x => ({ ...x, location: x.location === 'Montreal' ? 'Montréal' : x.location }))
     };
 
     setAppState(merge(state, defaultState) as AppState);

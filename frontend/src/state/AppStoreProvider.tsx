@@ -16,6 +16,7 @@ export interface AppState {
 export interface ComputedAppState {
   regions: string[];
   filteredObservations: Observation[];
+  filteredInvasiveObservations: Observation[];
 }
 
 type AppStore = AppState & {
@@ -33,6 +34,7 @@ const defaultState = (): AppStore => ({
   setState: () => {},
   computed: {
     filteredObservations: [],
+    filteredInvasiveObservations: [],
     regions: []
   }
 });
@@ -55,6 +57,12 @@ const AppStoreProvider: ReactFC<{ state: Partial<AppState> }> = ({ children, sta
         .filter(x => x.date >= (appState.filterFrom ?? new Date()) && x.date <= (appState.filterTo ?? new Date()))
         .filter(x => x.isInvasive || !appState.showInvasive)
         .filter(x => x.location === appState.region),
+      filteredInvasiveObservations: chain(appState.observations)
+        .filter(x => x.date >= (appState.filterFrom ?? new Date()) && x.date <= (appState.filterTo ?? new Date()))
+        .filter(x => x.isInvasive)
+        .filter(x => x.location === appState.region)
+        .orderBy(x => x.date, 'desc')
+        .value(),
       regions: chain(appState.observations)
         .map(x => x.location)
         .uniq()
