@@ -1,12 +1,15 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
-    
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+    <PropertyGroup>
+        <UserSecretsId>cba14332-8c34-44b8-8cda-122860ef13cf</UserSecretsId>
+    </PropertyGroup>
+
     <ItemGroup>
-      <ProjectReference Include="..\InvasionQc.Core\InvasionQc.Core.csproj" />
+        <ProjectReference Include="..\InvasionQc.Core\InvasionQc.Core.csproj"/>
     </ItemGroup>
 
     <ItemGroup>
-        <PackageReference Include="MediatR" Version="12.2.0" />
-        <PackageReference Include="Swashbuckle.AspNetCore" Version="6.5.0" />
+        <PackageReference Include="MediatR" Version="12.2.0"/>
+        <PackageReference Include="Swashbuckle.AspNetCore" Version="6.5.0"/>
     </ItemGroup>
 
 </Project>

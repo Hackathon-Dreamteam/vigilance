@@ -16,6 +16,11 @@ public class AlertRepositories
         return _alerts.Values;
     }
 
+    public Alert GetAlert(Guid alertId)
+    {
+        return _alerts[alertId];
+    }
+
     public IReadOnlyCollection<Alert> GetAlerts(string speciesName)
     {
         return _alerts.Values.Where(a => string.Equals(a.SpeciesName, speciesName, StringComparison.InvariantCultureIgnoreCase)).ToList();
