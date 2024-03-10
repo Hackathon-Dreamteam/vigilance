@@ -39,7 +39,7 @@ public class FileObservationsLoader
 
     private static string GetFilePath()
     {
-        return Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Data/species_with_location.json");
+        return Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Data/observations.json");
     }
 }
 
@@ -54,6 +54,9 @@ public class FileObservations
     [JsonPropertyName("isInvasive")]
     public bool IsInvasive { get; set; }
 
+    [JsonPropertyName("isPrecarious")]
+    public bool IsPrecarious { get; set; }
+
     [JsonPropertyName("observation_date")]
     public DateTimeOffset ObservationDate { get; set; }
 
@@ -67,7 +70,7 @@ public class FileObservations
     public string Source { get; set; } = string.Empty;
 
     [JsonPropertyName("image_url")]
-    public string ImageUrl { get; set; }  = string.Empty;
+    public string? ImageUrl { get; set; }
 }
 
 [JsonSerializable(typeof(List<FileObservations>))]
