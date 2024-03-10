@@ -16,12 +16,14 @@ internal static class Startup
         builder.Services.AddProblemDetails();
         builder.Services.AddOpenApi();
 
-        builder.Services.AddInvasionQcCore();
+        builder.Services.AddInvasionQcCore(builder.Configuration);
 
         builder.Services.AddResponseCompression(options =>
         {
             options.EnableForHttps = true;
         });
+
+        builder.Services.AddHttpClient();
 
         return builder;
     }

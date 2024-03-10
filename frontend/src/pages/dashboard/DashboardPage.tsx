@@ -10,15 +10,20 @@ const DashboardPage: ReactFC = () => {
   } = useAppState();
 
   return (
-    <main className="bg-gray-50 min-h-screen flex flex-col gap-8 pt-8 px-8 overflow-hidden">
+    <main className="bg-gray-50 min-h-screen flex flex-col gap-5 pt-6 px-8 overflow-hidden pb-24">
       <DashboardFilters />
       <div className="grid gap-5 grid-cols-5">
         <div className="col-span-3 flex gap-5 flex-col">
           <Card>
             <h4>Alertes</h4>
           </Card>
-          <div className="mt-4 rounded overflow-clip">
-            <DashboardMap />
+          <div className="rounded overflow-clip">
+            <Card>
+              <h4>Carte intéractive</h4>
+              <div className="border rounded-lg overflow-hidden">
+                <DashboardMap />
+              </div>
+            </Card>
           </div>
         </div>
         <div className="col-span-2">

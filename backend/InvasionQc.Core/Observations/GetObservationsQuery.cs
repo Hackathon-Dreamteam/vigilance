@@ -25,9 +25,9 @@ public class GetObservationsQueryHandler : IStreamRequestHandler<GetObservations
                 SpeciesName = observationData.SpeciesName,
                 Location = observationData.Location,
                 IsInvasive = observationData.IsInvasive,
-                IsPrecarious = true,
+                IsPrecarious = observationData.IsPrecarious,
                 GeoLocation = new GeoLocation(observationData.Latitude, observationData.Longitude),
-                ImageUrl = observationData.ImageUrl,
+                ImageUrl = observationData.ImageUrl?.Replace("\\", "") ?? string.Empty,
                 Source = observationData.Source,
                 Date = observationData.ObservationDate,
             };

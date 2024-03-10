@@ -2,13 +2,14 @@ import Icon from '@/assets/logo.svg?react';
 import { Avatar, Badge, Button, Dropdown, Navbar } from 'flowbite-react';
 import { IoIosNotifications } from 'react-icons/io';
 import { useAppState } from '../../state/useAppState';
+import { Link } from 'react-router-dom';
 
 const Header: ReactFC = () => {
   const { region, regions, alertsCount, setState } = useAppState();
 
   return (
     <Navbar fluid rounded className="sticky top-0 z-10 drop-shadow-md">
-      <Navbar.Brand href="/dashboard">
+      <Navbar.Brand as={Link} to="/dashboard">
         <Icon className="h-8 w-32" />
       </Navbar.Brand>
       <div className="ml-6">
@@ -22,7 +23,7 @@ const Header: ReactFC = () => {
       </div>
 
       <div className="flex gap-4 ml-auto">
-        <Button size="xs" className="bg-transparent enabled:hover:bg-gray-200" href="/alerts">
+        <Button as={Link} size="xs" className="bg-transparent enabled:hover:bg-gray-200" to="/alerts">
           <IoIosNotifications className="h-6 w-6 fill-black" />
           <Badge className="-ml-2">{alertsCount}</Badge>
         </Button>
@@ -37,10 +38,16 @@ const Header: ReactFC = () => {
               <a href="mailto:admin@laval.qc.ca">admin@laval.qc.ca</a>
             </span>
           </Dropdown.Header>
-          <Dropdown.Item href="/dashboard">Tableau de bord</Dropdown.Item>
-          <Dropdown.Item href="/alerts">Alertes</Dropdown.Item>
+          <Dropdown.Item as={Link} to="/dashboard">
+            Tableau de bord
+          </Dropdown.Item>
+          <Dropdown.Item as={Link} to="/alerts">
+            Alertes
+          </Dropdown.Item>
           <Dropdown.Divider />
-          <Dropdown.Item>Déconnexion</Dropdown.Item>
+          <Dropdown.Item as={Link} to="/">
+            Déconnexion
+          </Dropdown.Item>
         </Dropdown>
       </div>
     </Navbar>
