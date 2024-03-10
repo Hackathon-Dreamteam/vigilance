@@ -27,6 +27,7 @@ public class INaturalistObservationsLoader
         var response = await client.GetAsync(apiUrl);
 
         var content = await response.Content.ReadAsStringAsync();
+       
         // deserialize the field Results and then get the list in the field Results
         var observations = JsonSerializer.Deserialize<Result>(content);
 
