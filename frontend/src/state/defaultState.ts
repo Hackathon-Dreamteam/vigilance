@@ -23,7 +23,7 @@ export const defaultState: Partial<AppState> = {
   region: 'Laval',
   filterFrom: addYears(new Date(), -1),
   filterTo: new Date(),
-  invasiveOnly: false,
+  invasiveOnly: true,
   alertsCount: 3,
   observations: []
 };
