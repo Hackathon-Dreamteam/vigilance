@@ -18,11 +18,17 @@ internal static class Startup
 
         builder.Services.AddInvasionQcCore();
 
+        builder.Services.AddResponseCompression(options =>
+        {
+            options.EnableForHttps = true;
+        });
+
         return builder;
     }
 
     internal static WebApplication ConfigureMiddleware(this WebApplication app)
     {
+        app.UseResponseCompression();
         app.UseExceptionHandler();
         app.UseCors(x => x.AllowAnyOrigin());
         app.UseStatusCodePages();
