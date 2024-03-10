@@ -23,7 +23,8 @@ public class INaturalistObservationsLoader
         var client = new HttpClient();
         // Filter call on a certain user
         
-        var response = await client.GetAsync("https://api.inaturalist.org/v1/observations?user_id=sebastien37537");
+        string apiUrl = "https://api.inaturalist.org/v1/observations?user_id=sebastien37537";
+        var response = await client.GetAsync(apiUrl);
 
         var content = await response.Content.ReadAsStringAsync();
         // deserialize the field Results and then get the list in the field Results
@@ -47,7 +48,7 @@ public class NatObservations
     [JsonPropertyName("species_guess")]
     public string SpeciesName { get; set; } = string.Empty;
 
-    [JsonPropertyName("location")]
+    [JsonPropertyName("place_guess")]
     public string Location { get; set; } = string.Empty;
 
     [JsonPropertyName("isInvasive")]
@@ -67,6 +68,9 @@ public class NatObservations
 
     [JsonPropertyName("taxon")]
     public Taxon taxon { get; set; } = new Taxon();
+
+    [JsonPropertyName("geojson")]
+    public Geojson geojson { get; set; } = new Geojson();
 }
 
 public class Taxon
@@ -75,6 +79,15 @@ public class Taxon
     public String name { get; set; } = string.Empty;
 }
 
+
+public class Geojson
+{
+    [JsonPropertyName("type")]
+    public string type { get; set; } = string.Empty;
+
+    [JsonPropertyName("coordinates")]
+    public List<double> coordinates { get; set; } = new List<double>();
+}
 
 // [JsonSerializable(typeof(List<NaturalistObservations>))]
 // internal partial class ObservationsSourceGenerationContext : JsonSerializerContext
