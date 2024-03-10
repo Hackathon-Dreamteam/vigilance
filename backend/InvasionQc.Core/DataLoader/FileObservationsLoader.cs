@@ -45,6 +45,9 @@ public class FileObservationsLoader
 
 public class FileObservations
 {
+    [JsonPropertyName("id")]
+    public string ObservationId { get; set; } = string.Empty;
+
     [JsonPropertyName("species_guess")]
     public string SpeciesName { get; set; } = string.Empty;
 

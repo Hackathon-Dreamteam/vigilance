@@ -9,6 +9,6 @@ public class DumpAdvisor: IAdvisor
 
     public Task<string> GetImage(string prompt)
     {
-        throw new NotImplementedException();
+        return Task.FromResult("https://placehold.co/1024x1024");
     }
 }
