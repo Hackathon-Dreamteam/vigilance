@@ -1,5 +1,5 @@
 import Icon from '@/assets/logo.svg?react';
-import { Avatar, Button, Dropdown, Navbar } from 'flowbite-react';
+import { Avatar, Badge, Button, Dropdown, Navbar } from 'flowbite-react';
 import { IoIosNotifications } from 'react-icons/io';
 import { useAppState } from '../../../state/useAppState';
 
@@ -24,6 +24,7 @@ const DashboardNavbar: ReactFC = () => {
       <div className="flex gap-4 ml-auto">
         <Button size="xs" className="bg-transparent enabled:hover:bg-gray-200">
           <IoIosNotifications className="h-6 w-6 fill-black" />
+          <Badge className="-ml-2">5</Badge>
         </Button>
         <Dropdown
           arrowIcon={false}
