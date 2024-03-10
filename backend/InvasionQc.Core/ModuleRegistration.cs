@@ -1,6 +1,7 @@
 using InvasionQc.Core.Advisory;
 using InvasionQc.Core.Alerting;
 using InvasionQc.Core.DataLoader;
+using InvasionQc.Core.INaturalistLoader;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
