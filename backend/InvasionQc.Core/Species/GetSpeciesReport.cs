@@ -6,20 +6,20 @@ using MediatR;
 
 namespace InvasionQc.Core.Species;
 
-public record GetSpeciesDetails(string SpeciesName, Locations Location) : IRequest<SpeciesDetails>;
+public record GetSpeciesReport(string SpeciesName, Locations Location) : IRequest<SpeciesReports>;
 
-public class GetSpeciesDetailsHandler : IRequestHandler<GetSpeciesDetails, SpeciesDetails>
+public class GetSpeciesReportHandler : IRequestHandler<GetSpeciesReport, SpeciesReports>
 {
     private readonly AlertRepositories _alertRepositories;
     private readonly IMediator _mediator;
 
-    public GetSpeciesDetailsHandler(AlertRepositories alertRepositories, IMediator mediator)
+    public GetSpeciesReportHandler(AlertRepositories alertRepositories, IMediator mediator)
     {
         _alertRepositories = alertRepositories;
         this._mediator = mediator;
     }
 
-    public async Task<SpeciesDetails> Handle(GetSpeciesDetails request, CancellationToken cancellationToken)
+    public async Task<SpeciesReports> Handle(GetSpeciesReport request, CancellationToken cancellationToken)
     {
         var alerts = this._alertRepositories.GetAlerts(request.SpeciesName);
 
@@ -27,7 +27,7 @@ public class GetSpeciesDetailsHandler : IRequestHandler<GetSpeciesDetails, Speci
 
         var observationsForSpecies = observations.Where(o => string.Equals(request.SpeciesName, o.SpeciesName, StringComparison.InvariantCultureIgnoreCase)).ToList();
 
-        return new SpeciesDetails(
+        return new SpeciesReports(
             alerts,
             observationsForSpecies);
     }

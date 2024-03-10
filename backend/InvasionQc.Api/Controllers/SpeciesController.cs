@@ -20,20 +20,20 @@ public class SpeciesController: ControllerBase
     }
 
     [HttpGet]
-    [Route("{speciesName}")]
-    [ProducesResponseType<SpeciesDetails>(200)]
+    [Route("{speciesName}/reports")]
+    [ProducesResponseType<SpeciesReports>(200)]
     public async Task<IActionResult> Get([FromRoute] string speciesName, [FromQuery] Locations location, CancellationToken cancellationToken)
     {
-        var speciesDetails = await this._mediator.Send(new GetSpeciesDetails(speciesName, location), cancellationToken);
+        var speciesDetails = await this._mediator.Send(new GetSpeciesReport(speciesName, location), cancellationToken);
         return this.Ok(speciesDetails);
     }
 
     [HttpGet]
     [Route("{speciesName}/description")]
-    [ProducesResponseType<string>(200)]
+    [ProducesResponseType<SpeciesDetails>(200)]
     public async Task<IActionResult> GetImage([FromRoute] string speciesName, [FromQuery] Locations location, CancellationToken cancellationToken)
     {
-        var speciesDetails = await this._mediator.Send(new GetSpeciesDescriptionQuery(speciesName, location), cancellationToken);
+        var speciesDetails = await this._mediator.Send(new GetSpeciesDetailsQuery(speciesName, location), cancellationToken);
         return this.Ok(speciesDetails);
     }
 }
