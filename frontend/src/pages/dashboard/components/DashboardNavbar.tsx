@@ -4,10 +4,10 @@ import { IoIosNotifications } from 'react-icons/io';
 import { useAppState } from '../../../state/useAppState';
 
 const DashboardNavbar: ReactFC = () => {
-  const { region, regions, setState } = useAppState();
+  const { region, regions, alertsCount, setState } = useAppState();
 
   return (
-    <Navbar fluid rounded>
+    <Navbar fluid rounded className="sticky top-0 z-10">
       <Navbar.Brand href="/">
         <Icon className="h-8 w-32" />
       </Navbar.Brand>
@@ -24,7 +24,7 @@ const DashboardNavbar: ReactFC = () => {
       <div className="flex gap-4 ml-auto">
         <Button size="xs" className="bg-transparent enabled:hover:bg-gray-200">
           <IoIosNotifications className="h-6 w-6 fill-black" />
-          <Badge className="-ml-2">5</Badge>
+          <Badge className="-ml-2">{alertsCount}</Badge>
         </Button>
         <Dropdown
           arrowIcon={false}

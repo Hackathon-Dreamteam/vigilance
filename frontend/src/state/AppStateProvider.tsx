@@ -1,11 +1,16 @@
 import { createContext, useCallback, useMemo, useState } from 'react';
 
 export interface AppState {
+  // Filters and workspace selection
   region: string;
   regions: string[];
   filterFrom: Date | null;
   filterTo: Date | null;
   showInvasive: boolean;
+
+  // Alerts
+  alertsCount: number | null;
+
   setState: (state: Partial<AppState>) => void;
 }
 
@@ -15,6 +20,7 @@ const defaultState = (): AppState => ({
   filterFrom: null,
   filterTo: null,
   showInvasive: false,
+  alertsCount: null,
   setState: () => {}
 });
 

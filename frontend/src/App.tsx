@@ -6,7 +6,8 @@ const defaultState: Partial<AppState> = {
   regions: ['Laval', 'Montréal', 'Shawinigan'],
   filterFrom: addMonths(new Date(), -1),
   filterTo: new Date(),
-  showInvasive: true
+  showInvasive: true,
+  alertsCount: 3
 };
 
 const App: ReactFC = ({ children }) => {
