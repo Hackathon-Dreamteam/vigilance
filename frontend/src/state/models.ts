@@ -6,6 +6,7 @@ export interface Observation {
   imageUrl: string;
   date: Date;
   location: GeoLocation;
+  region: string;
 }
 
 export interface GeoLocation {

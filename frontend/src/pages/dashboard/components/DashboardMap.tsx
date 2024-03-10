@@ -12,7 +12,8 @@ const DashboardMap: ReactFC = () => {
         initialViewState={{
           longitude: -73.75071015103065,
           latitude: 45.57540158945462,
-          zoom: 11
+          zoom: 11,
+          pitch: 55
         }}
         style={{ width: '100%', height: 600 }}
         mapStyle="mapbox://styles/felixlechat21/cltltffsh00xw01qpceyi4h9l"
