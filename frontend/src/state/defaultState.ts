@@ -4,7 +4,7 @@ import { AppState } from './AppStoreProvider';
 import { addYears } from 'date-fns/addYears';
 
 const createObservation = (speciesName: string, obs?: Partial<Observation>): Observation => ({
-  id: uuidv4(),
+  observationId: uuidv4(),
   date: new Date(),
   imageUrl: '',
   isInvasive: Boolean(Math.round(Math.random())),

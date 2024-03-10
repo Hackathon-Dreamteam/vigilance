@@ -1,5 +1,5 @@
 export interface Observation {
-  id: string;
+  observationId: string;
   speciesName: string;
   isInvasive: boolean;
   isPrecarious: boolean;
