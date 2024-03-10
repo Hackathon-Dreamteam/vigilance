@@ -19,11 +19,13 @@ const DashboardFilters: React.FC = () => {
         placeholder="De"
         value={formatDate(filterFrom)}
         onSelectedDateChanged={x => setState({ filterFrom: x })}
+        defaultDate={filterFrom ?? undefined}
         showClearButton={false}
       />
       <Datepicker
         placeholder="À"
         value={formatDate(filterTo)}
+        defaultDate={filterTo ?? undefined}
         onSelectedDateChanged={x => setState({ filterTo: x })}
         showClearButton={false}
       />

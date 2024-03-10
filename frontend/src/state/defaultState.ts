@@ -14,6 +14,7 @@ const createObservation = (speciesName: string, obs?: Partial<Observation>): Obs
     longitude: 2
   },
   speciesName,
+  region: 'Laval',
   ...obs
 });
 
