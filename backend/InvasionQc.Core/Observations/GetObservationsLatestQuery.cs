@@ -1,11 +1,9 @@
 ﻿using System.Runtime.CompilerServices;
 using InvasionQc.Core.Constants;
-using InvasionQc.Core.INaturalistLoader;
 using MediatR;
 using Microsoft.Extensions.Logging;
 using System.Globalization;
-using static System.Globalization.CultureInfo;
-using static System.Globalization.DateTimeStyles;
+using InvasionQc.Core.DataLoader;
 
 namespace InvasionQc.Core.Observations;
 
@@ -13,11 +11,11 @@ public record GetObservationsLatestQuery(Locations Location) : IStreamRequest<Ob
 
 public class GetObservationsLatestQueryHandler : IStreamRequestHandler<GetObservationsLatestQuery, Observation>
 {
-    private readonly INaturalistObservationsLoader _naturalistObservationsLoader;
+    private readonly NaturalistObservationsLoader _naturalistObservationsLoader;
 
     private readonly ILogger<GetObservationsLatestQueryHandler> _logger;
 
-    public GetObservationsLatestQueryHandler(INaturalistObservationsLoader naturalistObservationsLoader, ILogger<GetObservationsLatestQueryHandler> logger)
+    public GetObservationsLatestQueryHandler(NaturalistObservationsLoader naturalistObservationsLoader, ILogger<GetObservationsLatestQueryHandler> logger)
     {
         this._naturalistObservationsLoader = naturalistObservationsLoader;
         this._logger = logger;

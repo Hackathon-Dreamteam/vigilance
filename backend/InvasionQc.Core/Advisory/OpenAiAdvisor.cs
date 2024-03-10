@@ -27,6 +27,6 @@ public class OpenAiAdvisor: IAdvisor
         var response = await this._openAiClient.GetChatCompletionsAsync(chatCompletionsOptions);
         var responseMessage = response.Value.Choices[0].Message;
 
-        return $"[{responseMessage.Role.ToString().ToUpperInvariant()}]: {responseMessage.Content}";
+        return responseMessage.Content;
     }
 }

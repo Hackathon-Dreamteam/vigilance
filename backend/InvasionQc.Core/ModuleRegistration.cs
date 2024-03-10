@@ -1,7 +1,6 @@
 using InvasionQc.Core.Advisory;
 using InvasionQc.Core.Alerting;
 using InvasionQc.Core.DataLoader;
-using InvasionQc.Core.INaturalistLoader;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -15,7 +14,7 @@ public static class ModuleRegistration
 
         services.AddSingleton<FileObservationsLoader>();
 
-        services.AddSingleton<INaturalistObservationsLoader>();
+        services.AddSingleton<NaturalistObservationsLoader>();
 
         services.AddSingleton<AlertRepositories>();
 
