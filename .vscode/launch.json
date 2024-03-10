@@ -1,0 +1,16 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": ".NET Core Launch (console)",
+      "type": "coreclr",
+      "request": "launch",
+      "preLaunchTask": "build",
+      "program": "${workspaceFolder}/backend/InvasionQc.Api/bin/Debug/netcoreapp3.1/InvasionQc.Api.dll",
+      "args": [],
+      "cwd": "${workspaceFolder}/backend/InvasionQc.Api",
+      "console": "internalConsole",
+      "stopAtEntry": false
+    }
+  ]
+}
