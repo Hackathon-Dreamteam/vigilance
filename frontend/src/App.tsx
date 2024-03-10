@@ -4,7 +4,6 @@ import { useEffect, useState } from 'react';
 import { ApiHttpService } from './services/http/http-service';
 import { Alert, Button } from 'flowbite-react';
 import { Link } from 'react-router-dom';
-import AppStateProvider from './state/AppStateProvider';
 
 const Title = styled.h1`
   color: #ff2219;
@@ -43,23 +42,21 @@ const App: ReactFC = () => {
   }, []);
 
   return (
-    <AppStateProvider>
-      <Container>
-        <StickyHeader $visible={!!alert}>
-          <Alert color="failure">{alert}</Alert>
-        </StickyHeader>
-        <Title>
-          <Logo>
-            <Icon />
-          </Logo>
-          <div>Invasion Québec</div>
-          <p>Made with ❤︎ in Québec</p>
-          <Link to="/dashboard">
-            <Button color="dark">Log In</Button>
-          </Link>
-        </Title>
-      </Container>
-    </AppStateProvider>
+    <Container>
+      <StickyHeader $visible={!!alert}>
+        <Alert color="failure">{alert}</Alert>
+      </StickyHeader>
+      <Title>
+        <Logo>
+          <Icon />
+        </Logo>
+        <div>Invasion Québec</div>
+        <p>Made with ❤︎ in Québec</p>
+        <Link to="/dashboard">
+          <Button color="dark">Log In</Button>
+        </Link>
+      </Title>
+    </Container>
   );
 };
 

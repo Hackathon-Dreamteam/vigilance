@@ -5,6 +5,7 @@ import GlobalStyles from './styles/GlobalStyles.tsx';
 import { RouterProvider, createBrowserRouter } from 'react-router-dom';
 import DashboardPage from './pages/dashboard/DashboardPage.tsx';
 import './styles/main.css';
+import AppStateProvider from './state/AppStateProvider.tsx';
 
 const router = createBrowserRouter([
   {
@@ -20,8 +21,10 @@ const router = createBrowserRouter([
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
-    <GlobalStyles />
-    <RouterProvider router={router} />
+    <AppStateProvider>
+      <GlobalStyles />
+      <RouterProvider router={router} />
+    </AppStateProvider>
   </React.StrictMode>
 );
 
