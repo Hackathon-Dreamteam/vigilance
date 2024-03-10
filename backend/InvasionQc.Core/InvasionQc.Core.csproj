@@ -2,6 +2,7 @@
   <ItemGroup>
     <PackageReference Include="MediatR" Version="12.2.0" />
     <PackageReference Include="MediatR.Contracts" Version="2.0.1" />
+    <PackageReference Include="Microsoft.Extensions.Logging" Version="8.0.0" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="..\..\notebook\species_with_location.json">
@@ -10,8 +11,5 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
-    <Reference Include="Microsoft.Extensions.Logging.Abstractions">
-      <HintPath>..\..\..\..\Program Files\dotnet\shared\Microsoft.AspNetCore.App\8.0.0\Microsoft.Extensions.Logging.Abstractions.dll</HintPath>
-    </Reference>
   </ItemGroup>
 </Project>
