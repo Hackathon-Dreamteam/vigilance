@@ -1,23 +1,34 @@
-import Map, { Source, Layer, FullscreenControl, NavigationControl } from 'react-map-gl';
+import Map, { Source, Layer, FullscreenControl, NavigationControl, Marker, Popup } from 'react-map-gl';
 import { HeatmapType, heatmapLayer } from './HeatmapLayer';
 import { useAppStore } from '../../../state/useAppStore';
 import { Badge } from 'flowbite-react';
-import { HiOutlineQuestionMarkCircle } from 'react-icons/hi';
-// import { useRef } from 'react';
+import { HiLink, HiOutlineQuestionMarkCircle } from 'react-icons/hi';
+import { map } from 'lodash';
+import { HiMapPin, HiMiniEye } from 'react-icons/hi2';
+import { useState } from 'react';
+import { Observation } from '../../../state/models';
+import { format } from 'date-fns/format';
 
 const DashboardMap: ReactFC = () => {
   const {
-    computed: { filteredObservations }
+    computed: { filteredObservations, groupedObservations }
   } = useAppStore();
-  // const mapRef = useRef<MapRef>();
+  const [popupInfo, setPopupInfo] = useState<Observation[]>([]);
+
+  const toTitleCase = str => {
+    return str.replace(/[^\s]+/g, word => {
+      return word.replace(/^./, first => {
+        return first.toUpperCase();
+      });
+    });
+  };
 
   return (
     <>
       <div className="border rounded-lg overflow-hidden">
         <Map
-          // ref={mapRef}
           mapboxAccessToken={import.meta.env.VITE_MAPBOX_API_KEY}
-          // mapLib={import('mapbox-gl')}
+          mapLib={import('mapbox-gl')}
           initialViewState={{
             longitude: -73.75071015103065,
             latitude: 45.57540158945462,
@@ -73,6 +84,81 @@ const DashboardMap: ReactFC = () => {
             >
               <Layer {...heatmapLayer(HeatmapType.Invasive)} />
             </Source>
+          )}
+
+          {/* Pin & Infowindow */}
+          {groupedObservations &&
+            map(groupedObservations, (groupedObservation, index) => (
+              <Marker
+                key={`marker-${index}`}
+                longitude={groupedObservation[0].geoLocation.longitude}
+                latitude={groupedObservation[0].geoLocation.latitude}
+                anchor="bottom"
+                onClick={e => {
+                  e.originalEvent.stopPropagation();
+                  setPopupInfo(groupedObservation);
+                  console.log('click');
+                }}
+              >
+                <HiMapPin color="transparent" size={15} cursor={'pointer'} style={{ transform: 'translate(0px, 7px)' }} />
+              </Marker>
+            ))}
+          {Array.isArray(popupInfo) && popupInfo.length > 0 && (
+            <Popup
+              anchor="bottom"
+              longitude={Number(popupInfo[0].geoLocation.longitude)}
+              latitude={Number(popupInfo[0].geoLocation.latitude)}
+              onClose={() => setPopupInfo([])}
+              className="min-w-72"
+            >
+              <div className="grid gap-2 grid-cols-2 divide-y">
+                <div className="col-span-2 flex gap-5 flex-col">
+                  <h4>
+                    {toTitleCase(popupInfo[0].speciesName)}
+                    <Badge color="green" icon={HiMiniEye} className="inline-flex ml-2">
+                      {popupInfo.length}
+                    </Badge>
+                  </h4>
+                </div>
+                <div className="col-span-2 flex gap-1 flex-col">
+                  <p className="mt-2">
+                    <b>Source de la donnée : </b>
+                    {popupInfo[0].source}
+                  </p>
+                  <p>
+                    <b>Ville : </b>
+                    {popupInfo[0].location}
+                  </p>
+                  <p>
+                    <b>Date Observés : </b>
+                    {popupInfo.map(obs => format(obs.date, 'PP')).join(', ')}
+                  </p>
+                  <p>
+                    <b>Invasif : </b>
+                    {popupInfo[0].isInvasive ? 'Oui' : 'Non'}
+                  </p>
+                  <p>
+                    <b>Précaire : </b>
+                    {popupInfo[0].isPrecarious ? 'Oui' : 'Non'}
+                  </p>
+                  <p>
+                    <b>Observations : </b>
+                  </p>
+                  <ul className="list-disc ml-3">
+                    {popupInfo.map(obs => (
+                      <li>
+                        <b>
+                          <a href={obs.imageUrl} target="_blank" className="text-blue-700">
+                            Lien Externe
+                            <HiLink className="inline-block ml-1" />
+                          </a>
+                        </b>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              </div>
+            </Popup>
           )}
 
           {/* Terrain layer */}

@@ -1,6 +1,6 @@
 import { createContext, useCallback, useMemo, useState } from 'react';
 import { Observation } from './models';
-import { chain } from 'lodash';
+import { Dictionary, chain, kebabCase } from 'lodash';
 
 export interface AppState {
   // Dashboard
@@ -17,6 +17,7 @@ export interface ComputedAppState {
   regions: string[];
   filteredObservations: Observation[];
   filteredInvasiveObservations: Observation[];
+  groupedObservations: Dictionary<Observation[]>;
 }
 
 type AppStore = AppState & {
@@ -35,6 +36,7 @@ const defaultState = (): AppStore => ({
   computed: {
     filteredObservations: [],
     filteredInvasiveObservations: [],
+    groupedObservations: {},
     regions: []
   }
 });
@@ -62,6 +64,18 @@ const AppStoreProvider: ReactFC<{ state: Partial<AppState> }> = ({ children, sta
         .filter(x => x.isInvasive)
         .filter(x => x.location === appState.region)
         .orderBy(x => x.date, 'desc')
+        .value(),
+
+      // Grouping of observations for map component
+      groupedObservations: chain(appState.observations)
+        .filter(x => x.date >= (appState.filterFrom ?? new Date()) && x.date <= (appState.filterTo ?? new Date()))
+        .filter(x => x.isInvasive)
+        .filter(x => x.location === appState.region)
+        .groupBy(obs => {
+          return `${kebabCase(obs.speciesName)}-${Math.round(obs.geoLocation?.latitude * 1000) / 1000}-${
+            Math.round(obs.geoLocation?.longitude * 1000) / 1000
+          }`;
+        })
         .value(),
       regions: chain(appState.observations)
         .map(x => x.location)

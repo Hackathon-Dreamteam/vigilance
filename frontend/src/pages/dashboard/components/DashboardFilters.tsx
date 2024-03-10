@@ -4,6 +4,7 @@ import styled from 'styled-components';
 import tw from 'twin.macro';
 import { format } from 'date-fns/format';
 import Toggle from '../../../components/Toggle';
+import { HiArrowNarrowRight } from 'react-icons/hi';
 
 const Datepicker = styled(FlowbiteDatepicker)`
   ${tw`w-40`}
@@ -22,6 +23,7 @@ const DashboardFilters: React.FC = () => {
         defaultDate={filterFrom ?? undefined}
         showClearButton={false}
       />
+      <HiArrowNarrowRight />
       <Datepicker
         placeholder="À"
         value={formatDate(filterTo)}
