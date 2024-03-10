@@ -3,12 +3,16 @@ import { createContext, useCallback, useMemo, useState } from 'react';
 export interface AppState {
   region: string;
   regions: string[];
+  filterFrom: Date | null;
+  filterTo: Date | null;
   setState: (state: Partial<AppState>) => void;
 }
 
 const defaultState = (): AppState => ({
   region: '',
   regions: [],
+  filterFrom: null,
+  filterTo: null,
   setState: () => {}
 });
 
