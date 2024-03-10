@@ -29,11 +29,13 @@ const DashboardNavbar: ReactFC = () => {
         <Dropdown
           arrowIcon={false}
           inline
-          label={<Avatar alt="User settings" img="https://flowbite.com/docs/images/people/profile-picture-5.jpg" rounded />}
+          label={<Avatar alt="User settings" className="drop-shadow-lg" img="/img/logo-laval.png" rounded />}
         >
           <Dropdown.Header>
-            <span className="block text-sm">Bonnie Green</span>
-            <span className="block truncate text-sm font-medium">name@flowbite.com</span>
+            <span className="block text-sm">Ville de Laval</span>
+            <span className="block truncate text-sm font-medium">
+              <a href="mailto:admin@laval.qc.ca">admin@laval.qc.ca</a>
+            </span>
           </Dropdown.Header>
           <Dropdown.Item>Dashboard</Dropdown.Item>
           <Dropdown.Item>Settings</Dropdown.Item>
