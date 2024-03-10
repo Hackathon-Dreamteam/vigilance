@@ -1,8 +1,8 @@
-// import { useAppState } from '../../../state/useAppState';
+// import { useAppStore } from '../../../state/useAppStore';
 import Map from 'react-map-gl';
 
 const DashboardMap: ReactFC = () => {
-  // const { alertsCount } = useAppState();
+  // const { alertsCount } = useAppStore();
 
   return (
     <>

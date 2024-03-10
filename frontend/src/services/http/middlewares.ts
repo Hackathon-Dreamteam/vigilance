@@ -1,5 +1,6 @@
 import axios, { AxiosError } from 'axios';
 import { HttpMiddleware } from './http-service';
+import { parseDates } from './http-utils';
 
 export const errorHandlingMiddleware: HttpMiddleware = async (req, res, next) => {
   try {
@@ -16,5 +17,13 @@ export const errorHandlingMiddleware: HttpMiddleware = async (req, res, next) =>
     if (req.options?.throwError && !axios.isCancel(error)) {
       throw error;
     }
+  }
+};
+
+export const parseDatesMiddleware: HttpMiddleware = async (_req, res, next) => {
+  await next();
+
+  if (res.success) {
+    res.response = parseDates(res.response);
   }
 };

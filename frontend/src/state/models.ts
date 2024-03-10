@@ -1,12 +1,13 @@
 export interface Observation {
   id: string;
   speciesName: string;
-  isEnvasive: boolean;
+  isInvasive: boolean;
   isPrecarious: boolean;
+  source: string;
   imageUrl: string;
   date: Date;
-  location: GeoLocation;
-  region: string;
+  geoLocation: GeoLocation;
+  location: string;
 }
 
 export interface GeoLocation {

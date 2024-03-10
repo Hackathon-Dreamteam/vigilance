@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react';
 import Header from './components/layout/Header';
-import AppStateProvider, { AppState } from './state/AppStateProvider';
 import { defaultState } from './state/defaultState';
 import { ApiHttpService } from './services/http/http-service';
 import { Observation } from './state/models';
@@ -8,8 +7,9 @@ import { merge } from 'lodash';
 import { Spinner } from 'flowbite-react';
 import { useMinimumLoading } from './hooks/useMinimumLoading';
 import { Outlet } from 'react-router-dom';
+import AppStoreProvider, { AppState } from './state/AppStoreProvider';
 
-const App: ReactFC = () => {
+const useFetchAppData = () => {
   const [appState, setAppState] = useState<AppState>();
   const loading = useMinimumLoading(!!appState, 500);
 
@@ -27,13 +27,19 @@ const App: ReactFC = () => {
     setAppState(merge(state, defaultState) as AppState);
   };
 
+  return { loading, appState };
+};
+
+const App: ReactFC = () => {
+  const { loading, appState } = useFetchAppData();
+
   return (
     <>
       {!loading ? (
-        <AppStateProvider state={appState!}>
+        <AppStoreProvider state={appState!}>
           <Header />
           <Outlet />
-        </AppStateProvider>
+        </AppStoreProvider>
       ) : (
         <div className="flex min-h-screen items-center justify-center">
           <Spinner size="xl" />
