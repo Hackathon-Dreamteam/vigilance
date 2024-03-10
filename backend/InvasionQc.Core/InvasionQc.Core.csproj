@@ -10,8 +10,8 @@
     <PackageReference Include="Microsoft.Extensions.Options.ConfigurationExtensions" Version="8.0.0" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="..\..\notebook\species_with_location.json">
-      <Link>Data\species_with_location.json</Link>
+    <Content Include="..\..\notebook\observations.json">
+      <Link>Data\observations.json</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
   </ItemGroup>

@@ -23,6 +23,8 @@ internal static class Startup
             options.EnableForHttps = true;
         });
 
+        builder.Services.AddHttpClient();
+
         return builder;
     }
 

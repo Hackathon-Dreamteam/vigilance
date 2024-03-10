@@ -1,35 +1,33 @@
-﻿using System.Diagnostics;
-using System.Runtime.CompilerServices;
+﻿using System.Runtime.CompilerServices;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using InvasionQc.Core.Constants;
 using Microsoft.Extensions.Logging;
 
+namespace InvasionQc.Core.DataLoader;
 
-namespace InvasionQc.Core.INaturalistLoader;
-
-public class INaturalistObservationsLoader
+public class NaturalistObservationsLoader
 {
-    private readonly ILogger<INaturalistObservationsLoader> _logger;
+    private readonly HttpClient _httpClient;
+    private readonly ILogger<NaturalistObservationsLoader> _logger;
 
-    public INaturalistObservationsLoader(ILogger<INaturalistObservationsLoader> logger)
+    public NaturalistObservationsLoader(HttpClient httpClient, ILogger<NaturalistObservationsLoader> logger)
     {
-        _logger = logger;
+        this._httpClient = httpClient;
+        this._logger = logger;
     }
 
     public async IAsyncEnumerable<NatObservations> GetLastObservation(Locations location, [EnumeratorCancellation] CancellationToken cancellationToken)
     {
-        // Rest call to Inaturalist API
-        var client = new HttpClient();
         // Filter call on a certain user
-
         string apiUrl = "https://api.inaturalist.org/v1/observations?user_id=sebastien37537";
-        var response = await client.GetAsync(apiUrl);
+        var response = await _httpClient.GetAsync(apiUrl, cancellationToken);
 
-        var content = await response.Content.ReadAsStringAsync();
+        response.EnsureSuccessStatusCode(); // Ensure success before further processing
 
+        await using var responseStream = await response.Content.ReadAsStreamAsync(cancellationToken);
         // deserialize the field Results and then get the list in the field Results
-        var observations = JsonSerializer.Deserialize<Result>(content);
+        var observations = await JsonSerializer.DeserializeAsync<Result>(responseStream, cancellationToken: cancellationToken);
 
         foreach (var observation in observations!.Results)
         {
@@ -89,8 +87,3 @@ public class Geojson
     [JsonPropertyName("coordinates")]
     public List<double> coordinates { get; set; } = new List<double>();
 }
-
-// [JsonSerializable(typeof(List<NaturalistObservations>))]
-// internal partial class ObservationsSourceGenerationContext : JsonSerializerContext
-// {
-// }
