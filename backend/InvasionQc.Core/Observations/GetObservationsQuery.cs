@@ -1,6 +1,6 @@
 ﻿using System.Runtime.CompilerServices;
 using InvasionQc.Core.Constants;
-using InvasionQc.Core.FileDataLoader;
+using InvasionQc.Core.DataLoader;
 using MediatR;
 
 namespace InvasionQc.Core.Observations;
@@ -27,6 +27,7 @@ public class GetObservationsQueryHandler : IStreamRequestHandler<GetObservations
                 IsInvasive = observationData.IsInvasive,
                 IsPrecarious = true,
                 GeoLocation = new GeoLocation(observationData.Latitude, observationData.Longitude),
+                ImageUrl = observationData.ImageUrl,
                 Source = observationData.Source,
                 Date = observationData.ObservationDate,
             };

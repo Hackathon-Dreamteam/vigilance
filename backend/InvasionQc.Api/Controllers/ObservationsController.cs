@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace InvasionQc.Api.Controllers;
 
 [ApiController]
-[Route("api/[controller]")]
+[Route("api/observations")]
 public class ObservationsController: ControllerBase
 {
     private readonly IMediator _mediator;

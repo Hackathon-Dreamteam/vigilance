@@ -4,6 +4,7 @@
     "esbenp.prettier-vscode",
     "styled-components.vscode-styled-components",
     "bradlc.vscode-tailwindcss",
-    "lightyen.tailwindcss-intellisense-twin"
+    "lightyen.tailwindcss-intellisense-twin",
+    "ecmel.vscode-html-css"
   ]
 }

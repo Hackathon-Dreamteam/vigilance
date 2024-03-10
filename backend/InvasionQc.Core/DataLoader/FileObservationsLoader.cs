@@ -1,11 +1,10 @@
-﻿using System.Diagnostics;
-using System.Runtime.CompilerServices;
+﻿using System.Runtime.CompilerServices;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using InvasionQc.Core.Constants;
 using Microsoft.Extensions.Logging;
 
-namespace InvasionQc.Core.FileDataLoader;
+namespace InvasionQc.Core.DataLoader;
 
 public class FileObservationsLoader
 {
@@ -13,13 +12,13 @@ public class FileObservationsLoader
 
     public FileObservationsLoader(ILogger<FileObservationsLoader> logger)
     {
-        _logger = logger;
+        this._logger = logger;
     }
 
     public async IAsyncEnumerable<FileObservations> GetSpecies(Locations location, [EnumeratorCancellation] CancellationToken cancellationToken)
     {
         using FileStream json = File.OpenRead(GetFilePath());
-        var observationsEnumerable =  JsonSerializer.DeserializeAsyncEnumerable(json, FileDataLoader.ObservationsSourceGenerationContext.Default.FileObservations, cancellationToken);
+        var observationsEnumerable =  JsonSerializer.DeserializeAsyncEnumerable(json, ObservationsSourceGenerationContext.Default.FileObservations, cancellationToken);
         await foreach (var observation in observationsEnumerable)
         {
             if(observation == null)
@@ -66,6 +65,9 @@ public class FileObservations
 
     [JsonPropertyName("source")]
     public string Source { get; set; } = string.Empty;
+
+    [JsonPropertyName("image_url")]
+    public string ImageUrl { get; set; }  = string.Empty;
 }
 
 [JsonSerializable(typeof(List<FileObservations>))]
