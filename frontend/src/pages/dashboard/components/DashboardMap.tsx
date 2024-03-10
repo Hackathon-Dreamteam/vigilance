@@ -1,8 +1,9 @@
-// import { useAppState } from '../../../state/useAppState';
-import Map from 'react-map-gl';
+import { useAppState } from '../../../state/useAppState';
+import Map, { Source, Layer } from 'react-map-gl';
+import { HeatmapType, heatmapLayer } from './HeatmapLayer';
 
 const DashboardMap: ReactFC = () => {
-  // const { alertsCount } = useAppState();
+  const { observations } = useAppState();
 
   return (
     <>
@@ -17,7 +18,46 @@ const DashboardMap: ReactFC = () => {
         }}
         style={{ width: '100%', height: 600 }}
         mapStyle="mapbox://styles/felixlechat21/cltltffsh00xw01qpceyi4h9l"
-      />
+      >
+        <>
+          {observations && (
+            <Source
+              type="geojson"
+              data={{
+                type: 'GeometryCollection',
+                geometries: observations
+                  .filter(observation => observation.isPrecarious)
+                  .map(observation => {
+                    return {
+                      type: 'Point',
+                      coordinates: [observation.location.longitude, observation.location.latitude]
+                    };
+                  })
+              }}
+            >
+              <Layer {...heatmapLayer(HeatmapType.Precarious)} />
+            </Source>
+          )}
+          {observations && (
+            <Source
+              type="geojson"
+              data={{
+                type: 'GeometryCollection',
+                geometries: observations
+                  .filter(observation => observation.isEnvasive)
+                  .map(observation => {
+                    return {
+                      type: 'Point',
+                      coordinates: [observation.location.longitude, observation.location.latitude]
+                    };
+                  })
+              }}
+            >
+              <Layer {...heatmapLayer(HeatmapType.Invasive)} />
+            </Source>
+          )}
+        </>
+      </Map>
     </>
   );
 };
