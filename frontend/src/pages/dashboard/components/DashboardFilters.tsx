@@ -10,7 +10,7 @@ const Datepicker = styled(FlowbiteDatepicker)`
 `;
 
 const DashboardFilters: React.FC = () => {
-  const { filterFrom, filterTo, showInvasive, setState } = useAppStore();
+  const { filterFrom, filterTo, invasiveOnly, setState } = useAppStore();
   const formatDate = (date: Date | null) => (date ? format(date, 'PP') : '');
 
   return (
@@ -29,7 +29,7 @@ const DashboardFilters: React.FC = () => {
         onSelectedDateChanged={x => setState({ filterTo: x })}
         showClearButton={false}
       />
-      <Toggle label="Espèces invasives" checked={showInvasive} onChange={x => setState({ showInvasive: x })} />
+      <Toggle label="Invasives seulement" checked={invasiveOnly} onChange={x => setState({ invasiveOnly: x })} />
     </div>
   );
 };

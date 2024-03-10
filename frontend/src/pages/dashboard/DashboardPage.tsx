@@ -3,19 +3,22 @@ import DashboardFilters from './components/DashboardFilters';
 import DashboardObservations from './components/DashboardObservations';
 import { useAppStore } from '../../state/useAppStore';
 import DashboardMap from './components/DashboardMap';
+import DashboardSummary from './components/DashboardSummary';
 
 const DashboardPage: ReactFC = () => {
   const {
+    region,
     computed: { filteredInvasiveObservations }
   } = useAppStore();
 
   return (
-    <main className="bg-gray-50 min-h-screen flex flex-col gap-5 pt-6 px-8 overflow-hidden pb-24">
+    <>
       <DashboardFilters />
       <div className="grid gap-5 grid-cols-5">
         <div className="col-span-3 flex gap-5 flex-col">
           <Card>
-            <h4>Alertes</h4>
+            <h4>Aperçu</h4>
+            <DashboardSummary />
           </Card>
           <div className="rounded overflow-clip">
             <Card>
@@ -25,7 +28,7 @@ const DashboardPage: ReactFC = () => {
           </div>
         </div>
         <div className="col-span-2">
-          <Card>
+          <Card key={region}>
             <div className="flex">
               <div className="mb-2">
                 <h3>Observations</h3>
@@ -35,11 +38,13 @@ const DashboardPage: ReactFC = () => {
                 <Badge size="lg">{filteredInvasiveObservations.length}</Badge>
               </div>
             </div>
-            <DashboardObservations />
+            <div>
+              <DashboardObservations />
+            </div>
           </Card>
         </div>
       </div>
-    </main>
+    </>
   );
 };
 

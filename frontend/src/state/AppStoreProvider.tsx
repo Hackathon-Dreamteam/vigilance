@@ -7,7 +7,7 @@ export interface AppState {
   region: string;
   filterFrom: Date | null;
   filterTo: Date | null;
-  showInvasive: boolean;
+  invasiveOnly: boolean;
   observations: Observation[];
   // Alerts
   alertsCount: number | null;
@@ -28,7 +28,7 @@ const defaultState = (): AppStore => ({
   region: '',
   filterFrom: null,
   filterTo: null,
-  showInvasive: false,
+  invasiveOnly: false,
   alertsCount: null,
   observations: [],
   setState: () => {},
@@ -55,7 +55,7 @@ const AppStoreProvider: ReactFC<{ state: Partial<AppState> }> = ({ children, sta
     (): ComputedAppState => ({
       filteredObservations: appState.observations
         .filter(x => x.date >= (appState.filterFrom ?? new Date()) && x.date <= (appState.filterTo ?? new Date()))
-        .filter(x => x.isInvasive || !appState.showInvasive)
+        .filter(x => !appState.invasiveOnly || x.isInvasive)
         .filter(x => x.location === appState.region),
       filteredInvasiveObservations: chain(appState.observations)
         .filter(x => x.date >= (appState.filterFrom ?? new Date()) && x.date <= (appState.filterTo ?? new Date()))
