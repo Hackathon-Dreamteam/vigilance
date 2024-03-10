@@ -7,11 +7,11 @@ const createObservation = (speciesName: string, obs?: Partial<Observation>): Obs
   id: uuidv4(),
   date: new Date(),
   imageUrl: '',
-  isInvasive: true,
-  isPrecarious: false,
+  isInvasive: Boolean(Math.round(Math.random())),
+  isPrecarious: Boolean(Math.round(Math.random())),
   geoLocation: {
-    latitude: 1,
-    longitude: 2
+    latitude: 45.6 + Math.random() / 10,
+    longitude: -73.72115787038962 + Math.random() / 10
   },
   speciesName,
   location: 'Laval',
@@ -30,6 +30,18 @@ export const defaultState: Partial<AppState> = {
     createObservation('Lapin sauvage'),
     createObservation('Faucon pelerin', { isInvasive: false }),
     createObservation('Écureuil albinos'),
-    createObservation('Cerf')
+    createObservation('Cerf'),
+    createObservation('Cerf 2'),
+    createObservation('Cerf 3'),
+    createObservation('Cerf 4'),
+    createObservation('Cerf 5'),
+    createObservation('Cerf 6'),
+    createObservation('Cerf 7'),
+    createObservation('Cerf 8'),
+    createObservation('Cerf 9'),
+    createObservation('Cerf 10'),
+    createObservation('Cerf 11'),
+    createObservation('Cerf 12'),
+    createObservation('Cerf 13')
   ]
 };

@@ -1,8 +1,11 @@
-// import { useAppStore } from '../../../state/useAppStore';
-import Map from 'react-map-gl';
+import Map, { Source, Layer } from 'react-map-gl';
+import { HeatmapType, heatmapLayer } from './HeatmapLayer';
+import { useAppStore } from '../../../state/useAppStore';
 
 const DashboardMap: ReactFC = () => {
-  // const { alertsCount } = useAppStore();
+  const {
+    computed: { filteredObservations }
+  } = useAppStore();
 
   return (
     <>
@@ -17,7 +20,46 @@ const DashboardMap: ReactFC = () => {
         }}
         style={{ width: '100%', height: 600 }}
         mapStyle="mapbox://styles/felixlechat21/cltltffsh00xw01qpceyi4h9l"
-      />
+      >
+        <>
+          {filteredObservations && (
+            <Source
+              type="geojson"
+              data={{
+                type: 'GeometryCollection',
+                geometries: filteredObservations
+                  .filter(observation => observation.isPrecarious)
+                  .map(observation => {
+                    return {
+                      type: 'Point',
+                      coordinates: [observation.geoLocation.longitude, observation.geoLocation.latitude]
+                    };
+                  })
+              }}
+            >
+              <Layer {...heatmapLayer(HeatmapType.Precarious)} />
+            </Source>
+          )}
+          {filteredObservations && (
+            <Source
+              type="geojson"
+              data={{
+                type: 'GeometryCollection',
+                geometries: filteredObservations
+                  .filter(observation => observation.isInvasive)
+                  .map(observation => {
+                    return {
+                      type: 'Point',
+                      coordinates: [observation.geoLocation.longitude, observation.geoLocation.latitude]
+                    };
+                  })
+              }}
+            >
+              <Layer {...heatmapLayer(HeatmapType.Invasive)} />
+            </Source>
+          )}
+        </>
+      </Map>
     </>
   );
 };

@@ -20,7 +20,7 @@ public class GetActionableAdviceOnAlertQueryHandler : IRequestHandler<GetActiona
     {
         var alert = _alertRepositories.GetAlert(request.alertId);
 
-        var advice = await this._advisor.GetAdvice(this.GetAssistantContext(), GetAssistantInstruction(alert));
+        var advice = await this._advisor.GetMessage(this.GetAssistantContext(), GetAssistantInstruction(alert));
 
         return advice;
     }
