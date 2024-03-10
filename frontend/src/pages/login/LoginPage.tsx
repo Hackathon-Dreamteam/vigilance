@@ -8,6 +8,9 @@ const Title = styled.h1`
   ${tw`text-5xl font-black flex items-center flex-col`}
   p {
     ${tw`font-normal text-base text-gray-700 mb-8 mt-2`}
+    svg {
+      ${tw`animate-bounce`}
+    }
   }
 `;
 
@@ -20,7 +23,7 @@ const Container = tw.div`min-h-screen flex justify-center items-center flex-col 
 
 const Logo = styled.div`
   svg {
-    ${tw`w-40 h-full`}
+    ${tw`w-40`}
   }
 `;
 
