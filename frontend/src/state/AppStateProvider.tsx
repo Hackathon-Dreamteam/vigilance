@@ -1,6 +1,6 @@
 import { createContext, useCallback, useMemo, useState } from 'react';
 
-interface AppState {
+export interface AppState {
   region: string;
   regions: string[];
   setState: (state: Partial<AppState>) => void;
@@ -12,16 +12,10 @@ const defaultState = (): AppState => ({
   setState: () => {}
 });
 
-const defaultStateDev: AppState = {
-  ...defaultState(),
-  region: 'Laval',
-  regions: ['Laval', 'Montréal', 'Shawinigan']
-};
-
 export const AppStateContext = createContext<AppState>(defaultState());
 
-const AppStateProvider: ReactFC = ({ children }) => {
-  const [appState, setAppState] = useState(defaultStateDev);
+const AppStateProvider: ReactFC<{ state: Partial<AppState> }> = ({ children, state }) => {
+  const [appState, setAppState] = useState({ ...defaultState(), ...state });
 
   const setState = useCallback(
     (state: Partial<AppState>) => {

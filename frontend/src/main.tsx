@@ -5,12 +5,12 @@ import GlobalStyles from './styles/GlobalStyles.tsx';
 import { RouterProvider, createBrowserRouter } from 'react-router-dom';
 import DashboardPage from './pages/dashboard/DashboardPage.tsx';
 import './styles/main.css';
-import AppStateProvider from './state/AppStateProvider.tsx';
+import LoginPage from './pages/login/LoginPage.tsx';
 
 const router = createBrowserRouter([
   {
     path: '/',
-    Component: App,
+    Component: LoginPage,
     errorElement: <div>Error!</div>
   },
   {
@@ -21,10 +21,10 @@ const router = createBrowserRouter([
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
-    <AppStateProvider>
-      <GlobalStyles />
+    <GlobalStyles />
+    <App>
       <RouterProvider router={router} />
-    </AppStateProvider>
+    </App>
   </React.StrictMode>
 );
 

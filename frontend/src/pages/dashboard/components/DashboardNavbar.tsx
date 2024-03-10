@@ -4,7 +4,7 @@ import { IoIosNotifications } from 'react-icons/io';
 import { useAppState } from '../../../state/useAppState';
 
 const DashboardNavbar: ReactFC = () => {
-  const { region, regions } = useAppState();
+  const { region, regions, setState } = useAppState();
 
   return (
     <Navbar fluid rounded>
@@ -15,7 +15,9 @@ const DashboardNavbar: ReactFC = () => {
       <div className="ml-6">
         <Dropdown label={region} inline>
           {regions.map(x => (
-            <Dropdown.Item key={x}>{x}</Dropdown.Item>
+            <Dropdown.Item key={x} onClick={() => setState({ region: x })}>
+              {x}
+            </Dropdown.Item>
           ))}
         </Dropdown>
       </div>
