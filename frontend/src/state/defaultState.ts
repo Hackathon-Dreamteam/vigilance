@@ -20,7 +20,7 @@ const createObservation = (speciesName: string, obs?: Partial<Observation>): Obs
 });
 
 export const defaultState: Partial<AppState> = {
-  region: 'Laval',
+  region: 'Montréal',
   filterFrom: addYears(new Date(), -1),
   filterTo: new Date(),
   invasiveOnly: true,
