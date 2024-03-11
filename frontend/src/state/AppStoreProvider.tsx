@@ -69,7 +69,7 @@ const AppStoreProvider: ReactFC<{ state: Partial<AppState> }> = ({ children, sta
       // Grouping of observations for map component
       groupedObservations: chain(appState.observations)
         .filter(x => x.date >= (appState.filterFrom ?? new Date()) && x.date <= (appState.filterTo ?? new Date()))
-        .filter(x => x.isInvasive)
+        .filter(x => !appState.invasiveOnly || x.isInvasive)
         .filter(x => x.location === appState.region)
         .groupBy(obs => {
           return `${kebabCase(obs.speciesName)}-${Math.round(obs.geoLocation?.latitude * 1000) / 1000}-${
