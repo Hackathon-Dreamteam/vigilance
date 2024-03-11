@@ -8,6 +8,8 @@ export default {
   theme: {
     extend: {
       animationDuration: {
+        1200: '1200ms',
+        1500: '1500ms',
         2000: '2000ms',
         3000: '3000ms'
       },

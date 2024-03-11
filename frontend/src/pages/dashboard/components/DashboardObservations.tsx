@@ -62,7 +62,7 @@ const DashboardObservations: ReactFC = () => {
           ))}
         </Table.Body>
       </Table>
-      <Pagination layout="navigation" currentPage={currentPage} totalPages={totalPages} onPageChange={setCurrentPage} />
+      {totalPages > 1 && <Pagination layout="navigation" currentPage={currentPage} totalPages={totalPages} onPageChange={setCurrentPage} />}
     </>
   );
 };
