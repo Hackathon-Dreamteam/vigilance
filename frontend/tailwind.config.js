@@ -41,18 +41,18 @@ export default {
           'font-weight': config('theme.fontWeight.bold')
         },
         '.h4': {
+          'line-height': '26px',
+          'font-size': '22px',
+          'font-weight': config('theme.fontWeight.bold')
+        },
+        '.h5': {
           'line-height': '22px',
           'font-size': '18px',
           'font-weight': config('theme.fontWeight.bold')
         },
-        '.h5': {
+        '.h6': {
           'line-height': '18px',
           'font-size': '16px',
-          'font-weight': config('theme.fontWeight.bold')
-        },
-        '.h6': {
-          'line-height': '16px',
-          'font-size': '14px',
           'font-weight': config('theme.fontWeight.bold')
         }
       };

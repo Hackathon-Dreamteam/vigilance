@@ -10,6 +10,7 @@ import { setDefaultOptions } from 'date-fns/setDefaultOptions';
 import { fr } from 'date-fns/locale/fr';
 import './styles/main.css';
 import SpeciesPage from './pages/species/SpeciesPage.tsx';
+import SpeciesDetailsPage from './pages/species/SpeciesDetailsPage.tsx';
 
 setDefaultOptions({ locale: fr });
 
@@ -22,8 +23,12 @@ const router = createBrowserRouter([
         Component: DashboardPage
       },
       {
-        path: '/species/:speciesId',
+        path: '/species',
         Component: SpeciesPage
+      },
+      {
+        path: '/species/:speciesId',
+        Component: SpeciesDetailsPage
       },
       {
         path: '/alerts',

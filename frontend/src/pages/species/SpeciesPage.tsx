@@ -1,13 +1,10 @@
 import { Card } from 'flowbite-react';
-import { useParams } from 'react-router-dom';
 
 const SpeciesPage: ReactFC = () => {
-  const { speciesId } = useParams();
-
   return (
-    <div>
+    <div className="flex flex-col gap-5">
       <Card>
-        <h4>Espèce {speciesId}</h4>
+        <h4>Espèces</h4>
       </Card>
     </div>
   );

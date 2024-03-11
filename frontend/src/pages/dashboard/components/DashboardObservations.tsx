@@ -5,6 +5,7 @@ import { Link } from 'react-router-dom';
 import { useState } from 'react';
 import styled from 'styled-components';
 import tw from 'twin.macro';
+import { capitalize } from 'lodash';
 
 const pageSize = 10;
 
@@ -47,7 +48,7 @@ const DashboardObservations: ReactFC = () => {
           {pagedObservations.map(x => (
             <Table.Row key={x.observationId} className="bg-white dark:border-gray-700 dark:bg-gray-800">
               <TableCell align="left" className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
-                {x.speciesName}
+                {capitalize(x.speciesName)}
               </TableCell>
               <TableCell align="left">{formatDate(x.date)}</TableCell>
               <TableCell align="left">{x.location}</TableCell>

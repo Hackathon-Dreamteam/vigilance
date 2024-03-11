@@ -14,3 +14,8 @@ export interface GeoLocation {
   latitude: number;
   longitude: number;
 }
+
+export interface Species {
+  speciesId: string;
+  speciesName: string;
+}
