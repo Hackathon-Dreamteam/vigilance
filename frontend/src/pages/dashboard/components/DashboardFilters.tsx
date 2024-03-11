@@ -15,7 +15,7 @@ const DashboardFilters: React.FC = () => {
   const formatDate = (date: Date | null) => (date ? format(date, 'PP') : '');
 
   return (
-    <div className="flex items-center gap-4">
+    <div className="flex items-center gap-2">
       <Datepicker
         placeholder="De"
         value={formatDate(filterFrom)}
@@ -31,7 +31,7 @@ const DashboardFilters: React.FC = () => {
         onSelectedDateChanged={x => setState({ filterTo: x })}
         showClearButton={false}
       />
-      <Toggle label="Invasives seulement" checked={invasiveOnly} onChange={x => setState({ invasiveOnly: x })} />
+      <Toggle className="ml-2" label="Invasives seulement" checked={invasiveOnly} onChange={x => setState({ invasiveOnly: x })} />
     </div>
   );
 };

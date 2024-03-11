@@ -15,9 +15,9 @@ const Header: ReactFC = () => {
   return (
     <Navbar fluid rounded className="sticky top-0 z-10 drop-shadow-md">
       <Navbar.Brand as={Link} to="/dashboard">
-        <Icon className="h-8 w-32" />
+        <Icon className="h-8 w-32 fade-in-0 animate-in slide-in-from-left-5 duration-500" />
       </Navbar.Brand>
-      <div className="ml-6">
+      <div className="ml-6 animate-in slide-in-from-top-2 duration-1000 delay-500 fade-in fill-mode-both">
         <Dropdown label={region} inline>
           {regions.map(x => (
             <Dropdown.Item key={x} onClick={() => setState({ region: x })}>

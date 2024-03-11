@@ -22,7 +22,7 @@ const DashboardPage: ReactFC = () => {
           </Card>
           <div className="rounded overflow-clip">
             <Card>
-              <h4>Carte intéractive</h4>
+              <h5>Carte intéractive</h5>
               <DashboardMap />
             </Card>
           </div>
@@ -31,7 +31,7 @@ const DashboardPage: ReactFC = () => {
           <Card key={region}>
             <div className="flex">
               <div className="mb-2">
-                <h3>Observations</h3>
+                <h4>Observations</h4>
                 <p className="text-gray-500 mt-0.5">Espèces invasives</p>
               </div>
               <div className="ml-auto">

@@ -1,14 +1,28 @@
 import flowbitePlugin from 'flowbite/plugin';
 import plugin from 'tailwindcss/plugin';
+import animatePlugin from 'tailwindcss-animate';
 
 /** @type {import('tailwindcss').Config} */
 export default {
   content: ['./index.html', './src/**/*.{js,ts,jsx,tsx}', 'node_modules/flowbite-react/**/*.{js,jsx,ts,tsx}'],
   theme: {
-    extend: {}
+    extend: {
+      animationDuration: {
+        1200: '1200ms',
+        1500: '1500ms',
+        2000: '2000ms',
+        3000: '3000ms'
+      },
+      animationDelay: {
+        1200: '1200ms',
+        2000: '2000ms',
+        3000: '3000ms'
+      }
+    }
   },
   plugins: [
     flowbitePlugin,
+    animatePlugin,
     plugin(({ addUtilities, config }) => {
       const newUtilities = {
         '.h1': {
@@ -27,18 +41,18 @@ export default {
           'font-weight': config('theme.fontWeight.bold')
         },
         '.h4': {
+          'line-height': '26px',
+          'font-size': '22px',
+          'font-weight': config('theme.fontWeight.bold')
+        },
+        '.h5': {
           'line-height': '22px',
           'font-size': '18px',
           'font-weight': config('theme.fontWeight.bold')
         },
-        '.h5': {
+        '.h6': {
           'line-height': '18px',
           'font-size': '16px',
-          'font-weight': config('theme.fontWeight.bold')
-        },
-        '.h6': {
-          'line-height': '16px',
-          'font-size': '14px',
           'font-weight': config('theme.fontWeight.bold')
         }
       };
