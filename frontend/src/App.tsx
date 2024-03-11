@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import Header from './components/layout/Header';
 import { defaultState } from './state/defaultState';
 import { ApiHttpService } from './services/http/http-service';
-import { Observation } from './state/models';
+import { Alert, Observation } from './state/models';
 import { merge } from 'lodash';
 import { Spinner } from 'flowbite-react';
 import { useMinimumLoading } from './hooks/useMinimumLoading';
@@ -19,11 +19,29 @@ const useFetchAppData = () => {
     fetchData();
   }, []);
 
+  const toTitleCase = str => {
+    return str.replace(/[^\s]+/g, word => {
+      return word.replace(/^./, first => {
+        return first.toUpperCase();
+      });
+    });
+  };
+
   const fetchData = async () => {
+    // Fetch all observations
     const { response: observations } = await ApiHttpService.get<Observation[]>('/observations');
 
+    // Fetch all alerts
+    const { response: alerts } = await ApiHttpService.get<Alert[]>('/alerts');
+
+    // Clean data
     const state: Partial<AppState> = {
-      observations: observations?.map(x => ({ ...x, location: x.location === 'Montreal' ? 'Montréal' : x.location }))
+      observations: observations?.map(x => ({
+        ...x,
+        speciesName: toTitleCase(x.speciesName),
+        location: x.location === 'Montreal' ? 'Montréal' : x.location
+      })),
+      alerts: alerts
     };
 
     setAppState(merge(state, defaultState) as AppState);

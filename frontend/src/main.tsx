@@ -11,6 +11,7 @@ import { fr } from 'date-fns/locale/fr';
 import './styles/main.css';
 import SpeciesPage from './pages/species/SpeciesPage.tsx';
 import SpeciesDetailsPage from './pages/species/SpeciesDetailsPage.tsx';
+import ObservationPage from './pages/observation/ObservationPage.tsx';
 
 setDefaultOptions({ locale: fr });
 
@@ -33,6 +34,10 @@ const router = createBrowserRouter([
       {
         path: '/alerts',
         Component: AlertPage
+      },
+      {
+        path: '/observation/:observationId',
+        Component: ObservationPage
       }
     ],
     errorElement: <div>Error!</div>

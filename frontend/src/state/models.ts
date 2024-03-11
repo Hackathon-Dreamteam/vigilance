@@ -19,3 +19,11 @@ export interface Species {
   speciesId: string;
   speciesName: string;
 }
+
+export interface Alert {
+  id: string;
+  date: Date;
+  locations: string;
+  speciesName: string;
+  type: string;
+}

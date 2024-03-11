@@ -4,6 +4,7 @@ import { HiLink } from 'react-icons/hi';
 import { HiMiniEye } from 'react-icons/hi2';
 import { Observation } from '../../../state/models';
 import { format } from 'date-fns/format';
+import { Link } from 'react-router-dom';
 
 interface Props {
   observations: Observation[];
@@ -11,14 +12,6 @@ interface Props {
 }
 
 const MapInfowindow: ReactFC<Props> = ({ observations, setPopupInfo }) => {
-  const toTitleCase = str => {
-    return str.replace(/[^\s]+/g, word => {
-      return word.replace(/^./, first => {
-        return first.toUpperCase();
-      });
-    });
-  };
-
   return (
     <Popup
       anchor="bottom"
@@ -31,7 +24,7 @@ const MapInfowindow: ReactFC<Props> = ({ observations, setPopupInfo }) => {
       <div className="grid gap-2 grid-cols-2 divide-y">
         <div className="col-span-2 flex gap-5 flex-col">
           <h4>
-            {toTitleCase(observations[0].speciesName)}
+            <Link to={`/observation/${observations[0].observationId}`}>{observations[0].speciesName}</Link>
             <Badge color="green" icon={HiMiniEye} className="inline-flex ml-2">
               {observations.length}
             </Badge>

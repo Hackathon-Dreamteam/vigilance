@@ -21,6 +21,7 @@ const DashboardMap: ReactFC = () => {
   // Map reference to update viewport if the data change
   const mapRef = useRef<MapRef>(null);
   useEffect(() => {
+    setPopupInfo([]);
     fitMapBoundsToObservations();
   }, [filteredObservations]);
 
@@ -28,7 +29,6 @@ const DashboardMap: ReactFC = () => {
     // Calculate max viewport
     const coordinates = filteredObservations.map(obs => obs.geoLocation).filter(obs => !!obs?.latitude && !!obs.longitude);
 
-    console.log(coordinates);
     if (Array.isArray(coordinates) && coordinates.length > 0) {
       // Create a 'LngLatBounds' with both corners at the first coordinate.
       const bounds = new mapboxgl.LngLatBounds(
@@ -69,6 +69,12 @@ const DashboardMap: ReactFC = () => {
           dragRotate={false}
           terrain={{ source: 'mapbox-dem', exaggeration: 5 }}
           onLoad={fitMapBoundsToObservations}
+          onMove={() => setPopupInfo([])}
+          // Limits to +- Quebec
+          maxBounds={[
+            [-79.5031, 44.7499], // Southwest coordinates
+            [-57.8113, 53.2532] // Northeast coordinates
+          ]}
         >
           {/* Controls */}
           <FullscreenControl position="bottom-right" />
@@ -122,7 +128,6 @@ const DashboardMap: ReactFC = () => {
                 onClick={e => {
                   e.originalEvent.stopPropagation();
                   setPopupInfo(groupedObservation);
-                  console.log('click');
                 }}
               >
                 <HiMapPin color="transparent" size={15} cursor={'pointer'} style={{ transform: 'translate(0px, 7px)' }} />
@@ -132,6 +137,9 @@ const DashboardMap: ReactFC = () => {
 
           {/* Terrain layer */}
           <Source id="mapbox-dem" type="raster-dem" url="mapbox://mapbox.mapbox-terrain-dem-v1" tileSize={512} maxzoom={14} />
+
+          {/* TODO: Add custom overlay for parks */}
+          {/* See: https://github.com/visgl/react-map-gl/blob/master/examples/custom-overlay/src/app.tsx */}
         </Map>
       </div>
 

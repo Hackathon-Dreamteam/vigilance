@@ -7,8 +7,7 @@ import { Link } from 'react-router-dom';
 const Header: ReactFC = () => {
   const {
     region,
-    alertsCount,
-    computed: { regions },
+    computed: { regions, alertsCount },
     setState
   } = useAppStore();
 

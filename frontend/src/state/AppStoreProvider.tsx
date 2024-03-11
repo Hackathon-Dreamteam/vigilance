@@ -1,5 +1,5 @@
 import { createContext, useCallback, useMemo, useState } from 'react';
-import { Observation } from './models';
+import { Observation, Alert } from './models';
 import { Dictionary, chain, kebabCase } from 'lodash';
 
 export interface AppState {
@@ -10,7 +10,7 @@ export interface AppState {
   invasiveOnly: boolean;
   observations: Observation[];
   // Alerts
-  alertsCount: number | null;
+  alerts: Alert[];
 }
 
 export interface ComputedAppState {
@@ -18,6 +18,7 @@ export interface ComputedAppState {
   filteredObservations: Observation[];
   filteredInvasiveObservations: Observation[];
   groupedObservations: Dictionary<Observation[]>;
+  alertsCount: number;
 }
 
 type AppStore = AppState & {
@@ -30,14 +31,15 @@ const defaultState = (): AppStore => ({
   filterFrom: null,
   filterTo: null,
   invasiveOnly: false,
-  alertsCount: null,
+  alerts: [],
   observations: [],
   setState: () => {},
   computed: {
     filteredObservations: [],
     filteredInvasiveObservations: [],
     groupedObservations: {},
-    regions: []
+    regions: [],
+    alertsCount: 0
   }
 });
 
@@ -80,7 +82,8 @@ const AppStoreProvider: ReactFC<{ state: Partial<AppState> }> = ({ children, sta
       regions: chain(appState.observations)
         .map(x => x.location)
         .uniq()
-        .value()
+        .value(),
+      alertsCount: appState.alerts.length
     }),
     [appState]
   );
