@@ -29,7 +29,7 @@ public class SpeciesController: ControllerBase
     }
 
     [HttpGet]
-    [Route("{speciesName}/generate/image")]
+    [Route("{speciesName}/generate/description")]
     [ProducesResponseType<SpeciesDescription>(200)]
     public async Task<IActionResult> GetDescription([FromRoute] string speciesName, CancellationToken cancellationToken)
     {
@@ -38,7 +38,7 @@ public class SpeciesController: ControllerBase
     }
 
     [HttpGet]
-    [Route("{speciesName}/generate/description")]
+    [Route("{speciesName}/generate/image")]
     [ProducesResponseType<SpeciesImage>(200)]
     public async Task<IActionResult> GetImage([FromRoute] string speciesName, [FromQuery] Locations location, CancellationToken cancellationToken)
     {
