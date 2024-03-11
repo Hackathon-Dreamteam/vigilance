@@ -5,4 +5,9 @@
         <ImplicitUsings>enable</ImplicitUsings>
         <EnforceCodeStyleInBuild>true</EnforceCodeStyleInBuild>
     </PropertyGroup>
+
+    <ItemGroup>
+        <PackageReference Include="Workleap.DotNet.CodingStandards" Version="0.2.0"/>
+    </ItemGroup>
+
 </Project>
