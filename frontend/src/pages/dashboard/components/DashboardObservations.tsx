@@ -36,7 +36,7 @@ const DashboardObservations: ReactFC = () => {
   const pagedObservations = observations.filter((_, idx) => idx >= (currentPage - 1) * pageSize && idx < currentPage * pageSize);
 
   return (
-    <>
+    <div className="overflow-x-auto">
       <Table>
         <Table.Head>
           <TableHeadCell align="left">Nom de l'espèce</TableHeadCell>
@@ -64,7 +64,7 @@ const DashboardObservations: ReactFC = () => {
         </Table.Body>
       </Table>
       {totalPages > 1 && <Pagination layout="navigation" currentPage={currentPage} totalPages={totalPages} onPageChange={setCurrentPage} />}
-    </>
+    </div>
   );
 };
 
