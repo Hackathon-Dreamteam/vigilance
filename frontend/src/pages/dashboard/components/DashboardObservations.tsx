@@ -47,12 +47,12 @@ const DashboardObservations: ReactFC = () => {
           {pagedObservations.map(x => (
             <Table.Row key={x.observationId} className="bg-white dark:border-gray-700 dark:bg-gray-800">
               <TableCell align="left" className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
-                <Link to={`/observation/${x.observationId}`}>{x.speciesName}</Link>
+                <Link to={`/species/${x.speciesName}`}>{x.speciesName}</Link>
               </TableCell>
               <TableCell align="left">{formatDate(x.date)}</TableCell>
               <TableCell align="left">{x.location}</TableCell>
               <TableCell align="right">
-                <Link to={`/species/${x.speciesName}`}>
+                <Link to={`/species/${x.speciesName}/${x.observationId}`}>
                   <Button outline color="gray" size="xs">
                     Détails
                   </Button>

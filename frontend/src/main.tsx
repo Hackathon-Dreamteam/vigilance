@@ -8,10 +8,9 @@ import AlertPage from './pages/alert/AlertPage.tsx';
 import LoginPage from './pages/login/LoginPage.tsx';
 import { setDefaultOptions } from 'date-fns/setDefaultOptions';
 import { fr } from 'date-fns/locale/fr';
-import './styles/main.css';
 import SpeciesPage from './pages/species/SpeciesPage.tsx';
 import SpeciesDetailsPage from './pages/species/SpeciesDetailsPage.tsx';
-import ObservationPage from './pages/observation/ObservationPage.tsx';
+import './styles/main.css';
 
 setDefaultOptions({ locale: fr });
 
@@ -28,16 +27,12 @@ const router = createBrowserRouter([
         Component: SpeciesPage
       },
       {
-        path: '/species/:speciesId',
+        path: '/species/:speciesId/:observationId?',
         Component: SpeciesDetailsPage
       },
       {
         path: '/alerts',
         Component: AlertPage
-      },
-      {
-        path: '/observation/:observationId',
-        Component: ObservationPage
       }
     ],
     errorElement: <div>Error!</div>

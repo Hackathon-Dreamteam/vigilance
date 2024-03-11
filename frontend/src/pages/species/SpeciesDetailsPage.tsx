@@ -1,10 +1,9 @@
 import { Breadcrumb, Card } from 'flowbite-react';
-import { capitalize } from 'lodash';
 import { Link, useParams } from 'react-router-dom';
 
 const SpeciesDetailsPage: ReactFC = () => {
-  const { speciesId } = useParams();
-  const speciesName = capitalize(speciesId);
+  const { speciesId, observationId } = useParams();
+  const speciesName = speciesId;
 
   return (
     <div className="flex flex-col gap-5">
@@ -18,6 +17,7 @@ const SpeciesDetailsPage: ReactFC = () => {
       </Breadcrumb>
       <Card>
         <h4>{speciesName}</h4>
+        <div>{observationId}</div>
       </Card>
     </div>
   );
