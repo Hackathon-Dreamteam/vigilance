@@ -1,13 +1,16 @@
-import Map, { Source, Layer, FullscreenControl, NavigationControl, Marker, Popup } from 'react-map-gl';
+import Map, { Source, Layer, FullscreenControl, NavigationControl, Marker, MapRef } from 'react-map-gl';
 import { HeatmapType, heatmapLayer } from './HeatmapLayer';
 import { useAppStore } from '../../../state/useAppStore';
 import { Badge } from 'flowbite-react';
-import { HiLink, HiOutlineQuestionMarkCircle } from 'react-icons/hi';
+import { HiOutlineQuestionMarkCircle } from 'react-icons/hi';
 import { map } from 'lodash';
-import { HiMapPin, HiMiniEye } from 'react-icons/hi2';
-import { useState } from 'react';
+import { HiMapPin } from 'react-icons/hi2';
+import { useEffect, useRef, useState } from 'react';
 import { Observation } from '../../../state/models';
-import { format } from 'date-fns/format';
+import MapInfowindow from './MapInfowindow';
+import mapboxgl from 'mapbox-gl';
+
+const PITCH = 55;
 
 const DashboardMap: ReactFC = () => {
   const {
@@ -15,25 +18,46 @@ const DashboardMap: ReactFC = () => {
   } = useAppStore();
   const [popupInfo, setPopupInfo] = useState<Observation[]>([]);
 
-  const toTitleCase = str => {
-    return str.replace(/[^\s]+/g, word => {
-      return word.replace(/^./, first => {
-        return first.toUpperCase();
-      });
-    });
+  // Map reference to update viewport if the data change
+  const mapRef = useRef<MapRef>(null);
+  useEffect(() => {
+    fitMapBoundsToObservations();
+  }, [filteredObservations]);
+
+  const fitMapBoundsToObservations = () => {
+    // Calculate max viewport
+    const coordinates = filteredObservations.map(obs => obs.geoLocation).filter(obs => !!obs?.latitude && !!obs.longitude);
+
+    console.log(coordinates);
+    if (Array.isArray(coordinates) && coordinates.length > 0) {
+      // Create a 'LngLatBounds' with both corners at the first coordinate.
+      const bounds = new mapboxgl.LngLatBounds(
+        { lat: coordinates[0].latitude, lng: coordinates[0].longitude },
+        { lat: coordinates[0].latitude, lng: coordinates[0].longitude }
+      );
+
+      // Extend the 'LngLatBounds' to include every coordinate in the bounds result.
+      for (const coord of coordinates) {
+        bounds.extend({ lat: coord.latitude, lng: coord.longitude });
+      }
+
+      // Fit to bounds and keep pitch
+      mapRef.current?.fitBounds(bounds, { padding: 20, duration: 2000, pitch: PITCH });
+    }
   };
 
   return (
     <>
       <div className="border rounded-lg overflow-hidden">
         <Map
+          ref={mapRef}
           mapboxAccessToken={import.meta.env.VITE_MAPBOX_API_KEY}
           mapLib={import('mapbox-gl')}
           initialViewState={{
-            longitude: -73.75071015103065,
-            latitude: 45.57540158945462,
+            longitude: -73.75,
+            latitude: 45.57,
             zoom: 11,
-            pitch: 55
+            pitch: PITCH
           }}
           style={{ width: '100%', height: 600 }}
           mapStyle="mapbox://styles/felixlechat21/cltltffsh00xw01qpceyi4h9l"
@@ -44,6 +68,7 @@ const DashboardMap: ReactFC = () => {
           // Prevent rorate on mouse drag
           dragRotate={false}
           terrain={{ source: 'mapbox-dem', exaggeration: 5 }}
+          onLoad={fitMapBoundsToObservations}
         >
           {/* Controls */}
           <FullscreenControl position="bottom-right" />
@@ -103,63 +128,7 @@ const DashboardMap: ReactFC = () => {
                 <HiMapPin color="transparent" size={15} cursor={'pointer'} style={{ transform: 'translate(0px, 7px)' }} />
               </Marker>
             ))}
-          {Array.isArray(popupInfo) && popupInfo.length > 0 && (
-            <Popup
-              anchor="bottom"
-              longitude={Number(popupInfo[0].geoLocation.longitude)}
-              latitude={Number(popupInfo[0].geoLocation.latitude)}
-              onClose={() => setPopupInfo([])}
-              className="min-w-72"
-            >
-              <div className="grid gap-2 grid-cols-2 divide-y">
-                <div className="col-span-2 flex gap-5 flex-col">
-                  <h4>
-                    {toTitleCase(popupInfo[0].speciesName)}
-                    <Badge color="green" icon={HiMiniEye} className="inline-flex ml-2">
-                      {popupInfo.length}
-                    </Badge>
-                  </h4>
-                </div>
-                <div className="col-span-2 flex gap-1 flex-col">
-                  <p className="mt-2">
-                    <b>Source de la donnée : </b>
-                    {popupInfo[0].source}
-                  </p>
-                  <p>
-                    <b>Ville : </b>
-                    {popupInfo[0].location}
-                  </p>
-                  <p>
-                    <b>Date Observés : </b>
-                    {popupInfo.map(obs => format(obs.date, 'PP')).join(', ')}
-                  </p>
-                  <p>
-                    <b>Invasif : </b>
-                    {popupInfo[0].isInvasive ? 'Oui' : 'Non'}
-                  </p>
-                  <p>
-                    <b>Précaire : </b>
-                    {popupInfo[0].isPrecarious ? 'Oui' : 'Non'}
-                  </p>
-                  <p>
-                    <b>Observations : </b>
-                  </p>
-                  <ul className="list-disc ml-3">
-                    {popupInfo.map(obs => (
-                      <li>
-                        <b>
-                          <a href={obs.imageUrl} target="_blank" className="text-blue-700">
-                            Lien Externe
-                            <HiLink className="inline-block ml-1" />
-                          </a>
-                        </b>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              </div>
-            </Popup>
-          )}
+          {Array.isArray(popupInfo) && popupInfo.length > 0 && <MapInfowindow observations={popupInfo} setPopupInfo={setPopupInfo} />}
 
           {/* Terrain layer */}
           <Source id="mapbox-dem" type="raster-dem" url="mapbox://mapbox.mapbox-terrain-dem-v1" tileSize={512} maxzoom={14} />

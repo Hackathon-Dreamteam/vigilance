@@ -8,6 +8,7 @@ import { HiArrowNarrowRight } from 'react-icons/hi';
 
 const Datepicker = styled(FlowbiteDatepicker)`
   ${tw`w-40`}
+  ${tw`[input]:bg-white`}
 `;
 
 const DashboardFilters: React.FC = () => {
