@@ -4,13 +4,11 @@ import tw, { styled } from 'twin.macro';
 import Icon from '@/assets/logo.svg?react';
 import { HiOutlineHeart } from 'react-icons/hi';
 
-const Title = styled.h1`
-  ${tw`text-5xl font-black flex items-center flex-col`}
-  p {
-    ${tw`font-normal text-base text-gray-700 mb-8 mt-2`}
-    svg {
-      ${tw`animate-bounce`}
-    }
+const Content = styled.div`
+  ${tw`flex flex-col items-center text-gray-700 gap-3 mt-2`}
+  ${tw`animate-in fade-in-0 slide-in-from-top-1 delay-1200 duration-3000 fill-mode-both`}
+  svg {
+    ${tw`animate-bounce`}
   }
 `;
 
@@ -22,27 +20,28 @@ const Title = styled.h1`
 const Container = tw.div`min-h-screen flex justify-center items-center flex-col bg-gray-50`;
 
 const Logo = styled.div`
+  ${tw`animate-in fade-in-0 delay-200 duration-3000 fill-mode-both`}
   svg {
-    ${tw`w-40`}
+    ${tw`w-56`}
   }
 `;
 
 const LoginPage: ReactFC = () => {
   return (
     <Container>
-      <Title>
-        <Logo>
-          <Icon />
-        </Logo>
-        <p>
+      <Logo>
+        <Icon />
+      </Logo>
+      <Content>
+        <div className="ml-2.5">
           <span>Fait avec</span>
           <HiOutlineHeart className="inline-block mx-1" color="red" />
           <span>au Québec</span>
-        </p>
+        </div>
         <Link to="/dashboard">
           <Button color="dark">Log In</Button>
         </Link>
-      </Title>
+      </Content>
     </Container>
   );
 };

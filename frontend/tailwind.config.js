@@ -1,14 +1,26 @@
 import flowbitePlugin from 'flowbite/plugin';
 import plugin from 'tailwindcss/plugin';
+import animatePlugin from 'tailwindcss-animate';
 
 /** @type {import('tailwindcss').Config} */
 export default {
   content: ['./index.html', './src/**/*.{js,ts,jsx,tsx}', 'node_modules/flowbite-react/**/*.{js,jsx,ts,tsx}'],
   theme: {
-    extend: {}
+    extend: {
+      animationDuration: {
+        2000: '2000ms',
+        3000: '3000ms'
+      },
+      animationDelay: {
+        1200: '1200ms',
+        2000: '2000ms',
+        3000: '3000ms'
+      }
+    }
   },
   plugins: [
     flowbitePlugin,
+    animatePlugin,
     plugin(({ addUtilities, config }) => {
       const newUtilities = {
         '.h1': {
