@@ -7,6 +7,7 @@ export interface AppState {
   region: string;
   filterFrom: Date | null;
   filterTo: Date | null;
+  filterSpecies: string[];
   invasiveOnly: boolean;
   observations: Observation[];
   // Alerts
@@ -19,6 +20,7 @@ export interface ComputedAppState {
   filteredInvasiveObservations: Observation[];
   groupedObservations: Dictionary<Observation[]>;
   alertsCount: number;
+  species: string[];
 }
 
 type AppStore = AppState & {
@@ -30,6 +32,7 @@ const defaultState = (): AppStore => ({
   region: '',
   filterFrom: null,
   filterTo: null,
+  filterSpecies: [],
   invasiveOnly: false,
   alerts: [],
   observations: [],
@@ -39,7 +42,8 @@ const defaultState = (): AppStore => ({
     filteredInvasiveObservations: [],
     groupedObservations: {},
     regions: [],
-    alertsCount: 0
+    alertsCount: 0,
+    species: []
   }
 });
 
@@ -83,7 +87,12 @@ const AppStoreProvider: ReactFC<{ state: Partial<AppState> }> = ({ children, sta
         .map(x => x.location)
         .uniq()
         .value(),
-      alertsCount: appState.alerts.length
+      alertsCount: appState.alerts.length,
+      species: chain(appState.observations)
+        .map(x => x.speciesName)
+        .uniq()
+        .sort()
+        .value()
     }),
     [appState]
   );

@@ -39,7 +39,7 @@ const LoginPage: ReactFC = () => {
           <span>au Québec</span>
         </div>
         <Link to="/dashboard">
-          <Button color="dark">Se connecter</Button>
+          <Button color="dark">Se Connecter</Button>
         </Link>
       </Content>
     </Container>

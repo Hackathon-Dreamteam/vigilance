@@ -31,3 +31,26 @@ h6 {
   width: 20px;
   font-size: 15px;
 }
+
+/* Custom for React Select */
+.react-select__control {
+  height: 42px;
+  overflow: hidden;
+
+  /* .rounded-lg */
+  border-radius: 0.5rem !important;
+
+  /* .border-gray-300 */
+  --tw-border-opacity: 1;
+  border-color: rgb(209 213 219 / var(--tw-border-opacity)) !important;
+}
+.react-select__indicators-container {
+  height: 42px;
+  overflow: hidden;
+}
+.react-select__value-container {
+  padding: 4px 8px !important;
+}
+.react-select__input > input {
+  box-shadow: none !important;
+}
