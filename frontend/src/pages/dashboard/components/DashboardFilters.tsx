@@ -1,5 +1,5 @@
 import { Datepicker as FlowbiteDatepicker, Select as FlowbiteSelect } from 'flowbite-react';
-import Select from 'react-select';
+import Select, { Options } from 'react-select';
 
 import { useAppStore } from '../../../state/useAppStore';
 import styled from 'styled-components';
@@ -46,18 +46,19 @@ const DashboardFilters: React.FC = () => {
       />
       <StyledSelect
         options={options}
+        onChange={newValue => {
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+          const selectedSpecies = (newValue as any[]).map(x => x.value);
+          setState({ filterSpecies: selectedSpecies });
+        }}
         isMulti
         isClearable
         isSearchable
         backspaceRemovesValue
         closeMenuOnSelect={false}
         hideSelectedOptions={false}
-        classNames={{
-          control: _ => 'react-select__control',
-          indicatorsContainer: _ => 'react-select__indicators-container',
-          valueContainer: _ => 'react-select__value-container',
-          input: _ => 'react-select__input'
-        }}
+        placeholder={'Espèces'}
+        classNamePrefix={'react-select'}
       />
       <Toggle className="ml-2" label="Invasives seulement" checked={invasiveOnly} onChange={x => setState({ invasiveOnly: x })} />
     </div>

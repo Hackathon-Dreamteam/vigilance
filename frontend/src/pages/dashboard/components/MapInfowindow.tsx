@@ -14,6 +14,7 @@ interface Props {
 const MapInfowindow: ReactFC<Props> = ({ observations, setPopupInfo }) => {
   return (
     <Popup
+      key="infowindow"
       anchor="bottom"
       longitude={Number(observations[0].geoLocation.longitude)}
       latitude={Number(observations[0].geoLocation.latitude)}

@@ -64,11 +64,13 @@ const AppStoreProvider: ReactFC<{ state: Partial<AppState> }> = ({ children, sta
       filteredObservations: appState.observations
         .filter(x => x.date >= (appState.filterFrom ?? new Date()) && x.date <= (appState.filterTo ?? new Date()))
         .filter(x => !appState.invasiveOnly || x.isInvasive)
-        .filter(x => x.location === appState.region),
+        .filter(x => x.location === appState.region)
+        .filter(x => appState.filterSpecies.length == 0 || appState.filterSpecies.includes(x.speciesName)),
       filteredInvasiveObservations: chain(appState.observations)
         .filter(x => x.date >= (appState.filterFrom ?? new Date()) && x.date <= (appState.filterTo ?? new Date()))
         .filter(x => x.isInvasive)
         .filter(x => x.location === appState.region)
+        .filter(x => appState.filterSpecies.length == 0 || appState.filterSpecies.includes(x.speciesName))
         .orderBy(x => x.date, 'desc')
         .value(),
 
@@ -77,6 +79,7 @@ const AppStoreProvider: ReactFC<{ state: Partial<AppState> }> = ({ children, sta
         .filter(x => x.date >= (appState.filterFrom ?? new Date()) && x.date <= (appState.filterTo ?? new Date()))
         .filter(x => !appState.invasiveOnly || x.isInvasive)
         .filter(x => x.location === appState.region)
+        .filter(x => appState.filterSpecies.length == 0 || appState.filterSpecies.includes(x.speciesName))
         .groupBy(obs => {
           return `${kebabCase(obs.speciesName)}-${Math.round(obs.geoLocation?.latitude * 1000) / 1000}-${
             Math.round(obs.geoLocation?.longitude * 1000) / 1000
@@ -89,6 +92,8 @@ const AppStoreProvider: ReactFC<{ state: Partial<AppState> }> = ({ children, sta
         .value(),
       alertsCount: appState.alerts.length,
       species: chain(appState.observations)
+        .filter(x => x.date >= (appState.filterFrom ?? new Date()) && x.date <= (appState.filterTo ?? new Date()))
+        .filter(x => x.location === appState.region)
         .map(x => x.speciesName)
         .uniq()
         .sort()

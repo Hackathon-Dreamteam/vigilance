@@ -44,13 +44,36 @@ h6 {
   --tw-border-opacity: 1;
   border-color: rgb(209 213 219 / var(--tw-border-opacity)) !important;
 }
-.react-select__indicators-container {
+.react-select__indicators {
   height: 42px;
   overflow: hidden;
 }
 .react-select__value-container {
   padding: 4px 8px !important;
 }
-.react-select__input > input {
+.react-select__input-container > input {
   box-shadow: none !important;
+}
+.react-select__placeholder {
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+}
+.react-select__menu {
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+}
+.react-select__option--is-selected {
+  color: #fff !important;
+  background-color: rgb(86, 115, 72) !important;
+  opacity: 0.8 !important;
+}
+.react-select__option--is-selected:hover {
+  background-color: rgb(86, 115, 72) !important;
+  opacity: 0.95 !important;
+}
+.react-select__option:hover {
+  background-color: rgba(86, 115, 72, 0.5);
+}
+.react-select__multi-value {
+  margin: 10px 0px;
 }

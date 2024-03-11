@@ -42,7 +42,7 @@ const DashboardMap: ReactFC = () => {
       }
 
       // Fit to bounds and keep pitch
-      mapRef.current?.fitBounds(bounds, { padding: 20, duration: 2000, pitch: PITCH });
+      mapRef.current?.fitBounds(bounds, { padding: 20, duration: 2000, pitch: PITCH, maxZoom: 16 });
     }
   };
 
