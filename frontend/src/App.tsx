@@ -3,13 +3,21 @@ import Header from './components/layout/Header';
 import { defaultState } from './state/defaultState';
 import { ApiHttpService } from './services/http/http-service';
 import { Alert, Observation } from './state/models';
-import { merge, startCase } from 'lodash';
+import { merge } from 'lodash';
 import { Spinner } from 'flowbite-react';
 import { useMinimumLoading } from './hooks/useMinimumLoading';
 import { Outlet, useLocation } from 'react-router-dom';
 import AppStoreProvider, { AppState } from './state/AppStoreProvider';
 import styled from 'styled-components';
 import tw, { theme } from 'twin.macro';
+
+const toTitleCase = str => {
+  return str.replace(/[^\s]+/g, word => {
+    return word.replace(/^./, first => {
+      return first.toUpperCase();
+    });
+  });
+};
 
 const useFetchAppData = () => {
   const [appState, setAppState] = useState<AppState>();
@@ -25,8 +33,10 @@ const useFetchAppData = () => {
     const state: Partial<AppState> = {
       observations: observations?.map(x => ({
         ...x,
-        speciesName: startCase(x.speciesName),
-        location: x.location === 'Montreal' ? 'Montréal' : x.location
+        // Fix casing (note: lodash startCase break diacritics)
+        speciesName: toTitleCase(x.speciesName),
+        location: x.location === 'Montreal' ? 'Montréal' : x.location,
+        source: x.source === 'Community' ? 'iNaturalist' : x.source == 'Government' ? 'Sentinelle' : x.source
       })),
       alerts: alerts
     };

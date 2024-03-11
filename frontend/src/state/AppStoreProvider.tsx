@@ -8,6 +8,7 @@ export interface AppState {
   filterFrom: Date | null;
   filterTo: Date | null;
   filterSpecies: string[];
+  filterSource: string | null;
   invasiveOnly: boolean;
   observations: Observation[];
   // Alerts
@@ -21,6 +22,7 @@ export interface ComputedAppState {
   groupedObservations: Dictionary<Observation[]>;
   alertsCount: number;
   species: string[];
+  sources: string[];
 }
 
 type AppStore = AppState & {
@@ -33,6 +35,7 @@ const defaultState = (): AppStore => ({
   filterFrom: null,
   filterTo: null,
   filterSpecies: [],
+  filterSource: null,
   invasiveOnly: false,
   alerts: [],
   observations: [],
@@ -43,7 +46,8 @@ const defaultState = (): AppStore => ({
     groupedObservations: {},
     regions: [],
     alertsCount: 0,
-    species: []
+    species: [],
+    sources: []
   }
 });
 
@@ -65,12 +69,14 @@ const AppStoreProvider: ReactFC<{ state: Partial<AppState> }> = ({ children, sta
         .filter(x => x.date >= (appState.filterFrom ?? new Date()) && x.date <= (appState.filterTo ?? new Date()))
         .filter(x => !appState.invasiveOnly || x.isInvasive)
         .filter(x => x.location === appState.region)
-        .filter(x => appState.filterSpecies.length == 0 || appState.filterSpecies.includes(x.speciesName)),
+        .filter(x => appState.filterSpecies.length == 0 || appState.filterSpecies.includes(x.speciesName))
+        .filter(x => !appState.filterSource || appState.filterSource == x.source),
       filteredInvasiveObservations: chain(appState.observations)
         .filter(x => x.date >= (appState.filterFrom ?? new Date()) && x.date <= (appState.filterTo ?? new Date()))
         .filter(x => x.isInvasive)
         .filter(x => x.location === appState.region)
         .filter(x => appState.filterSpecies.length == 0 || appState.filterSpecies.includes(x.speciesName))
+        .filter(x => !appState.filterSource || appState.filterSource == x.source)
         .orderBy(x => x.date, 'desc')
         .value(),
 
@@ -80,6 +86,7 @@ const AppStoreProvider: ReactFC<{ state: Partial<AppState> }> = ({ children, sta
         .filter(x => !appState.invasiveOnly || x.isInvasive)
         .filter(x => x.location === appState.region)
         .filter(x => appState.filterSpecies.length == 0 || appState.filterSpecies.includes(x.speciesName))
+        .filter(x => !appState.filterSource || appState.filterSource == x.source)
         .groupBy(obs => {
           return `${kebabCase(obs.speciesName)}-${Math.round(obs.geoLocation?.latitude * 1000) / 1000}-${
             Math.round(obs.geoLocation?.longitude * 1000) / 1000
@@ -95,6 +102,13 @@ const AppStoreProvider: ReactFC<{ state: Partial<AppState> }> = ({ children, sta
         .filter(x => x.date >= (appState.filterFrom ?? new Date()) && x.date <= (appState.filterTo ?? new Date()))
         .filter(x => x.location === appState.region)
         .map(x => x.speciesName)
+        .uniq()
+        .sort()
+        .value(),
+      sources: chain(appState.observations)
+        .filter(x => x.date >= (appState.filterFrom ?? new Date()) && x.date <= (appState.filterTo ?? new Date()))
+        .filter(x => x.location === appState.region)
+        .map(x => x.source)
         .uniq()
         .sort()
         .value()

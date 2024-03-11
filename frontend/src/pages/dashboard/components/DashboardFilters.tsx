@@ -13,17 +13,26 @@ const Datepicker = styled(FlowbiteDatepicker)`
   ${tw`[input]:bg-white`}
 `;
 
-const StyledSelect = styled(Select)`
+const StyledSpecieSelect = styled(Select)`
+  ${tw`w-64`}
+  ${tw`[select]:bg-white`}
+`;
+
+const StyledSourceSelect = styled(Select)`
   ${tw`w-64`}
   ${tw`[select]:bg-white`}
 `;
 
 const DashboardFilters: React.FC = () => {
   const { filterFrom, filterTo, invasiveOnly, setState, computed } = useAppStore();
-  const { species } = computed;
+  const { species, sources } = computed;
   const formatDate = (date: Date | null) => (date ? format(date, 'PP') : '');
 
-  const options = species.map(x => {
+  const specieOptions = species.map(x => {
+    return { value: x, label: x };
+  });
+
+  const sourceOptions = sources.map(x => {
     return { value: x, label: x };
   });
 
@@ -44,8 +53,8 @@ const DashboardFilters: React.FC = () => {
         onSelectedDateChanged={x => setState({ filterTo: x })}
         showClearButton={false}
       />
-      <StyledSelect
-        options={options}
+      <StyledSpecieSelect
+        options={specieOptions}
         onChange={newValue => {
           // eslint-disable-next-line @typescript-eslint/no-explicit-any
           const selectedSpecies = (newValue as any[]).map(x => x.value);
@@ -58,6 +67,20 @@ const DashboardFilters: React.FC = () => {
         closeMenuOnSelect={false}
         hideSelectedOptions={false}
         placeholder={'Espèces'}
+        classNamePrefix={'react-select'}
+      />
+      <StyledSourceSelect
+        options={sourceOptions}
+        onChange={newValue => {
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+          const selectedSource = (newValue as any)?.value;
+          setState({ filterSource: selectedSource });
+        }}
+        isClearable
+        isSearchable
+        closeMenuOnSelect={true}
+        hideSelectedOptions={false}
+        placeholder={'Source de données'}
         classNamePrefix={'react-select'}
       />
       <Toggle className="ml-2" label="Invasives seulement" checked={invasiveOnly} onChange={x => setState({ invasiveOnly: x })} />
