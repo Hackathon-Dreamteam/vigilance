@@ -92,9 +92,7 @@ const DashboardPage: ReactFC = () => {
           </Card>
         </div>
       </div>
-      <div className="rounded-lg overflow-hidden">
-        <DashboardMap />
-      </div>
+      <DashboardMap />
     </div>
   );
 };

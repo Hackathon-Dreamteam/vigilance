@@ -10,7 +10,7 @@ import { useMemo } from 'react';
 
 const Main = styled.main`
   min-height: calc(100vh - ${theme`spacing.24`});
-  ${tw`bg-gray-50 flex flex-col gap-5 pt-6 px-8 overflow-hidden pb-24 animate-in fade-in-0 slide-in-from-bottom-1 duration-1200`}
+  ${tw`bg-gray-50 flex flex-col gap-5 pt-6 px-8 overflow-visible pb-24 animate-in fade-in-0 slide-in-from-bottom-1 duration-1200`}
 `;
 
 const AppWithStore: ReactFC = ({ children }) => {

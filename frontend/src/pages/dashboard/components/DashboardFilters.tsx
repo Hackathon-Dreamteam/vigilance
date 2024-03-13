@@ -37,7 +37,7 @@ const DashboardFilters: React.FC = () => {
   });
 
   return (
-    <div className="flex items-center gap-2">
+    <div className="flex items-center gap-2 z-20">
       <Datepicker
         placeholder="De"
         value={formatDate(filterFrom)}
