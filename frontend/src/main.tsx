@@ -44,10 +44,12 @@ const router = createBrowserRouter([
 ]);
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
-  <React.StrictMode>
+  // <React.StrictMode>
+  <>
     <GlobalStyles />
     <RouterProvider router={router} />
-  </React.StrictMode>
+  </>
+  // </React.StrictMode>
 );
 
 if (import.meta.hot) {
