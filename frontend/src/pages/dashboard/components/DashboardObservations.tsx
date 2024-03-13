@@ -1,18 +1,14 @@
 import { Button, Pagination as FlowbitePagination, Table } from 'flowbite-react';
-import { useAppStore } from '../../../state/useAppStore';
 import { format } from 'date-fns/format';
 import { Link } from 'react-router-dom';
 import { useState } from 'react';
 import styled from 'styled-components';
 import tw from 'twin.macro';
+import { Observation } from '../../../state/models';
 
 const pageSize = 10;
 
-const DashboardObservations: ReactFC = () => {
-  const {
-    computed: { filteredInvasiveObservations: observations }
-  } = useAppStore();
-
+const DashboardObservations: ReactFC<{ observations: Observation[] }> = ({ observations }) => {
   const formatDate = (date: Date | null) => (date ? format(date, 'PP') : '');
 
   const [currentPage, setCurrentPage] = useState(1);

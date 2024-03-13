@@ -1,3 +1,10 @@
+export const isRealTimeObservation = (observation: Observation): observation is RealTimeObservation =>
+  (observation as RealTimeObservation)?.isRealTime === true;
+
+export interface RealTimeObservation extends Observation {
+  isRealTime: true;
+}
+
 export interface Observation {
   observationId: string;
   speciesName: string;

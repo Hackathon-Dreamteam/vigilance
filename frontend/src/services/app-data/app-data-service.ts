@@ -1,43 +1,27 @@
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { useMinimumLoading } from '../../hooks/useMinimumLoading';
-import { chain, merge } from 'lodash';
+import { chain } from 'lodash';
 import { AppState } from '../../state/AppStoreProvider';
-import { defaultState } from '../../state/defaultState';
-import { Alert, Observation } from '../../state/models';
+import { Alert, Observation, RealTimeObservation } from '../../state/models';
 import { toTitleCase } from '../../utils/string';
 import { ApiHttpService } from '../http/http-service';
+import { useAppStore } from '../../state/useAppStore';
 
-export const useFetchAppData = () => {
-  const [appState, setAppState] = useState<AppState>();
+export const useAppInitialData = () => {
+  const [appState, setAppState] = useState<Partial<AppState>>();
   const loading = useMinimumLoading(!!appState, 500);
-
-  const refreshObservations = useCallback(async () => {
-    const { response: latestObservations } = await ApiHttpService.get<Observation[]>('/observations/latest');
-
-    const observations = chain(appState?.observations ?? [])
-      .concat(latestObservations ?? [])
-      .uniqBy(x => x.observationId)
-      .value();
-
-    setAppState(merge({ observations }, appState) as AppState);
-  }, [appState]);
 
   const fetchData = useCallback(async () => {
     const observationsPromise = ApiHttpService.get<Observation[]>('/observations');
-    const latestObservationsPromise = ApiHttpService.get<Observation[]>('/observations/latest');
     const alertsPromise = ApiHttpService.get<Alert[]>('/alerts');
 
-    const [{ response: observations }, { response: latestObservations }, { response: alerts }] = await Promise.all([
-      observationsPromise,
-      latestObservationsPromise,
-      alertsPromise
-    ]);
+    const [{ response: observations }, { response: alerts }] = await Promise.all([observationsPromise, alertsPromise]);
 
     // Clean data
     const state: Partial<AppState> = {
-      observations: chain((observations ?? []).concat(latestObservations ?? []))
-        .uniqBy(x => x.observationId)
+      observations: chain(observations ?? [])
         .filter(x => !!x.speciesName)
+        .filter(x => !!x.observationId)
         .map(x => ({
           ...x,
           // Fix casing (note: lodash startCase break diacritics)
@@ -48,6 +32,7 @@ export const useFetchAppData = () => {
         .value(),
       alerts: chain(alerts)
         .filter(x => !!x.speciesName)
+        .filter(x => !!x.id)
         .map(x => ({
           ...x,
           speciesName: toTitleCase(x.speciesName),
@@ -56,7 +41,7 @@ export const useFetchAppData = () => {
         .value()
     };
 
-    setAppState(merge(state, defaultState) as AppState);
+    setAppState(state);
   }, []);
 
   // Fetch initial data
@@ -64,17 +49,43 @@ export const useFetchAppData = () => {
     fetchData();
   }, [fetchData]);
 
+  return { loading, appState };
+};
+
+const mergeLatestObservations = (observations?: Observation[], latestObservations?: Observation[]) => {
+  return chain<Observation>((latestObservations ?? []).map(x => ({ ...x, isRealTime: true } as RealTimeObservation)))
+    .concat(observations ?? [])
+    .uniqBy(x => x.observationId)
+    .value();
+};
+
+export const useObservationRefresh = () => {
+  const { setState, observations } = useAppStore();
+  const initialFetch = useRef(false);
+
+  const refreshObservations = useCallback(async () => {
+    const { response: latestObservations } = await ApiHttpService.get<Observation[]>('/observations/latest');
+
+    setState({ observations: mergeLatestObservations(observations, latestObservations) });
+  }, [observations, setState]);
+
+  // Initial fetch
+  useEffect(() => {
+    if (observations.length > 0 && !initialFetch.current) {
+      initialFetch.current = true;
+
+      setTimeout(() => {
+        refreshObservations();
+      }, 2000);
+    }
+  }, [observations.length, refreshObservations]);
+
   // Fetch latest observations
   useEffect(() => {
-    // Start only after initial fetch is done.
-    if (appState) {
-      const intervalId = setInterval(() => {
-        refreshObservations();
-      }, 10_000);
+    const intervalId = setInterval(() => {
+      refreshObservations();
+    }, 10000);
 
-      return () => clearInterval(intervalId);
-    }
-  }, [appState, refreshObservations]);
-
-  return { loading, appState };
+    return () => clearInterval(intervalId);
+  }, [refreshObservations]);
 };
