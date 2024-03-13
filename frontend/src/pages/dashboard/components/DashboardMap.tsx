@@ -119,8 +119,7 @@ const DashboardMap: ReactFC = () => {
         setZoom(zoom.viewState.zoom);
       },
       style: { width: '100%', height: '100vh' },
-      mapStyle: 'mapbox://styles/felixlechat21/cltltffsh00xw01qpceyi4h9l',
-      // mapStyle: 'mapbox://styles/felixlechat21/cltq1jquf03ev01p0gbpue33d',
+      mapStyle: import.meta.env.VITE_MAPBOX_MAP_STYLE,
       doubleClickZoom: false,
       touchZoomRotate: false,
       touchPitch: false,
