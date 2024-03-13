@@ -69,7 +69,7 @@ export const useObservationRefresh = () => {
 
       setTimeout(() => {
         refreshObservations();
-      }, 2000);
+      }, 3000);
     }
   }, [observations.length, refreshObservations]);
 

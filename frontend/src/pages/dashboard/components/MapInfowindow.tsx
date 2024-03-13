@@ -25,9 +25,8 @@ const MapInfowindow: ReactFC<Props> = ({ observations, cluster, setPopupInfo }) 
       longitude={Number(clusterObservation.geoLocation.longitude)}
       latitude={Number(clusterObservation.geoLocation.latitude)}
       onClose={() => setPopupInfo(undefined)}
-      className="min-w-72"
+      className="min-w-72 max-h-56 overflow-y-auto"
     >
-      <div></div>
       <div className="grid gap-2 grid-cols-2 divide-y">
         <div className="col-span-2 flex gap-5 flex-col">
           <h4>

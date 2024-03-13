@@ -48,7 +48,7 @@ const DashboardMap: ReactFC = () => {
           geometry: { type: 'Point', coordinates: [x.geoLocation.longitude, x.geoLocation.latitude] }
         }))
       );
-    }, 2000);
+    }, 3000);
 
     return () => clearTimeout(timeoutId);
   }, [filteredObservations]);
@@ -203,8 +203,6 @@ const DashboardMap: ReactFC = () => {
                 onClick={e => {
                   e.originalEvent.stopPropagation();
                   setPopupInfo(cluster.properties);
-
-                  console.log(cluster.properties);
                 }}
               >
                 <HiMapPin size={20} color="white" cursor={'pointer'} />
