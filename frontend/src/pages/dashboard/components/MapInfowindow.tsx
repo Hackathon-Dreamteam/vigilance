@@ -25,7 +25,7 @@ const MapInfowindow: ReactFC<Props> = ({ observations, setPopupInfo }) => {
       <div className="grid gap-2 grid-cols-2 divide-y">
         <div className="col-span-2 flex gap-5 flex-col">
           <h4>
-            <Link to={`/observation/${observations[0].observationId}`}>{observations[0].speciesName}</Link>
+            <Link to={`/species/${observations[0].speciesName}/${observations[0].observationId}`}>{observations[0].speciesName}</Link>
             <Badge color="green" icon={HiMiniEye} className="inline-flex ml-2">
               {observations.length}
             </Badge>
@@ -57,7 +57,7 @@ const MapInfowindow: ReactFC<Props> = ({ observations, setPopupInfo }) => {
           </p>
           <ul className="list-disc ml-3">
             {observations.map(obs => (
-              <li>
+              <li key={obs.observationId}>
                 <b>
                   <a href={obs.imageUrl} target="_blank" className="text-blue-700">
                     Lien Externe
