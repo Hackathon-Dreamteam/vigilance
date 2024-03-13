@@ -77,3 +77,8 @@ h6 {
 .react-select__multi-value {
   margin: 10px 0px;
 }
+
+/* Alert Post */
+.alert-markdown p {
+  margin-top: 10px;
+}

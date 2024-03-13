@@ -1,8 +1,9 @@
-import { Badge, Card } from 'flowbite-react';
+import { Badge, Button, Card } from 'flowbite-react';
 import { useAppStore } from '../../state/useAppStore';
 import { Timeline } from 'flowbite-react';
 import { format } from 'date-fns';
-import { HiExclamation } from 'react-icons/hi';
+import { HiArrowNarrowRight, HiExclamation } from 'react-icons/hi';
+import { Link } from 'react-router-dom';
 
 const AlertPage: ReactFC = () => {
   const {
@@ -14,26 +15,15 @@ const AlertPage: ReactFC = () => {
       case 'ObservationsDropping':
         return (
           <Badge className="inline-block ml-3" color="success">
-            Nombre d'observations en diminution
+            Observations en diminution
           </Badge>
         );
       case 'ObservationsRaising':
         return (
           <Badge className="inline-block ml-3" color="failure">
-            Nombre d'observations en augmentation
+            Observations en augmentation
           </Badge>
         );
-      default:
-        return null;
-    }
-  };
-
-  const renderAlertContent = type => {
-    switch (type) {
-      case 'ObservationsDropping':
-        return <span className="inline-block">TODO</span>;
-      case 'ObservationsRaising':
-        return <span className="inline-block">TODO</span>;
       default:
         return null;
     }
@@ -56,7 +46,14 @@ const AlertPage: ReactFC = () => {
                   <Timeline.Title>
                     {alert.speciesName} <span>{renderAlertBadge(alert.type)}</span>
                   </Timeline.Title>
-                  <Timeline.Body>{renderAlertContent(alert.type)}</Timeline.Body>
+                  <Timeline.Body>
+                    <Link to={`/alerts/${alert.id}`}>
+                      <Button className="mt-3">
+                        Publier une alerte citoyenne
+                        <HiArrowNarrowRight className="ml-2 h-3 w-3" />
+                      </Button>
+                    </Link>
+                  </Timeline.Body>
                 </Timeline.Content>
               </Timeline.Item>
             ))}
