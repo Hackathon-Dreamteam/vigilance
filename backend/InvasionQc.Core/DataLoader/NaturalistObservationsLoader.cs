@@ -65,6 +65,12 @@ public class NatObservations
     [JsonPropertyName("source")]
     public string Source { get; set; } = string.Empty;
 
+    [JsonPropertyName("id")]
+    public int ObservationId { get; set; }
+
+    [JsonPropertyName("observation_photos")]
+    public NatObservationPhoto[] ObservationPhotos { get; set; } = [];
+
     [JsonPropertyName("taxon")]
     public Taxon taxon { get; set; } = new Taxon();
 
@@ -72,12 +78,23 @@ public class NatObservations
     public Geojson geojson { get; set; } = new Geojson();
 }
 
+public class NatObservationPhoto
+{
+    [JsonPropertyName("photo")]
+    public NatObservationPhotoMetadata? Metadata { get; set; }
+}
+
+public class NatObservationPhotoMetadata
+{
+    [JsonPropertyName("url")]
+    public string Url { get; set; } = string.Empty;
+}
+
 public class Taxon
 {
     [JsonPropertyName("name")]
     public String name { get; set; } = string.Empty;
 }
-
 
 public class Geojson
 {
