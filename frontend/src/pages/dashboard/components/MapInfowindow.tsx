@@ -2,30 +2,38 @@ import { Popup } from 'react-map-gl';
 import { Badge } from 'flowbite-react';
 import { HiLink } from 'react-icons/hi';
 import { HiMiniEye } from 'react-icons/hi2';
-import { Observation } from '../../../state/models';
 import { format } from 'date-fns/format';
 import { Link } from 'react-router-dom';
+import { Cluster } from './DashboardMap';
+import { Observation } from '../../../state/models';
 
 interface Props {
   observations: Observation[];
-  setPopupInfo: (selected: Observation[]) => void;
+  cluster: Cluster;
+  setPopupInfo: (cluster: Cluster | undefined) => void;
 }
 
-const MapInfowindow: ReactFC<Props> = ({ observations, setPopupInfo }) => {
+const MapInfowindow: ReactFC<Props> = ({ observations, cluster, setPopupInfo }) => {
+  const clusterObservation = observations.find(x => x.observationId === cluster.observationId)!;
+
+  observations = observations.filter(x => cluster.observationIds?.includes(x.observationId) || x.observationId === cluster.observationId);
+
   return (
     <Popup
       key="infowindow"
       anchor="bottom"
-      longitude={Number(observations[0].geoLocation.longitude)}
-      latitude={Number(observations[0].geoLocation.latitude)}
-      onClose={() => setPopupInfo([])}
+      longitude={Number(clusterObservation.geoLocation.longitude)}
+      latitude={Number(clusterObservation.geoLocation.latitude)}
+      onClose={() => setPopupInfo(undefined)}
       className="min-w-72"
     >
       <div></div>
       <div className="grid gap-2 grid-cols-2 divide-y">
         <div className="col-span-2 flex gap-5 flex-col">
           <h4>
-            <Link to={`/species/${observations[0].speciesName}/${observations[0].observationId}`}>{observations[0].speciesName}</Link>
+            <Link to={`/species/${clusterObservation.speciesName}/${clusterObservation.observationId}`}>
+              {clusterObservation.speciesName}
+            </Link>
             <Badge color="green" icon={HiMiniEye} className="inline-flex ml-2">
               {observations.length}
             </Badge>
@@ -34,11 +42,11 @@ const MapInfowindow: ReactFC<Props> = ({ observations, setPopupInfo }) => {
         <div className="col-span-2 flex gap-1 flex-col">
           <p className="mt-2">
             <b>Source de la donnée : </b>
-            {observations[0].source}
+            {clusterObservation.source}
           </p>
           <p>
             <b>Ville : </b>
-            {observations[0].location}
+            {clusterObservation.location}
           </p>
           <p>
             <b>Date Observés : </b>
@@ -46,11 +54,11 @@ const MapInfowindow: ReactFC<Props> = ({ observations, setPopupInfo }) => {
           </p>
           <p>
             <b>Invasif : </b>
-            {observations[0].isInvasive ? 'Oui' : 'Non'}
+            {clusterObservation.isInvasive ? 'Oui' : 'Non'}
           </p>
           <p>
             <b>Précaire : </b>
-            {observations[0].isPrecarious ? 'Oui' : 'Non'}
+            {clusterObservation.isPrecarious ? 'Oui' : 'Non'}
           </p>
           <p>
             <b>Observations : </b>

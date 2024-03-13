@@ -3,20 +3,76 @@ import { HeatmapType, heatmapLayer } from './HeatmapLayer';
 import { useAppStore } from '../../../state/useAppStore';
 import { Badge } from 'flowbite-react';
 import { HiOutlineQuestionMarkCircle } from 'react-icons/hi';
-import { map } from 'lodash';
+import { map, uniq } from 'lodash';
 import { HiMapPin } from 'react-icons/hi2';
-import { useCallback, useEffect, useRef, useState } from 'react';
-import { Observation } from '../../../state/models';
+import { ComponentProps, useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import MapInfowindow from './MapInfowindow';
 import mapboxgl from 'mapbox-gl';
+import type { Point } from 'geojson/index';
+import useSupercluster, { UseSuperclusterArgument } from 'use-supercluster';
+import { PointFeature } from 'supercluster';
+
+interface ClusterEntry {
+  observationId: string;
+}
+
+export interface Cluster extends ClusterEntry {
+  observationIds?: string[];
+}
 
 const PITCH = 55;
+const mapboxAccessToken = import.meta.env.VITE_MAPBOX_API_KEY;
 
 const DashboardMap: ReactFC = () => {
   const {
-    computed: { filteredObservations, groupedObservations }
+    computed: { filteredObservations }
   } = useAppStore();
-  const [popupInfo, setPopupInfo] = useState<Observation[]>([]);
+
+  const [popupInfo, setPopupInfo] = useState<Cluster>();
+  const [zoom, setZoom] = useState(11);
+  const [bounds, setBounds] = useState<mapboxgl.LngLatBounds>();
+  const [points, setPoints] = useState<PointFeature<ClusterEntry>[]>([]);
+
+  // Map reference to update viewport if the data change
+  const mapRef = useRef<MapRef>(null);
+
+  useEffect(() => {
+    // Wait a little bit for the map zoom animation to finish before recomputing points to prevent lag
+    const timeoutId = setTimeout(() => {
+      setPoints(
+        filteredObservations.map(x => ({
+          type: 'Feature',
+          properties: {
+            observationId: x.observationId
+          },
+          geometry: { type: 'Point', coordinates: [x.geoLocation.longitude, x.geoLocation.latitude] }
+        }))
+      );
+    }, 2000);
+
+    return () => clearTimeout(timeoutId);
+  }, [filteredObservations]);
+
+  const reduce = useCallback((cluster: Cluster, entry: ClusterEntry) => {
+    cluster.observationIds = uniq([...(cluster.observationIds ?? []), entry.observationId]);
+    return cluster;
+  }, []);
+
+  const clusterOptions: UseSuperclusterArgument<ClusterEntry, Cluster> = useMemo(
+    () => ({
+      points,
+      bounds: bounds && [bounds.getNorthWest().lng, bounds.getSouthEast().lat, bounds.getSouthEast().lng, bounds.getNorthWest().lat],
+      zoom,
+      options: {
+        radius: 40,
+        maxZoom: 30,
+        reduce
+      }
+    }),
+    [bounds, points, reduce, zoom]
+  );
+
+  const { clusters } = useSupercluster(clusterOptions);
 
   const fitMapBoundsToObservations = useCallback(() => {
     // Calculate max viewport
@@ -34,106 +90,128 @@ const DashboardMap: ReactFC = () => {
         bounds.extend({ lat: coord.latitude, lng: coord.longitude });
       }
 
+      setBounds(bounds);
+
       // Fit to bounds and keep pitch
       mapRef.current?.fitBounds(bounds, { padding: 20, duration: 2000, pitch: PITCH, maxZoom: 16 });
     }
   }, [filteredObservations]);
 
-  // Map reference to update viewport if the data change
-  const mapRef = useRef<MapRef>(null);
   useEffect(() => {
-    setPopupInfo([]);
+    setPopupInfo(undefined);
     fitMapBoundsToObservations();
   }, [filteredObservations, fitMapBoundsToObservations]);
+
+  const options: ComponentProps<typeof Map> = useMemo(
+    () => ({
+      ref: mapRef,
+      mapboxAccessToken,
+      mapLib: mapboxgl,
+      initialViewState: {
+        longitude: -73.75,
+        latitude: 45.57,
+        zoom,
+        pitch: PITCH
+      },
+      onZoom: zoom => {
+        setPopupInfo(undefined);
+        setZoom(zoom.viewState.zoom);
+      },
+      style: { width: '100%', height: 600 },
+      mapStyle: 'mapbox://styles/felixlechat21/cltltffsh00xw01qpceyi4h9l',
+      doubleClickZoom: false,
+      touchZoomRotate: false,
+      touchPitch: false,
+      boxZoom: false,
+      // Prevent rorate on mouse drag
+      dragRotate: false,
+      terrain: { source: 'mapbox-dem', exaggeration: 5 },
+      onLoad: fitMapBoundsToObservations,
+      onMove: () => setPopupInfo(undefined),
+      // Limits to +- Quebec
+      maxBounds: [
+        [-79.5031, 44.7499], // Southwest coordinates
+        [-57.8113, 53.2532] // Northeast coordinates
+      ]
+    }),
+    [fitMapBoundsToObservations, zoom]
+  );
+
+  const isPrecariousPoints: Point[] = useMemo(
+    () =>
+      filteredObservations
+        .filter(observation => observation.isPrecarious)
+        .map(observation => {
+          return {
+            type: 'Point',
+            coordinates: [observation.geoLocation.longitude, observation.geoLocation.latitude]
+          };
+        }),
+    [filteredObservations]
+  );
+
+  const isInvasivePoints: Point[] = useMemo(
+    () =>
+      filteredObservations
+        .filter(observation => observation.isInvasive)
+        .map(observation => {
+          return {
+            type: 'Point',
+            coordinates: [observation.geoLocation.longitude, observation.geoLocation.latitude]
+          };
+        }),
+    [filteredObservations]
+  );
 
   return (
     <>
       <div className="border rounded-lg overflow-hidden">
-        <Map
-          ref={mapRef}
-          mapboxAccessToken={import.meta.env.VITE_MAPBOX_API_KEY}
-          mapLib={import('mapbox-gl')}
-          initialViewState={{
-            longitude: -73.75,
-            latitude: 45.57,
-            zoom: 11,
-            pitch: PITCH
-          }}
-          style={{ width: '100%', height: 600 }}
-          mapStyle="mapbox://styles/felixlechat21/cltltffsh00xw01qpceyi4h9l"
-          doubleClickZoom={false}
-          touchZoomRotate={false}
-          touchPitch={false}
-          boxZoom={false}
-          // Prevent rorate on mouse drag
-          dragRotate={false}
-          terrain={{ source: 'mapbox-dem', exaggeration: 5 }}
-          onLoad={fitMapBoundsToObservations}
-          onMove={() => setPopupInfo([])}
-          // Limits to +- Quebec
-          maxBounds={[
-            [-79.5031, 44.7499], // Southwest coordinates
-            [-57.8113, 53.2532] // Northeast coordinates
-          ]}
-        >
+        <Map {...options}>
           {/* Controls */}
           <FullscreenControl position="bottom-right" />
           <NavigationControl position="top-right" showCompass={false} visualizePitch={false} />
 
-          {filteredObservations && (
-            <Source
-              type="geojson"
-              data={{
-                type: 'GeometryCollection',
-                geometries: filteredObservations
-                  .filter(observation => observation.isPrecarious)
-                  .map(observation => {
-                    return {
-                      type: 'Point',
-                      coordinates: [observation.geoLocation.longitude, observation.geoLocation.latitude]
-                    };
-                  })
-              }}
-            >
-              <Layer {...heatmapLayer(HeatmapType.Precarious)} />
-            </Source>
-          )}
-          {filteredObservations && (
-            <Source
-              type="geojson"
-              data={{
-                type: 'GeometryCollection',
-                geometries: filteredObservations
-                  .filter(observation => observation.isInvasive)
-                  .map(observation => {
-                    return {
-                      type: 'Point',
-                      coordinates: [observation.geoLocation.longitude, observation.geoLocation.latitude]
-                    };
-                  })
-              }}
-            >
-              <Layer {...heatmapLayer(HeatmapType.Invasive)} />
-            </Source>
-          )}
+          <Source
+            type="geojson"
+            data={{
+              type: 'GeometryCollection',
+              geometries: isPrecariousPoints
+            }}
+          >
+            <Layer {...heatmapLayer(HeatmapType.Precarious)} />
+          </Source>
+          <Source
+            type="geojson"
+            data={{
+              type: 'GeometryCollection',
+              geometries: isInvasivePoints
+            }}
+          >
+            <Layer {...heatmapLayer(HeatmapType.Invasive)} />
+          </Source>
 
           {/* Pin & Infowindow */}
-          {groupedObservations &&
-            map(groupedObservations, (groupedObservation, index) => (
+          {map(clusters, (cluster, index) => {
+            const [longitude, latitude] = cluster.geometry.coordinates;
+
+            return (
               <Marker
                 key={`marker-${index}`}
-                longitude={groupedObservation[0].geoLocation.longitude}
-                latitude={groupedObservation[0].geoLocation.latitude}
+                longitude={longitude}
+                latitude={latitude}
                 anchor="bottom"
                 onClick={e => {
                   e.originalEvent.stopPropagation();
-                  setPopupInfo(groupedObservation);
+                  setPopupInfo(cluster.properties);
+
+                  console.log(cluster.properties);
                 }}
               >
-                <HiMapPin color="transparent" size={15} cursor={'pointer'} style={{ transform: 'translate(0px, 7px)' }} />
+                <HiMapPin size={20} color="white" cursor={'pointer'} />
               </Marker>
-            ))}
-          {Array.isArray(popupInfo) && popupInfo.length > 0 && <MapInfowindow observations={popupInfo} setPopupInfo={setPopupInfo} />}
+            );
+          })}
+          {popupInfo && <MapInfowindow cluster={popupInfo} observations={filteredObservations} setPopupInfo={setPopupInfo} />}
 
           {/* Terrain layer */}
           <Source id="mapbox-dem" type="raster-dem" url="mapbox://mapbox.mapbox-terrain-dem-v1" tileSize={512} maxzoom={14} />

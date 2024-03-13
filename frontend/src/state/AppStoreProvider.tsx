@@ -1,6 +1,6 @@
 import { createContext, useCallback, useMemo, useState } from 'react';
 import { Observation, Alert, RealTimeObservation } from './models';
-import { Dictionary, chain, kebabCase } from 'lodash';
+import { chain } from 'lodash';
 
 export interface AppState {
   // App
@@ -23,8 +23,6 @@ export interface ComputedAppState {
   filteredObservations: Observation[];
   filteredInvasiveObservations: Observation[];
   filteredAlerts: Alert[];
-  groupedObservations: Dictionary<Observation[]>;
-  alertsCount: number;
   species: string[];
   sources: string[];
 }
@@ -49,9 +47,7 @@ const defaultStore = (): AppStore => ({
     filteredObservations: [],
     filteredInvasiveObservations: [],
     filteredAlerts: [],
-    groupedObservations: {},
     regions: [],
-    alertsCount: 0,
     species: [],
     sources: []
   }
@@ -70,55 +66,33 @@ const AppStoreProvider: ReactFC<{ initialState: Partial<AppState> }> = ({ childr
   );
 
   const computed = useMemo((): ComputedAppState => {
+    const observations = chain(appState.observations)
+      .filter(x => x.date >= (appState.filterFrom ?? new Date()) && x.date <= (appState.filterTo ?? new Date()))
+      .filter(x => x.location === appState.region);
+
+    const filteredObservations = observations
+      .filter(x => appState.filterSpecies.length == 0 || appState.filterSpecies.includes(x.speciesName))
+      .filter(x => !appState.filterSource || appState.filterSource == x.source)
+      .orderBy(x => x.date, 'desc');
+
     return {
-      filteredObservations: appState.observations
-        .filter(x => x.date >= (appState.filterFrom ?? new Date()) && x.date <= (appState.filterTo ?? new Date()))
-        .filter(x => !appState.invasiveOnly || x.isInvasive)
-        .filter(x => x.location === appState.region)
-        .filter(x => appState.filterSpecies.length == 0 || appState.filterSpecies.includes(x.speciesName))
-        .filter(x => !appState.filterSource || appState.filterSource == x.source),
-      filteredInvasiveObservations: chain(appState.observations)
-        .filter(x => x.date >= (appState.filterFrom ?? new Date()) && x.date <= (appState.filterTo ?? new Date()))
-        .filter(x => x.isInvasive)
-        .filter(x => x.location === appState.region)
-        .filter(x => appState.filterSpecies.length == 0 || appState.filterSpecies.includes(x.speciesName))
-        .filter(x => !appState.filterSource || appState.filterSource == x.source)
-        .orderBy(x => x.date, 'desc')
-        .value(),
+      filteredObservations: filteredObservations.filter(x => !appState.invasiveOnly || x.isInvasive).value(),
+      filteredInvasiveObservations: filteredObservations.filter(x => x.isInvasive).value(),
       filteredAlerts: chain(appState.alerts)
         .filter(x => x.locations === appState.region)
         .orderBy(x => x.date, 'desc')
         .value(),
-      // Grouping of observations for map component
-      groupedObservations: chain(appState.observations)
-        .filter(x => x.date >= (appState.filterFrom ?? new Date()) && x.date <= (appState.filterTo ?? new Date()))
-        .filter(x => !appState.invasiveOnly || x.isInvasive)
-        .filter(x => x.location === appState.region)
-        .filter(x => appState.filterSpecies.length == 0 || appState.filterSpecies.includes(x.speciesName))
-        .filter(x => !appState.filterSource || appState.filterSource == x.source)
-        .groupBy(obs => {
-          return `${kebabCase(obs.speciesName)}-${Math.round(obs.geoLocation?.latitude * 1000) / 1000}-${
-            Math.round(obs.geoLocation?.longitude * 1000) / 1000
-          }`;
-        })
-        .value(),
       regions: chain(appState.observations)
         .map(x => x.location)
         .uniq()
+        .sort()
         .value(),
-      alertsCount: chain(appState.alerts)
-        .filter(x => x.locations === appState.region)
-        .value().length,
-      species: chain(appState.observations)
-        .filter(x => x.date >= (appState.filterFrom ?? new Date()) && x.date <= (appState.filterTo ?? new Date()))
-        .filter(x => x.location === appState.region)
+      species: observations
         .map(x => x.speciesName)
         .uniq()
         .sort()
         .value(),
-      sources: chain(appState.observations)
-        .filter(x => x.date >= (appState.filterFrom ?? new Date()) && x.date <= (appState.filterTo ?? new Date()))
-        .filter(x => x.location === appState.region)
+      sources: observations
         .map(x => x.source)
         .uniq()
         .sort()
