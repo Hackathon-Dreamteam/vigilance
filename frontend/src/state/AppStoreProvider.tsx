@@ -19,6 +19,7 @@ export interface ComputedAppState {
   regions: string[];
   filteredObservations: Observation[];
   filteredInvasiveObservations: Observation[];
+  filteredAlerts: Alert[];
   groupedObservations: Dictionary<Observation[]>;
   alertsCount: number;
   species: string[];
@@ -43,6 +44,7 @@ const defaultState = (): AppStore => ({
   computed: {
     filteredObservations: [],
     filteredInvasiveObservations: [],
+    filteredAlerts: [],
     groupedObservations: {},
     regions: [],
     alertsCount: 0,
@@ -79,6 +81,9 @@ const AppStoreProvider: ReactFC<{ state: Partial<AppState> }> = ({ children, sta
         .filter(x => !appState.filterSource || appState.filterSource == x.source)
         .orderBy(x => x.date, 'desc')
         .value(),
+      filteredAlerts: chain(appState.alerts)
+        .filter(x => x.locations === appState.region)
+        .value(),
 
       // Grouping of observations for map component
       groupedObservations: chain(appState.observations)
@@ -97,7 +102,9 @@ const AppStoreProvider: ReactFC<{ state: Partial<AppState> }> = ({ children, sta
         .map(x => x.location)
         .uniq()
         .value(),
-      alertsCount: appState.alerts.length,
+      alertsCount: chain(appState.alerts)
+        .filter(x => x.locations === appState.region)
+        .value().length,
       species: chain(appState.observations)
         .filter(x => x.date >= (appState.filterFrom ?? new Date()) && x.date <= (appState.filterTo ?? new Date()))
         .filter(x => x.location === appState.region)
