@@ -4,12 +4,19 @@ import DashboardObservations from './components/DashboardObservations';
 import { useAppStore } from '../../state/useAppStore';
 import DashboardMap from './components/DashboardMap';
 import DashboardSummary from './components/DashboardSummary';
+import styled from 'styled-components';
+import tw from 'twin.macro';
 
 const DashboardPage: ReactFC = () => {
   const {
     region,
-    computed: { filteredInvasiveObservations }
+    computed: { filteredInvasiveObservations, realTimeObservations }
   } = useAppStore();
+
+  const RealTimeObservationsCard = styled(Card)<{ $visible: boolean }>`
+    ${tw`animate-in fade-in-0 slide-in-from-top-8 duration-1200 h-0 opacity-0`}
+    ${({ $visible }) => $visible && tw`h-auto opacity-100`}
+  `;
 
   return (
     <>
@@ -27,8 +34,21 @@ const DashboardPage: ReactFC = () => {
             </Card>
           </div>
         </div>
-        <div className="col-span-2">
-          <Card key={region}>
+        <div className="col-span-2 flex flex-col gap-5">
+          <RealTimeObservationsCard $visible={realTimeObservations.length > 0} key={realTimeObservations.length}>
+            <div className="flex">
+              <div className="mb-2">
+                <h4>Dernières observations</h4>
+              </div>
+              <div className="ml-auto">
+                <Badge size="lg">{realTimeObservations.length}</Badge>
+              </div>
+            </div>
+            <div>
+              <DashboardObservations observations={realTimeObservations} key={region} />
+            </div>
+          </RealTimeObservationsCard>
+          <Card>
             <div className="flex">
               <div className="mb-2">
                 <h4>Observations</h4>
@@ -39,7 +59,7 @@ const DashboardPage: ReactFC = () => {
               </div>
             </div>
             <div>
-              <DashboardObservations />
+              <DashboardObservations observations={filteredInvasiveObservations} key={region} />
             </div>
           </Card>
         </div>

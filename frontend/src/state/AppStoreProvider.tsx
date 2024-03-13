@@ -1,5 +1,5 @@
 import { createContext, useCallback, useMemo, useState } from 'react';
-import { Observation, Alert } from './models';
+import { Observation, Alert, RealTimeObservation, isRealTimeObservation } from './models';
 import { Dictionary, chain, kebabCase } from 'lodash';
 
 export interface AppState {
@@ -19,6 +19,7 @@ export interface ComputedAppState {
   regions: string[];
   filteredObservations: Observation[];
   filteredInvasiveObservations: Observation[];
+  realTimeObservations: RealTimeObservation[];
   filteredAlerts: Alert[];
   groupedObservations: Dictionary<Observation[]>;
   alertsCount: number;
@@ -31,7 +32,7 @@ type AppStore = AppState & {
   computed: ComputedAppState;
 };
 
-const defaultState = (): AppStore => ({
+const defaultStore = (): AppStore => ({
   region: '',
   filterFrom: null,
   filterTo: null,
@@ -45,6 +46,7 @@ const defaultState = (): AppStore => ({
     filteredObservations: [],
     filteredInvasiveObservations: [],
     filteredAlerts: [],
+    realTimeObservations: [],
     groupedObservations: {},
     regions: [],
     alertsCount: 0,
@@ -53,10 +55,10 @@ const defaultState = (): AppStore => ({
   }
 });
 
-export const AppStoreContext = createContext<AppStore>(defaultState());
+export const AppStoreContext = createContext<AppStore>(defaultStore());
 
-const AppStoreProvider: ReactFC<{ state: Partial<AppState> }> = ({ children, state }) => {
-  const [appState, setAppState] = useState<AppStore>({ ...defaultState(), ...state });
+const AppStoreProvider: ReactFC<{ initialState: Partial<AppState> }> = ({ children, initialState }) => {
+  const [appState, setAppState] = useState<AppStore>({ ...defaultStore(), ...initialState });
 
   const setState = useCallback(
     (state: Partial<AppState>) => {
@@ -65,8 +67,8 @@ const AppStoreProvider: ReactFC<{ state: Partial<AppState> }> = ({ children, sta
     [appState]
   );
 
-  const computed = useMemo(
-    (): ComputedAppState => ({
+  const computed = useMemo((): ComputedAppState => {
+    return {
       filteredObservations: appState.observations
         .filter(x => x.date >= (appState.filterFrom ?? new Date()) && x.date <= (appState.filterTo ?? new Date()))
         .filter(x => !appState.invasiveOnly || x.isInvasive)
@@ -81,11 +83,13 @@ const AppStoreProvider: ReactFC<{ state: Partial<AppState> }> = ({ children, sta
         .filter(x => !appState.filterSource || appState.filterSource == x.source)
         .orderBy(x => x.date, 'desc')
         .value(),
+      realTimeObservations: chain(appState.observations)
+        .filter((x): x is RealTimeObservation => isRealTimeObservation(x))
+        .value(),
       filteredAlerts: chain(appState.alerts)
         .filter(x => x.locations === appState.region)
         .orderBy(x => x.date, 'desc')
         .value(),
-
       // Grouping of observations for map component
       groupedObservations: chain(appState.observations)
         .filter(x => x.date >= (appState.filterFrom ?? new Date()) && x.date <= (appState.filterTo ?? new Date()))
@@ -120,9 +124,8 @@ const AppStoreProvider: ReactFC<{ state: Partial<AppState> }> = ({ children, sta
         .uniq()
         .sort()
         .value()
-    }),
-    [appState]
-  );
+    };
+  }, [appState]);
 
   const value = useMemo(() => ({ ...appState, setState, computed }), [appState, computed, setState]);
 
