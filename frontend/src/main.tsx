@@ -11,6 +11,7 @@ import { fr } from 'date-fns/locale/fr';
 import SpeciesPage from './pages/species/SpeciesPage.tsx';
 import SpeciesDetailsPage from './pages/species/SpeciesDetailsPage.tsx';
 import './styles/main.css';
+import AlertPublishPage from './pages/alert/AlertPublishPage.tsx';
 
 setDefaultOptions({ locale: fr });
 
@@ -33,6 +34,10 @@ const router = createBrowserRouter([
       {
         path: '/alerts',
         Component: AlertPage
+      },
+      {
+        path: '/alerts/:alertId',
+        Component: AlertPublishPage
       }
     ],
     errorElement: <div>Error!</div>
