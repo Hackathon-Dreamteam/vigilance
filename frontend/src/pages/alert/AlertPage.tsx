@@ -35,8 +35,6 @@ const AlertPage: ReactFC = () => {
     }
   };
 
-  console.log(filteredAlerts);
-
   return (
     <div>
       <Card>
