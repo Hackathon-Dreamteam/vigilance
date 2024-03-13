@@ -39,7 +39,8 @@ public class GetObservationsLatestQueryHandler : IStreamRequestHandler<GetObserv
                     ObservationId = $"c_{observationData.ObservationId}",
                     ImageUrl = observationData.ObservationPhotos
                         .Select(x => x.Metadata?.Url?.Replace("square.jpeg", "large.jpeg")?.Replace("square.jpg", "large.jpg"))
-                        .FirstOrDefault() ?? string.Empty
+                        .FirstOrDefault() ?? string.Empty,
+                    iNaturalistLink = $"https://www.inaturalist.org/observations/{observationData.ObservationId}"
                 };
             }
         }
