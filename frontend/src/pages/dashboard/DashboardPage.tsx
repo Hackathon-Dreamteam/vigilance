@@ -41,7 +41,9 @@ const DashboardPage: ReactFC = () => {
                 <h4>Dernières observations</h4>
               </div>
               <div className="ml-auto">
-                <Badge size="lg">{realTimeObservations.length}</Badge>
+                <Badge color="warning" size="lg">
+                  {realTimeObservations.length}
+                </Badge>
               </div>
             </RealTimeObservationsCardHeader>
             <DashboardObservations observations={realTimeObservations} />
