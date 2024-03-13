@@ -1,7 +1,7 @@
 import { Card, Spinner } from 'flowbite-react';
 import { useAppStore } from '../../state/useAppStore';
 import { useParams } from 'react-router-dom';
-import { chain } from 'lodash';
+import { chain, replace } from 'lodash';
 import { useEffect, useState } from 'react';
 import { ApiHttpService } from '../../services/http/http-service';
 import Markdown from 'react-markdown';
@@ -27,7 +27,19 @@ const AlertPublishPage: ReactFC = () => {
     ApiHttpService.get<AlertContent>(`/alerts/${id}/advice`).then(value => {
       if (value.response) {
         setIsLoading(false);
-        setAlertContent(value.response);
+
+        let message = replace(value.response.message, '1️⃣', '\n');
+        message = replace(message, '2️⃣', '\n');
+        message = replace(message, '3️⃣', '\n');
+        message = replace(message, '4️⃣', '\n');
+        message = replace(message, '3 ', '\n');
+        message = replace(message, '');
+        message = replace(message, '');
+
+        setAlertContent({
+          ...value.response,
+          message
+        });
       }
     });
   };
@@ -50,12 +62,21 @@ const AlertPublishPage: ReactFC = () => {
             </span>
           )}
           {!isLoading && alertContent && (
-            <div className="grid grid-cols-6 gap-4">
-              <div className="col-start-2 col-span-4">
-                <img className="drop-shadow-md" src={alertContent.imageUri} />
-                <Markdown className="mt-5 alert-markdown" remarkPlugins={[[remarkGfm, { singleTilde: false }]]}>
-                  {alertContent.message}
-                </Markdown>
+            <div className="m-auto max-w-4xl">
+              <div className="grid grid-cols-6 gap-4">
+                <div className="col-start-2 col-span-4">
+                  <img className="drop-shadow-md" src={alertContent.imageUri} />
+                  <Markdown className="mt-5 alert-markdown" remarkPlugins={[[remarkGfm, { singleTilde: false }]]}>
+                    {alertContent.message}
+                  </Markdown>
+                  <div className="text-center mt-5">
+                    <img src="/img/socials/instagram.png" className="inline-block w-10 m-5 cursor-pointer" />
+                    <img src="/img/socials/facebook.png" className="inline-block w-10 m-5 cursor-pointer" />
+                    <img src="/img/socials/reddit.png" className="inline-block w-10 m-5 cursor-pointer" />
+                    <img src="/img/socials/twitter.png" className="inline-block w-10 m-5 cursor-pointer" />
+                    <img src="/img/socials/discord.png" className="inline-block w-10 m-5 cursor-pointer" />
+                  </div>
+                </div>
               </div>
             </div>
           )}

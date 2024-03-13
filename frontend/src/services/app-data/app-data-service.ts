@@ -45,7 +45,11 @@ export const useFetchAppData = () => {
           source: x.source === 'Community' ? 'iNaturalist' : x.source == 'Government' ? 'Sentinelle' : x.source
         }))
         .value(),
-      alerts: alerts
+      alerts: alerts?.map(x => ({
+        ...x,
+        speciesName: toTitleCase(x.speciesName),
+        locations: x.locations === 'Montreal' ? 'Montréal' : x.locations
+      }))
     };
 
     setAppState(merge(state, defaultState) as AppState);
