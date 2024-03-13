@@ -13,13 +13,15 @@ public class GetSpeciesReportHandler : IRequestHandler<GetSpeciesReport, Species
 {
     private readonly InvasiveSpeciesLoader _invasiveSpeciesLoader;
     private readonly PrecariousSpeciesLoader _precariousSpeciesLoader;
+    private readonly TaxonLoader _taxonLoader;
     private readonly AlertRepositories _alertRepositories;
     private readonly IMediator _mediator;
 
-    public GetSpeciesReportHandler(InvasiveSpeciesLoader invasiveSpeciesLoader, PrecariousSpeciesLoader precariousSpeciesLoader, AlertRepositories alertRepositories, IMediator mediator)
+    public GetSpeciesReportHandler(InvasiveSpeciesLoader invasiveSpeciesLoader, PrecariousSpeciesLoader precariousSpeciesLoader, TaxonLoader taxonLoader, AlertRepositories alertRepositories, IMediator mediator)
     {
         this._invasiveSpeciesLoader = invasiveSpeciesLoader;
         this._precariousSpeciesLoader = precariousSpeciesLoader;
+        _taxonLoader = taxonLoader;
         _alertRepositories = alertRepositories;
         this._mediator = mediator;
     }
@@ -39,6 +41,16 @@ public class GetSpeciesReportHandler : IRequestHandler<GetSpeciesReport, Species
                 string.Equals(request.SpeciesName, x.ScientificSpeciesName, StringComparison.InvariantCultureIgnoreCase)
             );
 
+        var taxonSummary = (await this._taxonLoader.Load(cancellationToken))
+            .FirstOrDefault(x =>
+                string.Equals(precariousSpeciesInfo?.ScientificSpeciesName, x.LatinName, StringComparison.InvariantCultureIgnoreCase) ||
+                string.Equals(precariousSpeciesInfo?.SpeciesName, x.LatinName, StringComparison.InvariantCultureIgnoreCase) ||
+                string.Equals(invasiveSpeciesInfo?.LatinName, x.LatinName, StringComparison.InvariantCultureIgnoreCase) ||
+                string.Equals(invasiveSpeciesInfo?.SpeciesCode, x.TaxonId, StringComparison.InvariantCultureIgnoreCase) ||
+                string.Equals(request.SpeciesName, x.LatinName, StringComparison.InvariantCultureIgnoreCase) ||
+                string.Equals(request.SpeciesName, x.EnglishName, StringComparison.InvariantCultureIgnoreCase)
+            );
+
         var alerts = this._alertRepositories.GetAlerts(request.SpeciesName);
 
         var observations = await this._mediator.CreateStream(new GetObservationsQuery(request.Location), cancellationToken).ToListAsync();
@@ -46,6 +58,7 @@ public class GetSpeciesReportHandler : IRequestHandler<GetSpeciesReport, Species
         var observationsForSpecies = observations.Where(o => string.Equals(request.SpeciesName, o.SpeciesName, StringComparison.InvariantCultureIgnoreCase)).ToList();
 
         return new SpeciesReports(
+            taxonSummary != null ? new TaxonSummary(taxonSummary.TaxonId, taxonSummary.WikipediaUrl, taxonSummary.WikipediaSummary) : null,
             invasiveSpeciesInfo != null,
             precariousSpeciesInfo != null,
             precariousSpeciesInfo?.ConvervationStatus ?? string.Empty,
