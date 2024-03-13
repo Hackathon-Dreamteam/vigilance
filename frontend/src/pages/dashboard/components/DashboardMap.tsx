@@ -10,6 +10,7 @@ import type { Point } from 'geojson/index';
 import useSupercluster, { UseSuperclusterArgument } from 'use-supercluster';
 import { PointFeature } from 'supercluster';
 import { theme } from 'twin.macro';
+import objectHash from 'object-hash';
 
 interface ClusterEntry {
   observationId: string;
@@ -24,6 +25,7 @@ const mapboxAccessToken = import.meta.env.VITE_MAPBOX_API_KEY;
 
 const DashboardMap: ReactFC = () => {
   const {
+    region,
     computed: { filteredObservations }
   } = useAppStore();
 
@@ -31,6 +33,12 @@ const DashboardMap: ReactFC = () => {
   const [zoom, setZoom] = useState(11);
   const [bounds, setBounds] = useState<mapboxgl.LngLatBounds>();
   const [points, setPoints] = useState<PointFeature<ClusterEntry>[]>([]);
+  const [hash, setHash] = useState<string>();
+
+  useEffect(() => {
+    const hash = objectHash(filteredObservations);
+    setHash(hash);
+  }, [filteredObservations]);
 
   // Map reference to update viewport if the data change
   const mapRef = useRef<MapRef>(null);
@@ -47,10 +55,15 @@ const DashboardMap: ReactFC = () => {
           geometry: { type: 'Point', coordinates: [x.geoLocation.longitude, x.geoLocation.latitude] }
         }))
       );
-    }, 3000);
+    }, 1000);
 
     return () => clearTimeout(timeoutId);
-  }, [filteredObservations]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [hash]);
+
+  useEffect(() => {
+    setPoints([]);
+  }, [region]);
 
   const reduce = useCallback((cluster: Cluster, entry: ClusterEntry) => {
     cluster.observationIds = uniq([...(cluster.observationIds ?? []), entry.observationId]);
@@ -99,12 +112,13 @@ const DashboardMap: ReactFC = () => {
       // Fit to bounds and keep pitch
       mapRef.current?.fitBounds(bounds, { padding: 20, duration: 2000, pitch: PITCH, maxZoom: 16 });
     }
-  }, [filteredObservations]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [hash]);
 
   useEffect(() => {
     setPopupInfo(undefined);
     fitMapBoundsToObservations();
-  }, [filteredObservations, fitMapBoundsToObservations]);
+  }, [fitMapBoundsToObservations]);
 
   const options: ComponentProps<typeof Map> = useMemo(
     () => ({
