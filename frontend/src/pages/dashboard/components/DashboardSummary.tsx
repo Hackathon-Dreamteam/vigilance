@@ -44,7 +44,10 @@ const DashboardSummary: ReactFC = () => {
       }
     },
     dataLabels: {
-      enabled: false
+      enabled: false,
+      style: {
+        colors: ['#343C3E']
+      }
     },
     legend: {
       show: false
@@ -57,7 +60,19 @@ const DashboardSummary: ReactFC = () => {
       padding: {}
     },
     xaxis: {
-      categories: entries.map(x => format(x.date, 'LLL'))
+      categories: entries.map(x => format(x.date, 'LLL')),
+      labels: {
+        style: {
+          colors: ['#fff', '#fff', '#fff', '#fff', '#fff', '#fff', '#fff', '#fff', '#fff', '#fff', '#fff', '#fff', '#fff']
+        }
+      }
+    },
+    yaxis: {
+      labels: {
+        style: {
+          colors: ['#fff', '#fff', '#fff', '#fff', '#fff', '#fff', '#fff', '#fff', '#fff', '#fff', '#fff', '#fff', '#fff']
+        }
+      }
     }
   };
 
@@ -79,7 +94,7 @@ const DashboardSummary: ReactFC = () => {
 
   return (
     <div>
-      <ReactApexChart options={options} series={series} type="area" height={300} />
+      <ReactApexChart options={options} series={series} type="area" height={250} />
     </div>
   );
 };

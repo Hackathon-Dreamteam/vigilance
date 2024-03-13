@@ -163,59 +163,57 @@ const DashboardMap: ReactFC = () => {
   );
 
   return (
-    <div className="absolute top-16  -left-8 -right-8 z-0">
-      <Map {...options}>
-        {/* Controls */}
-        <FullscreenControl position="bottom-right" />
-        <NavigationControl position="top-right" showCompass={false} visualizePitch={false} />
+    <Map {...options}>
+      {/* Controls */}
+      <FullscreenControl position="bottom-right" />
+      <NavigationControl position="top-right" showCompass={false} visualizePitch={false} />
 
-        <Source
-          type="geojson"
-          data={{
-            type: 'GeometryCollection',
-            geometries: isPrecariousPoints
-          }}
-        >
-          <Layer {...heatmapLayer(HeatmapType.Precarious)} />
-        </Source>
-        <Source
-          type="geojson"
-          data={{
-            type: 'GeometryCollection',
-            geometries: isInvasivePoints
-          }}
-        >
-          <Layer {...heatmapLayer(HeatmapType.Invasive)} />
-        </Source>
+      <Source
+        type="geojson"
+        data={{
+          type: 'GeometryCollection',
+          geometries: isPrecariousPoints
+        }}
+      >
+        <Layer {...heatmapLayer(HeatmapType.Precarious)} />
+      </Source>
+      <Source
+        type="geojson"
+        data={{
+          type: 'GeometryCollection',
+          geometries: isInvasivePoints
+        }}
+      >
+        <Layer {...heatmapLayer(HeatmapType.Invasive)} />
+      </Source>
 
-        {/* Pin & Infowindow */}
-        {map(clusters, (cluster, index) => {
-          const [longitude, latitude] = cluster.geometry.coordinates;
+      {/* Pin & Infowindow */}
+      {map(clusters, (cluster, index) => {
+        const [longitude, latitude] = cluster.geometry.coordinates;
 
-          return (
-            <Marker
-              key={`marker-${index}`}
-              longitude={longitude}
-              latitude={latitude}
-              anchor="bottom"
-              onClick={e => {
-                e.originalEvent.stopPropagation();
-                setPopupInfo(cluster.properties);
-              }}
-            >
-              <HiMapPin size={20} color={theme`colors.secondary`} cursor={'pointer'} />
-            </Marker>
-          );
-        })}
-        {popupInfo && <MapInfowindow cluster={popupInfo} observations={filteredObservations} setPopupInfo={setPopupInfo} />}
+        return (
+          <Marker
+            key={`marker-${index}`}
+            longitude={longitude}
+            latitude={latitude}
+            anchor="bottom"
+            onClick={e => {
+              e.originalEvent.stopPropagation();
+              setPopupInfo(cluster.properties);
+            }}
+          >
+            <HiMapPin size={20} color={theme`colors.secondary`} cursor={'pointer'} />
+          </Marker>
+        );
+      })}
+      {popupInfo && <MapInfowindow cluster={popupInfo} observations={filteredObservations} setPopupInfo={setPopupInfo} />}
 
-        {/* Terrain layer */}
-        <Source id="mapbox-dem" type="raster-dem" url="mapbox://mapbox.mapbox-terrain-dem-v1" tileSize={512} maxzoom={14} />
+      {/* Terrain layer */}
+      <Source id="mapbox-dem" type="raster-dem" url="mapbox://mapbox.mapbox-terrain-dem-v1" tileSize={512} maxzoom={14} />
 
-        {/* TODO: Add custom overlay for parks */}
-        {/* See: https://github.com/visgl/react-map-gl/blob/master/examples/custom-overlay/src/app.tsx */}
-      </Map>
-    </div>
+      {/* TODO: Add custom overlay for parks */}
+      {/* See: https://github.com/visgl/react-map-gl/blob/master/examples/custom-overlay/src/app.tsx */}
+    </Map>
   );
 };
 

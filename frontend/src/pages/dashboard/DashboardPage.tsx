@@ -78,7 +78,7 @@ const DashboardPage: ReactFC = () => {
       <div className="mb-5">
         <DashboardFilters />
       </div>
-      <div className="absolute w-1/2 h-full z-10 p-5">
+      <div className="absolute top-16 -left-28 w-1/2 h-full z-10 p-5 scale-75" style={{ minWidth: 700 }}>
         <div className="w-full flex flex-col gap-5">
           <Card>
             <RealTimeObservations />
@@ -92,7 +92,9 @@ const DashboardPage: ReactFC = () => {
           </Card>
         </div>
       </div>
-      <DashboardMap />
+      <div className="absolute top-16 -left-8 -right-8 z-0">
+        <DashboardMap />
+      </div>
     </div>
   );
 };

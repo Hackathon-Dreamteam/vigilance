@@ -6,7 +6,7 @@ import styled from 'styled-components';
 import tw from 'twin.macro';
 import { Observation } from '../../../state/models';
 
-const pageSize = 10;
+const pageSize = 5;
 
 const DashboardObservations: ReactFC<{ observations: Observation[] }> = ({ observations }) => {
   const formatDate = (date: Date | null) => (date ? format(date, 'PP') : '');
