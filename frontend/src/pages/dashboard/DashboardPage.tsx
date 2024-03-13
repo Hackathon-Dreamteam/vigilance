@@ -61,7 +61,7 @@ const Observations: ReactFC = () => {
 };
 
 const Card = styled(FlowbiteCard)`
-  ${tw`bg-black/60 border-none text-white/90`}
+  ${tw`bg-black/70 border-none text-white/90`}
   tr,
   th,
   td {
@@ -104,9 +104,9 @@ const DashboardPage: ReactFC = () => {
           </Card>
         </MapInformation>
       </div>
-      <div className="absolute right-4 top-4 rounded-lg z-10 p-4 bg-black/60">
+      <Card className="absolute right-4 top-4 z-10">
         <DashboardFilters />
-      </div>
+      </Card>
       <div className="absolute w-full z-0">
         <DashboardMap />
       </div>
