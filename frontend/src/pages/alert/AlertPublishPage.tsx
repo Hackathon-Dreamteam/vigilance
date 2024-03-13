@@ -6,6 +6,7 @@ import { useEffect, useState } from 'react';
 import { ApiHttpService } from '../../services/http/http-service';
 import Markdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
+import { HiOutlineChatBubbleOvalLeft, HiHeart, HiOutlinePaperAirplane, HiOutlineBookmark } from 'react-icons/hi2';
 
 export interface AlertContent {
   message: string;
@@ -65,7 +66,13 @@ const AlertPublishPage: ReactFC = () => {
             <div className="m-auto max-w-4xl">
               <div className="grid grid-cols-6 gap-4">
                 <div className="col-start-2 col-span-4">
-                  <img className="drop-shadow-md mt-5" src={alertContent.imageUri} />
+                  <img className="drop-shadow-md mt-5 mb-3" src={alertContent.imageUri} />
+                  <div>
+                    <HiHeart className="inline-block w-8 h-8 mr-5 ml-2 cursor-pointer" style={{ color: '#F93822' }} />
+                    <HiOutlineChatBubbleOvalLeft className="inline-block w-8 h-8 mr-5 ml-2 cursor-pointer" />
+                    <HiOutlinePaperAirplane className="inline-block w-8 h-8 mr-5 ml-2 cursor-pointer" />
+                    <HiOutlineBookmark className="inline-block w-8 h-8 mr-5 cursor-pointer float-right" />
+                  </div>
                   <Markdown className="mt-5 alert-markdown" remarkPlugins={[[remarkGfm, { singleTilde: false }]]}>
                     {alertContent.message}
                   </Markdown>
