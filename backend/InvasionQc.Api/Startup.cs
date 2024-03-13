@@ -25,6 +25,8 @@ internal static class Startup
 
         builder.Services.AddHttpClient();
 
+        builder.Services.AddMemoryCache();
+
         return builder;
     }
 

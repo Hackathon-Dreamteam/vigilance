@@ -2,6 +2,7 @@ using InvasionQc.Core.Advisory;
 using InvasionQc.Core.Alerting;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Caching.Memory;
 
 namespace InvasionQc.Api.Controllers;
 
@@ -10,10 +11,12 @@ namespace InvasionQc.Api.Controllers;
 public class AlertsController: ControllerBase
 {
     private readonly IMediator _mediator;
+    private readonly IMemoryCache _cache;
 
-    public AlertsController(IMediator mediator)
+    public AlertsController(IMediator mediator, IMemoryCache cache)
     {
         _mediator = mediator;
+        _cache = cache;
     }
 
     [HttpGet]
@@ -37,7 +40,20 @@ public class AlertsController: ControllerBase
     [ProducesResponseType<AlertAdvice>(200)]
     public async Task<IActionResult> Get(Guid alertId, CancellationToken cancellationToken)
     {
-        var message = await this._mediator.Send(new GetActionableAdviceOnAlertQuery(alertId), cancellationToken);
-        return this.Ok(message);
+   string cacheKey = $"AlertAdvice_{alertId}";
+
+    if (!_cache.TryGetValue(cacheKey, out AlertAdvice? advice))
+    {
+        advice = await this._mediator.Send(new GetActionableAdviceOnAlertQuery(alertId), cancellationToken);
+
+        // Set cache options
+        var cacheOptions = new MemoryCacheEntryOptions()
+            .SetAbsoluteExpiration(TimeSpan.FromDays(1)); // Change this as needed
+
+        // Save data in cache
+        _cache.Set(cacheKey, advice, cacheOptions);
+    }
+
+    return this.Ok(advice);
     }
 }
