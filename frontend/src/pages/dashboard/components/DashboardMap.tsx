@@ -118,8 +118,9 @@ const DashboardMap: ReactFC = () => {
         setPopupInfo(undefined);
         setZoom(zoom.viewState.zoom);
       },
-      style: { width: '100%', height: 600 },
+      style: { width: '100%', height: '100vh' },
       mapStyle: 'mapbox://styles/felixlechat21/cltltffsh00xw01qpceyi4h9l',
+      // mapStyle: 'mapbox://styles/felixlechat21/cltq1jquf03ev01p0gbpue33d',
       doubleClickZoom: false,
       touchZoomRotate: false,
       touchPitch: false,
@@ -166,7 +167,7 @@ const DashboardMap: ReactFC = () => {
 
   return (
     <>
-      <div className="border rounded-lg overflow-hidden">
+      <div>
         <Map {...options}>
           {/* Controls */}
           <FullscreenControl position="bottom-right" />
