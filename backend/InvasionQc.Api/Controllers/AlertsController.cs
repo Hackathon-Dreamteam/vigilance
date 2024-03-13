@@ -33,7 +33,7 @@ public class AlertsController: ControllerBase
     }
 
     [HttpGet]
-    [Route("alerts/{alertId}/advice")]
+    [Route("{alertId}/advice")]
     [ProducesResponseType<AlertAdvice>(200)]
     public async Task<IActionResult> Get(Guid alertId, CancellationToken cancellationToken)
     {
