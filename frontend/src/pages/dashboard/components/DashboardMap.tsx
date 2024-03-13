@@ -89,6 +89,11 @@ const DashboardMap: ReactFC = () => {
         bounds.extend({ lat: coord.latitude, lng: coord.longitude });
       }
 
+      // Extend the map left to have no points under left metrics
+      const west = bounds.getWest();
+      const south = bounds.getSouth();
+      bounds.extend({ lat: south, lon: west - 0.4 });
+
       setBounds(bounds);
 
       // Fit to bounds and keep pitch
