@@ -5,6 +5,7 @@ import { useAppStore } from '../../state/useAppStore';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import tw from 'twin.macro';
+import { replace } from 'lodash';
 
 const DropdownItem = styled(Dropdown.Item)`
   ${tw`w-44`}
@@ -16,6 +17,8 @@ const Header: ReactFC = () => {
     computed: { regions, alertsCount },
     setState
   } = useAppStore();
+
+  const cleanedName = replace(region.toLocaleLowerCase(), 'é', 'e');
 
   return (
     <Navbar fluid rounded className="sticky top-0 z-10 drop-shadow-md">
@@ -40,12 +43,12 @@ const Header: ReactFC = () => {
         <Dropdown
           arrowIcon={false}
           inline
-          label={<Avatar alt="User settings" className="drop-shadow-lg" img="/img/logo-laval.png" rounded />}
+          label={<Avatar alt="User settings" className="drop-shadow-lg" img={`/img/cities/icon-${cleanedName}.png`} rounded />}
         >
           <Dropdown.Header>
-            <span className="block text-sm">Ville de Laval</span>
+            <span className="block text-sm">Ville de {region}</span>
             <span className="block truncate text-sm font-medium">
-              <a href="mailto:admin@laval.qc.ca">admin@laval.qc.ca</a>
+              <a href="mailto:admin@laval.qc.ca">admin@{cleanedName}.qc.ca</a>
             </span>
           </Dropdown.Header>
           <Dropdown.Item as={Link} to="/dashboard">

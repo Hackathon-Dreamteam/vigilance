@@ -3,13 +3,15 @@ import { Observation, Alert } from './models';
 import { Dictionary, chain, kebabCase } from 'lodash';
 
 export interface AppState {
-  // Dashboard
+  // App
   region: string;
+  // Dashboard
   filterFrom: Date | null;
   filterTo: Date | null;
   filterSpecies: string[];
   filterSource: string | null;
   invasiveOnly: boolean;
+  // Observations
   observations: Observation[];
   // Alerts
   alerts: Alert[];

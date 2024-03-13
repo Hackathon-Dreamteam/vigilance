@@ -37,6 +37,7 @@ export const useFetchAppData = () => {
     const state: Partial<AppState> = {
       observations: chain((observations ?? []).concat(latestObservations ?? []))
         .uniqBy(x => x.observationId)
+        .filter(x => !!x.speciesName)
         .map(x => ({
           ...x,
           // Fix casing (note: lodash startCase break diacritics)
@@ -45,11 +46,14 @@ export const useFetchAppData = () => {
           source: x.source === 'Community' ? 'iNaturalist' : x.source == 'Government' ? 'Sentinelle' : x.source
         }))
         .value(),
-      alerts: alerts?.map(x => ({
-        ...x,
-        speciesName: toTitleCase(x.speciesName),
-        locations: x.locations === 'Montreal' ? 'Montréal' : x.locations
-      }))
+      alerts: chain(alerts)
+        .filter(x => !!x.speciesName)
+        .map(x => ({
+          ...x,
+          speciesName: toTitleCase(x.speciesName),
+          locations: x.locations === 'Montreal' ? 'Montréal' : x.locations
+        }))
+        .value()
     };
 
     setAppState(merge(state, defaultState) as AppState);
