@@ -16,7 +16,8 @@ const RealTimeObservationsCardHeader = styled.div<{ $any: boolean }>`
 const DashboardPage: ReactFC = () => {
   const {
     region,
-    computed: { filteredInvasiveObservations, realTimeObservations }
+    realTimeObservations,
+    computed: { filteredInvasiveObservations }
   } = useAppStore();
 
   return (
@@ -39,7 +40,7 @@ const DashboardPage: ReactFC = () => {
           <Card>
             <RealTimeObservationsCardHeader $any={realTimeObservations.length > 0} key={realTimeObservations.length}>
               <div className="mb-2 flex items-center gap-3">
-                <h4>Dernières observations</h4>
+                <h4>Observations en temps réel</h4>
                 <FaSync className="w-4.5 h-4.5 fill-secondary/80 animate-spin-slow" />
               </div>
               <div className="ml-auto">
@@ -53,7 +54,7 @@ const DashboardPage: ReactFC = () => {
           <Card>
             <div className="flex">
               <div className="mb-2">
-                <h4>Observations</h4>
+                <h4>Historique d'observations</h4>
                 <p className="text-gray-500 mt-0.5">Espèces invasives</p>
               </div>
               <div className="ml-auto">

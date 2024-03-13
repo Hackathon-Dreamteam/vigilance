@@ -1,5 +1,5 @@
 import { createContext, useCallback, useMemo, useState } from 'react';
-import { Observation, Alert, RealTimeObservation, isRealTimeObservation } from './models';
+import { Observation, Alert, RealTimeObservation } from './models';
 import { Dictionary, chain, kebabCase } from 'lodash';
 
 export interface AppState {
@@ -13,6 +13,7 @@ export interface AppState {
   invasiveOnly: boolean;
   // Observations
   observations: Observation[];
+  realTimeObservations: RealTimeObservation[];
   // Alerts
   alerts: Alert[];
 }
@@ -21,7 +22,6 @@ export interface ComputedAppState {
   regions: string[];
   filteredObservations: Observation[];
   filteredInvasiveObservations: Observation[];
-  realTimeObservations: RealTimeObservation[];
   filteredAlerts: Alert[];
   groupedObservations: Dictionary<Observation[]>;
   alertsCount: number;
@@ -43,12 +43,12 @@ const defaultStore = (): AppStore => ({
   invasiveOnly: false,
   alerts: [],
   observations: [],
+  realTimeObservations: [],
   setState: () => {},
   computed: {
     filteredObservations: [],
     filteredInvasiveObservations: [],
     filteredAlerts: [],
-    realTimeObservations: [],
     groupedObservations: {},
     regions: [],
     alertsCount: 0,
@@ -84,9 +84,6 @@ const AppStoreProvider: ReactFC<{ initialState: Partial<AppState> }> = ({ childr
         .filter(x => appState.filterSpecies.length == 0 || appState.filterSpecies.includes(x.speciesName))
         .filter(x => !appState.filterSource || appState.filterSource == x.source)
         .orderBy(x => x.date, 'desc')
-        .value(),
-      realTimeObservations: chain(appState.observations)
-        .filter((x): x is RealTimeObservation => isRealTimeObservation(x))
         .value(),
       filteredAlerts: chain(appState.alerts)
         .filter(x => x.locations === appState.region)

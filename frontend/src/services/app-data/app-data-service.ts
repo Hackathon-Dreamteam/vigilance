@@ -2,7 +2,7 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 import { useMinimumLoading } from '../../hooks/useMinimumLoading';
 import { chain } from 'lodash';
 import { AppState } from '../../state/AppStoreProvider';
-import { Alert, Observation, RealTimeObservation } from '../../state/models';
+import { Alert, Observation } from '../../state/models';
 import { toTitleCase } from '../../utils/string';
 import { ApiHttpService } from '../http/http-service';
 import { useAppStore } from '../../state/useAppStore';
@@ -52,13 +52,6 @@ export const useAppInitialData = () => {
   return { loading, appState };
 };
 
-const mergeLatestObservations = (observations?: Observation[], latestObservations?: Observation[]) => {
-  return chain<Observation>((latestObservations ?? []).map(x => ({ ...x, isRealTime: true } as RealTimeObservation)))
-    .concat(observations ?? [])
-    .uniqBy(x => x.observationId)
-    .value();
-};
-
 export const useObservationRefresh = () => {
   const { setState, observations } = useAppStore();
   const initialFetch = useRef(false);
@@ -66,8 +59,8 @@ export const useObservationRefresh = () => {
   const refreshObservations = useCallback(async () => {
     const { response: latestObservations } = await ApiHttpService.get<Observation[]>('/observations/latest');
 
-    setState({ observations: mergeLatestObservations(observations, latestObservations) });
-  }, [observations, setState]);
+    setState({ realTimeObservations: latestObservations?.map(x => ({ ...x, isRealTime: true })) });
+  }, [setState]);
 
   // Initial fetch
   useEffect(() => {
