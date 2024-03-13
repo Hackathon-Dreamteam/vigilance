@@ -26,4 +26,5 @@ export interface Alert {
   locations: string;
   speciesName: string;
   type: string;
+  isReal: boolean;
 }

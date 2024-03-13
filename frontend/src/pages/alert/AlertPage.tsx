@@ -24,17 +24,23 @@ const AlertPage: ReactFC = () => {
             Observations en augmentation
           </Badge>
         );
+      case 'UnexpectedSpecies':
+        return (
+          <Badge className="inline-block ml-3" color="warning">
+            Espèce inattendue
+          </Badge>
+        );
       default:
         return null;
     }
   };
 
+  console.log(filteredAlerts);
+
   return (
     <div>
       <Card>
-        <h4>
-          Alertes <HiExclamation className="inline-block" />
-        </h4>
+        <h4>Alertes ⚠️</h4>
         <Timeline>
           {Array.isArray(filteredAlerts) &&
             filteredAlerts.length > 0 &&

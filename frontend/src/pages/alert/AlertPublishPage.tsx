@@ -65,7 +65,7 @@ const AlertPublishPage: ReactFC = () => {
             <div className="m-auto max-w-4xl">
               <div className="grid grid-cols-6 gap-4">
                 <div className="col-start-2 col-span-4">
-                  <img className="drop-shadow-md" src={alertContent.imageUri} />
+                  <img className="drop-shadow-md mt-5" src={alertContent.imageUri} />
                   <Markdown className="mt-5 alert-markdown" remarkPlugins={[[remarkGfm, { singleTilde: false }]]}>
                     {alertContent.message}
                   </Markdown>

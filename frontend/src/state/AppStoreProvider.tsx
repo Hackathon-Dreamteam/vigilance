@@ -83,6 +83,7 @@ const AppStoreProvider: ReactFC<{ state: Partial<AppState> }> = ({ children, sta
         .value(),
       filteredAlerts: chain(appState.alerts)
         .filter(x => x.locations === appState.region)
+        .orderBy(x => x.date, 'desc')
         .value(),
 
       // Grouping of observations for map component
