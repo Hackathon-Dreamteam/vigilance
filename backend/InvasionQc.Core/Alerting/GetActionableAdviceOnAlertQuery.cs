@@ -1,5 +1,6 @@
 ﻿using System.Text;
 using InvasionQc.Core.Advisory;
+using InvasionQc.Core.Constants;
 using InvasionQc.Core.Species;
 using MediatR;
 
@@ -52,7 +53,7 @@ public class GetActionableAdviceOnAlertQueryHandler : IRequestHandler<GetActiona
             Alert.AlertType.ObservationsDropping =>
                 $"Il y a une baisse de population des {alert.SpeciesName}. {this.GetSpeciesDetails(speciesReports)}",
             Alert.AlertType.UnexpectedSpecies =>
-                $"Il y a eu une détection inattendu de cette espèce {alert.SpeciesName}. {this.GetSpeciesDetails(speciesReports)}",
+                $"Il y a eu une détection inattendu de cette espèce {alert.SpeciesName}. {this.GetSpeciesDetails(speciesReports)}, si c'est une espèce dangereuse il faut que les citoyens soient prudent.",
             Alert.AlertType.ObservationsRaising =>
                 $"Il y a une hausse de population des {alert.SpeciesName}. {this.GetSpeciesDetails(speciesReports)}",
             _ => throw new ArgumentOutOfRangeException()
@@ -77,7 +78,18 @@ public class GetActionableAdviceOnAlertQueryHandler : IRequestHandler<GetActiona
 
     private string GetImagePrompt(Alert alert, SpeciesReports speciesReports)
     {
-        return $"Crée une image réaliste d'un {alert.SpeciesName}, le but est de crée conscientisation des citoyens à cette situation: {this.GetAssistantInstruction(alert, speciesReports)}. Ne met pas de texte. Idéalement met un background de la ville de {alert.Locations.ToString()}";
+        return $"Crée une image réaliste d'un {alert.SpeciesName}, le but est de crée conscientisation des citoyens à cette situation: {this.GetAssistantInstruction(alert, speciesReports)}. Ne met pas de texte. {GetCityDescrition(alert.Locations)}";
+    }
+
+    private string GetCityDescrition(Locations locations)
+    {
+        return locations switch
+        {
+            Locations.Montreal => "Dans la ville de Montreal, ville dynamique au cœur du Québec. Grattes-ciel modernes, rues pavées, cafés animés. Le Stade olympique et le Biodôme ajoutent à son charme unique.With in background the city of Montreal including the Montreal Olympic Stadium, Montreal Biodome and Place Ville-Marie",
+            Locations.Laval =>  "With in background the City of Laval including the Carrefour Laval, La Place Bell and the Cinéma Cineplex Laval",
+            Locations.Gatineau => "Gatineau, ville paisible en bordure d'Ottawa. L'architecture ancienne se mêle à la modernité. Le centre-ville regorge de cafés et de galeries d'art. La proximité avec la nature offre un cadre enchanteur, avec la rivière des Outaouais et le parc de la Gatineau à portée de main.",
+            Locations.Shawinigan => "Shawinigan, ville industrielle au cœur de la Mauricie. Le parc national de la Mauricie, avec ses lacs et ses forêts, est un paradis pour les amateurs de plein air. Le musée de la Cité de l'énergie retrace l'histoire de l'hydroélectricité dans la région."
+        };
     }
 }
 
