@@ -21,7 +21,7 @@ const Header: ReactFC = () => {
   const cleanedName = replace(region.toLocaleLowerCase(), 'é', 'e');
 
   return (
-    <Navbar fluid rounded className="sticky top-0 z-40 drop-shadow-md">
+    <Navbar fluid rounded className="sticky top-0 z-40 drop-shadow-md rounded-none">
       <Navbar.Brand as={Link} to="/dashboard">
         <Icon className="h-8 w-32 fade-in-0 animate-in slide-in-from-left-5 duration-500" />
       </Navbar.Brand>

@@ -135,7 +135,7 @@ const DashboardMap: ReactFC = () => {
         setPopupInfo(undefined);
         setZoom(zoom.viewState.zoom);
       },
-      style: { width: '100%', height: 'calc(100vh - 150px)' },
+      style: { width: '100%', height: 'calc(100vh - 60px)' },
       mapStyle: import.meta.env.VITE_MAPBOX_MAP_STYLE,
       doubleClickZoom: false,
       touchZoomRotate: false,
@@ -185,7 +185,6 @@ const DashboardMap: ReactFC = () => {
     <Map {...options}>
       {/* Controls */}
       <FullscreenControl position="bottom-right" />
-      <NavigationControl position="top-right" showCompass={false} visualizePitch={false} />
 
       <Source
         type="geojson"

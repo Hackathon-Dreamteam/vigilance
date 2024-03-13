@@ -61,7 +61,7 @@ const Observations: ReactFC = () => {
 };
 
 const Card = styled(FlowbiteCard)`
-  ${tw`bg-black/80 border-none text-white/90`}
+  ${tw`bg-black/60 border-none text-white/90`}
   tr,
   th,
   td {
@@ -72,14 +72,26 @@ const Card = styled(FlowbiteCard)`
   }
 `;
 
+const MapInformation = styled.div`
+  &::-webkit-scrollbar {
+    width: 12px;
+  }
+  &::-webkit-scrollbar-thumb {
+    ${tw`bg-gray-400/20 rounded-lg`}
+  }
+  max-height: calc(100vh - 60px);
+  direction: rtl;
+  > * {
+    direction: ltr;
+  }
+  ${tw`overflow-y-auto w-full flex flex-col gap-4 p-4`}
+`;
+
 const DashboardPage: ReactFC = () => {
   return (
-    <div className="relative">
-      <div className="mb-5">
-        <DashboardFilters />
-      </div>
-      <div className="absolute top-16 -left-28 w-1/2 h-full z-10 p-5 scale-75" style={{ minWidth: 700 }}>
-        <div className="w-full flex flex-col gap-5">
+    <div className="relative -mx-8 -mt-6">
+      <div className="absolute w-2/5 top-0 bottom-0 z-10">
+        <MapInformation>
           <Card>
             <RealTimeObservations />
           </Card>
@@ -90,9 +102,12 @@ const DashboardPage: ReactFC = () => {
           <Card>
             <Observations />
           </Card>
-        </div>
+        </MapInformation>
       </div>
-      <div className="absolute top-16 -left-8 -right-8 z-0">
+      <div className="absolute right-4 top-4 rounded-lg z-10 p-4 bg-black/60">
+        <DashboardFilters />
+      </div>
+      <div className="absolute w-full z-0">
         <DashboardMap />
       </div>
     </div>
