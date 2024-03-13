@@ -84,7 +84,7 @@ export const useObservationRefresh = () => {
   useEffect(() => {
     const intervalId = setInterval(() => {
       refreshObservations();
-    }, 10000);
+    }, import.meta.env.VITE_REFRESH_OBSERVATIONS_INTERVAL);
 
     return () => clearInterval(intervalId);
   }, [refreshObservations]);

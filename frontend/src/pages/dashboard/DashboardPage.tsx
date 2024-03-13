@@ -7,16 +7,16 @@ import DashboardSummary from './components/DashboardSummary';
 import styled from 'styled-components';
 import tw from 'twin.macro';
 
+const RealTimeObservationsCardHeader = styled.div<{ $any: boolean }>`
+  ${tw`flex`}
+  ${({ $any }) => $any && tw`animate-in fade-in slide-in-from-left-5 duration-1200`}
+`;
+
 const DashboardPage: ReactFC = () => {
   const {
     region,
     computed: { filteredInvasiveObservations, realTimeObservations }
   } = useAppStore();
-
-  const RealTimeObservationsCard = styled(Card)<{ $visible: boolean }>`
-    ${tw`animate-in fade-in-0 slide-in-from-top-8 duration-1200 h-0 opacity-0`}
-    ${({ $visible }) => $visible && tw`h-auto opacity-100`}
-  `;
 
   return (
     <>
@@ -35,19 +35,17 @@ const DashboardPage: ReactFC = () => {
           </div>
         </div>
         <div className="col-span-2 flex flex-col gap-5">
-          <RealTimeObservationsCard $visible={realTimeObservations.length > 0} key={realTimeObservations.length}>
-            <div className="flex">
+          <Card>
+            <RealTimeObservationsCardHeader $any={realTimeObservations.length > 0} key={realTimeObservations.length}>
               <div className="mb-2">
                 <h4>Dernières observations</h4>
               </div>
               <div className="ml-auto">
                 <Badge size="lg">{realTimeObservations.length}</Badge>
               </div>
-            </div>
-            <div>
-              <DashboardObservations observations={realTimeObservations} key={region} />
-            </div>
-          </RealTimeObservationsCard>
+            </RealTimeObservationsCardHeader>
+            <DashboardObservations observations={realTimeObservations} />
+          </Card>
           <Card>
             <div className="flex">
               <div className="mb-2">
