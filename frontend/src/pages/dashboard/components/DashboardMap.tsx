@@ -11,6 +11,7 @@ import mapboxgl from 'mapbox-gl';
 import type { Point } from 'geojson/index';
 import useSupercluster, { UseSuperclusterArgument } from 'use-supercluster';
 import { PointFeature } from 'supercluster';
+import { theme } from 'twin.macro';
 
 interface ClusterEntry {
   observationId: string;
@@ -205,7 +206,7 @@ const DashboardMap: ReactFC = () => {
                   setPopupInfo(cluster.properties);
                 }}
               >
-                <HiMapPin size={20} color="white" cursor={'pointer'} />
+                <HiMapPin size={20} color={theme`colors.secondary`} cursor={'pointer'} />
               </Marker>
             );
           })}
