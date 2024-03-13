@@ -6,4 +6,5 @@ public enum Locations
     Laval = 1,
     Montreal = 2,
     Gatineau = 3,
+    Shawinigan = 4,
 }

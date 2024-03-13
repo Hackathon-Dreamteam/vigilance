@@ -3,6 +3,12 @@ import { Avatar, Badge, Button, Dropdown, Navbar } from 'flowbite-react';
 import { IoIosNotifications } from 'react-icons/io';
 import { useAppStore } from '../../state/useAppStore';
 import { Link } from 'react-router-dom';
+import styled from 'styled-components';
+import tw from 'twin.macro';
+
+const DropdownItem = styled(Dropdown.Item)`
+  ${tw`w-44`}
+`;
 
 const Header: ReactFC = () => {
   const {
@@ -19,9 +25,9 @@ const Header: ReactFC = () => {
       <div className="ml-6 animate-in slide-in-from-top-2 duration-1000 delay-500 fade-in fill-mode-both">
         <Dropdown label={region} inline>
           {regions.map(x => (
-            <Dropdown.Item key={x} onClick={() => setState({ region: x })}>
+            <DropdownItem key={x} onClick={() => setState({ region: x })}>
               {x}
-            </Dropdown.Item>
+            </DropdownItem>
           ))}
         </Dropdown>
       </div>
