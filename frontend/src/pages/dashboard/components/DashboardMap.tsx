@@ -5,7 +5,7 @@ import { Badge } from 'flowbite-react';
 import { HiOutlineQuestionMarkCircle } from 'react-icons/hi';
 import { map } from 'lodash';
 import { HiMapPin } from 'react-icons/hi2';
-import { useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { Observation } from '../../../state/models';
 import MapInfowindow from './MapInfowindow';
 import mapboxgl from 'mapbox-gl';
@@ -18,14 +18,7 @@ const DashboardMap: ReactFC = () => {
   } = useAppStore();
   const [popupInfo, setPopupInfo] = useState<Observation[]>([]);
 
-  // Map reference to update viewport if the data change
-  const mapRef = useRef<MapRef>(null);
-  useEffect(() => {
-    setPopupInfo([]);
-    fitMapBoundsToObservations();
-  }, [filteredObservations]);
-
-  const fitMapBoundsToObservations = () => {
+  const fitMapBoundsToObservations = useCallback(() => {
     // Calculate max viewport
     const coordinates = filteredObservations.map(obs => obs.geoLocation).filter(obs => !!obs?.latitude && !!obs.longitude);
 
@@ -44,7 +37,14 @@ const DashboardMap: ReactFC = () => {
       // Fit to bounds and keep pitch
       mapRef.current?.fitBounds(bounds, { padding: 20, duration: 2000, pitch: PITCH, maxZoom: 16 });
     }
-  };
+  }, [filteredObservations]);
+
+  // Map reference to update viewport if the data change
+  const mapRef = useRef<MapRef>(null);
+  useEffect(() => {
+    setPopupInfo([]);
+    fitMapBoundsToObservations();
+  }, [filteredObservations, fitMapBoundsToObservations]);
 
   return (
     <>
