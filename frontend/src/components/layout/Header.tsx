@@ -38,7 +38,7 @@ const Header: ReactFC = () => {
       <div className="flex gap-4 ml-auto">
         <Button as={Link} size="xs" className="bg-transparent enabled:hover:bg-gray-200" to="/alerts">
           <IoIosNotifications className="h-6 w-6 fill-black" />
-          <Badge className="-ml-2">{alertsCount}</Badge>
+          <Badge className="-ml-2 bg-secondary/10 text-secondary">{alertsCount}</Badge>
         </Button>
         <Dropdown
           arrowIcon={false}

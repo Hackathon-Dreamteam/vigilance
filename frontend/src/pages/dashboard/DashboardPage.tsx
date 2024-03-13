@@ -6,6 +6,7 @@ import DashboardMap from './components/DashboardMap';
 import DashboardSummary from './components/DashboardSummary';
 import styled from 'styled-components';
 import tw from 'twin.macro';
+import { FaSync } from 'react-icons/fa';
 
 const RealTimeObservationsCardHeader = styled.div<{ $any: boolean }>`
   ${tw`flex`}
@@ -37,11 +38,12 @@ const DashboardPage: ReactFC = () => {
         <div className="col-span-2 flex flex-col gap-5">
           <Card>
             <RealTimeObservationsCardHeader $any={realTimeObservations.length > 0} key={realTimeObservations.length}>
-              <div className="mb-2">
+              <div className="mb-2 flex items-center gap-3">
                 <h4>Dernières observations</h4>
+                <FaSync className="w-4.5 h-4.5 fill-secondary/80 animate-spin-slow" />
               </div>
               <div className="ml-auto">
-                <Badge color="warning" size="lg">
+                <Badge className="bg-secondary/20 text-secondary" size="lg">
                   {realTimeObservations.length}
                 </Badge>
               </div>
@@ -55,7 +57,9 @@ const DashboardPage: ReactFC = () => {
                 <p className="text-gray-500 mt-0.5">Espèces invasives</p>
               </div>
               <div className="ml-auto">
-                <Badge size="lg">{filteredInvasiveObservations.length}</Badge>
+                <Badge size="lg" className="bg-primary/10 text-primary">
+                  {filteredInvasiveObservations.length}
+                </Badge>
               </div>
             </div>
             <div>

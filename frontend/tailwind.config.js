@@ -1,11 +1,19 @@
 import flowbitePlugin from 'flowbite/plugin';
 import plugin from 'tailwindcss/plugin';
 import animatePlugin from 'tailwindcss-animate';
+import colors from 'tailwindcss/colors';
 
 /** @type {import('tailwindcss').Config} */
 export default {
   content: ['./index.html', './src/**/*.{js,ts,jsx,tsx}', 'node_modules/flowbite-react/**/*.{js,jsx,ts,tsx}'],
   theme: {
+    colors: {
+      ...colors,
+      primary: 'rgb(86, 115, 72)',
+      secondary: 'rgb(14, 146, 173)',
+      default: 'rgb(52, 60, 62)',
+      error: 'rgb(168, 45, 19)'
+    },
     extend: {
       animationDuration: {
         1200: '1200ms',
@@ -17,6 +25,9 @@ export default {
         1200: '1200ms',
         2000: '2000ms',
         3000: '3000ms'
+      },
+      animation: {
+        'spin-slow': 'spin 5s linear infinite'
       }
     }
   },

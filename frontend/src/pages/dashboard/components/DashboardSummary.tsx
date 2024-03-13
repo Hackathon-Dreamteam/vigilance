@@ -6,6 +6,7 @@ import { getMonth } from 'date-fns/getMonth';
 import { getYear } from 'date-fns/getYear';
 import { startOfMonth } from 'date-fns/startOfMonth';
 import { format } from 'date-fns/format';
+import { theme } from 'twin.macro';
 
 const DashboardSummary: ReactFC = () => {
   const {
@@ -64,7 +65,7 @@ const DashboardSummary: ReactFC = () => {
     {
       name: 'Espèces invasives',
       data: entries.map(x => x.invasiveCount),
-      color: 'rgb(182,32,32)'
+      color: theme`colors.error`
     }
   ];
 
@@ -72,7 +73,7 @@ const DashboardSummary: ReactFC = () => {
     series.push({
       name: 'Espèces natives',
       data: entries.map(x => x.nonInvasiveCount),
-      color: 'rgb(28,144,153)'
+      color: theme`colors.primary`
     });
   }
 
