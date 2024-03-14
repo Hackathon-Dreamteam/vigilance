@@ -22,5 +22,5 @@ public class Observation
 
     public string iNaturalistLink { get; set; }
 
-    public string TaxonId { get; internal set; }
+    public string TaxonId { get; internal set; } = string.Empty;
 }

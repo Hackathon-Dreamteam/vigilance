@@ -74,6 +74,9 @@ public class NatObservations
     [JsonPropertyName("taxon")]
     public Taxon taxon { get; set; } = new Taxon();
 
+    [JsonPropertyName("community_taxon_id")]
+    public string taxonId { get; set; } = string.Empty;
+    
     [JsonPropertyName("geojson")]
     public Geojson geojson { get; set; } = new Geojson();
 }
