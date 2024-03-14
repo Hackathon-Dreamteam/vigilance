@@ -20,6 +20,7 @@ public class GetObservationsQueryHandler : IStreamRequestHandler<GetObservations
     {
         await foreach (var observationData in _fileObservationsLoader.GetSpecies(request.Location, cancellationToken))
         {
+
             yield return new Observation()
             {
                 ObservationId = observationData.ObservationId,
@@ -31,7 +32,7 @@ public class GetObservationsQueryHandler : IStreamRequestHandler<GetObservations
                 ImageUrl = observationData.ImageUrl?.Replace("\\", "") ?? string.Empty,
                 Source = observationData.Source,
                 Date = observationData.ObservationDate,
-                TaxonId = observationData.TaxonId,
+                TaxonId = observationData.TaxonId!,
                 iNaturalistLink = $"https://www.inaturalist.org/observations/{observationData.ObservationId.Substring(2)}"
             };
         }
