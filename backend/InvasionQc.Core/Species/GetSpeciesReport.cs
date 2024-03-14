@@ -8,7 +8,7 @@ using MediatR;
 namespace InvasionQc.Core.Species;
 
 public record GetSpeciesReport(string SpeciesName, Locations Location, string TaxonId) : IRequest<SpeciesReports>;
-spublic class GetSpeciesReportHandler : IRequestHandler<GetSpeciesReport, SpeciesReports>
+public class GetSpeciesReportHandler : IRequestHandler<GetSpeciesReport, SpeciesReports>
 {
     private readonly InvasiveSpeciesLoader _invasiveSpeciesLoader;
     private readonly PrecariousSpeciesLoader _precariousSpeciesLoader;
