@@ -33,13 +33,13 @@ const LoginPage: ReactFC = () => {
         <Icon />
       </Logo>
       <Content>
-        <div className="ml-2">
+        <div className="ml-1">
           <span>Fait avec</span>
           <HiOutlineHeart className="inline-block mx-1" color="red" />
           <span>au Québec</span>
         </div>
         <Link to="/dashboard">
-          <Button color="dark">Se Connecter</Button>
+          <Button className="bg-primary enabled:hover:bg-primary/90 transition-all">Se Connecter</Button>
         </Link>
       </Content>
     </Container>
