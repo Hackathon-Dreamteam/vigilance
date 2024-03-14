@@ -28,8 +28,6 @@ const ObservationsDetailsPage: ReactFC = () => {
       .value();
   }
 
-  console.log(selectedObservation);
-
   if (!selectedObservation) {
     return <Navigate to="/dashboard" />;
   }
