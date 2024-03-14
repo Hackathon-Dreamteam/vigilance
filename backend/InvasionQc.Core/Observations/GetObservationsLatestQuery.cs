@@ -34,10 +34,10 @@ public class GetObservationsLatestQueryHandler : IStreamRequestHandler<GetObserv
                     SpeciesName = observationData.taxon.name,
                     Location = observationData.Location,
                     IsInvasive = true,
-                    GeoLocation = new GeoLocation(observationData.geojson.coordinates[0], observationData.geojson.coordinates[1]),
+                    GeoLocation = new GeoLocation(observationData.geojson.coordinates[1], observationData.geojson.coordinates[0]),
                     Source = "Community",
                     Date = observationDate,
-                     TaxonId = $"{observationData.taxonId}",
+                    TaxonId = $"{observationData.taxonId}",
                     ObservationId = $"c_{observationData.ObservationId}",
                     ImageUrl = observationData.ObservationPhotos
                         .Select(x => x.Metadata?.Url?.Replace("square.jpeg", "large.jpeg")?.Replace("square.jpg", "large.jpg"))
