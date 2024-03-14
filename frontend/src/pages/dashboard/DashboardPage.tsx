@@ -23,9 +23,9 @@ const RealTimeObservations: ReactFC = () => {
   return (
     <>
       <RealTimeObservationsCardHeader $any={realTimeObservations.length > 0} key={realTimeObservations.length}>
-        <div className="mb-2 flex items-center gap-3">
+        <div className="mb-2 flex items-center">
           <h4>Observations en temps réel</h4>
-          <FaSync className="w-4.5 h-4.5 fill-primary/80 animate-spin-slow" />
+          <FaSync className="ml-5 w-5 h-5 fill-primary/70 animate-spin-slow" />
         </div>
         <div className="ml-auto">
           <Badge className="bg-primary/30 text-white" size="lg">
