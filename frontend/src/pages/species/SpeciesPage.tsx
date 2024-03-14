@@ -1,4 +1,4 @@
-import { Card, Select } from 'flowbite-react';
+import { Card } from 'flowbite-react';
 import { useAppStore } from '../../state/useAppStore';
 import AlpabeticalSorter from 'react-alphabet-sorter';
 

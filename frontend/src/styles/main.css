@@ -88,6 +88,11 @@ h6 {
   margin-top: 10px;
 }
 
+/* Apex Charts */
+.apexcharts-tooltip-text-y-label {
+  color: #343c3e !important;
+}
+
 /* React Alphabet Sorter */
 .as-item {
   width: 50%;
