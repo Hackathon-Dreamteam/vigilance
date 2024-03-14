@@ -32,8 +32,8 @@ public class GetObservationsQueryHandler : IStreamRequestHandler<GetObservations
                 ImageUrl = observationData.ImageUrl?.Replace("\\", "") ?? string.Empty,
                 Source = observationData.Source,
                 Date = observationData.ObservationDate,
-                TaxonId = observationData.TaxonId,
-                iNaturalistLink = $"https://www.inaturalist.org/observations/{observationData.ObservationId.Substring(2)}"
+                TaxonId = $"{observationData.TaxonId}",
+                iNaturalistLink = $"https://www.inaturalist.org/observations/{observationData.ObservationId.Replace("c_", string.Empty)}"
             };
         }
     }

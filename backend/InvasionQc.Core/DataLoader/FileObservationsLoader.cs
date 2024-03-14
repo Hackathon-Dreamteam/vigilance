@@ -76,7 +76,7 @@ public class FileObservations
     public string? ImageUrl { get; set; }
 
     [JsonPropertyName("taxon_id")]
-    public string? TaxonId { get; set; }
+    public int? TaxonId { get; set; }
 }
 
 [JsonSerializable(typeof(List<FileObservations>))]

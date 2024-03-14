@@ -1,12 +1,10 @@
 using Bogus;
 using InvasionQc.Core.Constants;
-using MediatR;
 
 namespace InvasionQc.Core.Alerting;
 
 public class AlertRepositories
 {
-    private readonly IMediator _mediator;
     private readonly Dictionary<Guid, Alert> _alerts;
 
     public AlertRepositories()
@@ -52,7 +50,7 @@ public class AlertRepositories
             { "nerprun bourdaine", "82856" },
             { "renouée du japon", "914922" }
         };
-        
+
         var random = new Random();
         var randomAlerts = new Faker<Alert>()
             .RuleFor(o => o.Id, f => f.Random.Guid())
@@ -64,7 +62,7 @@ public class AlertRepositories
             .Generate(50);
 
         randomAlerts.ForEach(alert => alert.TaxonId = speciesNames[alert.SpeciesName].ToString());
-        
+
         alertsSeeds.AddRange(randomAlerts);
 
 
