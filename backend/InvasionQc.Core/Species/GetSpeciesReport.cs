@@ -7,8 +7,7 @@ using MediatR;
 
 namespace InvasionQc.Core.Species;
 
-public record GetSpeciesReport(string SpeciesName, Locations Location) : IRequest<SpeciesReports>;
-
+public record GetSpeciesReport(string SpeciesName, Locations Location, string TaxonId) : IRequest<SpeciesReports>;
 public class GetSpeciesReportHandler : IRequestHandler<GetSpeciesReport, SpeciesReports>
 {
     private readonly InvasiveSpeciesLoader _invasiveSpeciesLoader;
@@ -43,12 +42,7 @@ public class GetSpeciesReportHandler : IRequestHandler<GetSpeciesReport, Species
 
         var taxonSummary = (await this._taxonLoader.Load(cancellationToken))
             .FirstOrDefault(x =>
-                string.Equals(precariousSpeciesInfo?.ScientificSpeciesName, x.LatinName, StringComparison.InvariantCultureIgnoreCase) ||
-                string.Equals(precariousSpeciesInfo?.SpeciesName, x.LatinName, StringComparison.InvariantCultureIgnoreCase) ||
-                string.Equals(invasiveSpeciesInfo?.LatinName, x.LatinName, StringComparison.InvariantCultureIgnoreCase) ||
-                string.Equals(invasiveSpeciesInfo?.SpeciesCode, x.TaxonId, StringComparison.InvariantCultureIgnoreCase) ||
-                string.Equals(request.SpeciesName, x.LatinName, StringComparison.InvariantCultureIgnoreCase) ||
-                string.Equals(request.SpeciesName, x.EnglishName, StringComparison.InvariantCultureIgnoreCase)
+                string.Equals(request?.TaxonId, x.TaxonId, StringComparison.InvariantCultureIgnoreCase)
             );
 
         var alerts = this._alertRepositories.GetAlerts(request.SpeciesName);

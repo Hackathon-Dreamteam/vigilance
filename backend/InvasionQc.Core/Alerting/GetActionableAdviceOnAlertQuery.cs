@@ -1,4 +1,5 @@
-﻿using System.Text;
+﻿using System.Runtime.CompilerServices;
+using System.Text;
 using InvasionQc.Core.Advisory;
 using InvasionQc.Core.Constants;
 using InvasionQc.Core.Species;
@@ -25,7 +26,7 @@ public class GetActionableAdviceOnAlertQueryHandler : IRequestHandler<GetActiona
     {
         var alert = this._alertRepositories.GetAlert(request.alertId);
 
-        var speciesReport = await this._mediator.Send(new GetSpeciesReport(alert.SpeciesName, alert.Locations), cancellationToken);
+        var speciesReport = await this._mediator.Send(new GetSpeciesReport(alert.SpeciesName, alert.Locations, alert.TaxonId), cancellationToken);
 
         var adviceTask =  this._advisor.GetMessage(this.GetAssistantContext(), this.GetAssistantInstruction(alert, speciesReport));
         var imageTask = this._advisor.GetImage(this.GetImagePrompt(alert, speciesReport));

@@ -22,9 +22,9 @@ public class SpeciesController: ControllerBase
     [HttpGet]
     [Route("{speciesName}/reports")]
     [ProducesResponseType<SpeciesReports>(200)]
-    public async Task<IActionResult> Get([FromRoute] string speciesName, [FromQuery] Locations location, CancellationToken cancellationToken)
+    public async Task<IActionResult> Get([FromRoute] string speciesName, [FromQuery] Locations location,[FromQuery] string taxonId, CancellationToken cancellationToken)
     {
-        var speciesDetails = await this._mediator.Send(new GetSpeciesReport(speciesName, location), cancellationToken);
+        var speciesDetails = await this._mediator.Send(new GetSpeciesReport(speciesName, location, taxonId), cancellationToken);
         return this.Ok(speciesDetails);
     }
 
