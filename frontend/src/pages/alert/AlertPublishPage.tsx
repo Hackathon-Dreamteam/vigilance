@@ -34,8 +34,7 @@ const AlertPublishPage: ReactFC = () => {
         message = replace(message, '3️⃣', '\n');
         message = replace(message, '4️⃣', '\n');
         message = replace(message, '3 ', '\n');
-        message = replace(message, '');
-        message = replace(message, '');
+        message = replace(message, '3️️⃣', '\n');
 
         setAlertContent({
           ...value.response,

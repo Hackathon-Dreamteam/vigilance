@@ -1,4 +1,4 @@
-import Map, { Source, Layer, FullscreenControl, NavigationControl, Marker, MapRef } from 'react-map-gl';
+import Map, { Source, Layer, FullscreenControl, Marker, MapRef } from 'react-map-gl';
 import { HeatmapType, heatmapLayer } from './HeatmapLayer';
 import { useAppStore } from '../../../state/useAppStore';
 import { map, uniq } from 'lodash';

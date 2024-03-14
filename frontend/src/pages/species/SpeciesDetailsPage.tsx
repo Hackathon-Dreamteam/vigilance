@@ -2,7 +2,7 @@ import { Breadcrumb, Card } from 'flowbite-react';
 import { Link, useParams } from 'react-router-dom';
 
 const SpeciesDetailsPage: ReactFC = () => {
-  const { speciesId, observationId } = useParams();
+  const { speciesId } = useParams();
   const speciesName = speciesId;
 
   return (
@@ -17,7 +17,6 @@ const SpeciesDetailsPage: ReactFC = () => {
       </Breadcrumb>
       <Card>
         <h4>{speciesName}</h4>
-        <div>{observationId}</div>
       </Card>
     </div>
   );

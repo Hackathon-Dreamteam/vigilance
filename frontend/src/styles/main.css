@@ -27,6 +27,12 @@ h6 {
   @apply h6;
 }
 
+/* Fix: Override dark mode */
+body {
+  color: #343c3e;
+  background: rgb(243, 243, 243);
+}
+
 /* Hide Mapbox components */
 .mapboxgl-ctrl-logo,
 .mapboxgl-ctrl-attrib-inner {
@@ -67,6 +73,10 @@ h6 {
   font-size: 0.875rem;
   line-height: 1.25rem;
 }
+.react-select__option {
+  background-color: white !important;
+  color: #343c3e !important;
+}
 .react-select__option--is-selected {
   color: #fff !important;
   background-color: rgb(86, 115, 72) !important;
@@ -77,10 +87,13 @@ h6 {
   opacity: 0.95 !important;
 }
 .react-select__option:hover {
-  background-color: rgba(86, 115, 72, 0.5);
+  background-color: rgba(86, 115, 72, 0.5) !important;
 }
 .react-select__multi-value {
   margin: 10px 0px;
+}
+.react-select__multi-value__remove {
+  color: #343c3e !important;
 }
 
 /* Alert Post */
@@ -89,6 +102,15 @@ h6 {
 }
 
 /* Apex Charts */
+.apexcharts-tooltip-text-y-label {
+  color: #343c3e !important;
+}
+.apexcharts-tooltip-text-x-label {
+  color: #343c3e !important;
+}
+.apexcharts-tooltip-text-y-value {
+  color: #343c3e !important;
+}
 .apexcharts-tooltip-text-y-label {
   color: #343c3e !important;
 }

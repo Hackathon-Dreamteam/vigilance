@@ -59,7 +59,7 @@ const DashboardObservations: ReactFC<{ observations: Observation[] }> = ({ obser
               <TableCell align="left">{formatDate(x.date)}</TableCell>
               <TableCell align="left">{x.location}</TableCell>
               <TableCell align="right">
-                <Link to={`/species/${x.speciesName}/${x.observationId}`}>
+                <Link to={`/observations/${x.observationId}`}>
                   <DetailsButton outline size="xs">
                     Détails
                   </DetailsButton>
