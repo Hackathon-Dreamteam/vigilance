@@ -51,8 +51,8 @@ const AlertPage: ReactFC = () => {
                     {alert.speciesName} <span>{renderAlertBadge(alert.type)}</span>
                   </Timeline.Title>
                   <Timeline.Body>
-                    <Link to={`/alerts/${alert.id}`}>
-                      <Button className="mt-3">
+                    <Link className="inline-flex" to={`/alerts/${alert.id}`}>
+                      <Button className="bg-primary enabled:hover:bg-primary/90 transition-all mt-3">
                         Publier une alerte citoyenne
                         <HiArrowNarrowRight className="ml-2 h-3 w-3" />
                       </Button>
