@@ -16,6 +16,10 @@ const RealTimeObservationsCardHeader = styled.div<{ $any: boolean }>`
 const RealTimeObservations: ReactFC = () => {
   const { realTimeObservations } = useAppStore();
 
+  if (!realTimeObservations) {
+    return null;
+  }
+
   return (
     <>
       <RealTimeObservationsCardHeader $any={realTimeObservations.length > 0} key={realTimeObservations.length}>

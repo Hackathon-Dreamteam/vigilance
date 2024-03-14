@@ -186,6 +186,7 @@ const DashboardMap: ReactFC = () => {
       {/* Controls */}
       <FullscreenControl position="bottom-right" />
 
+      {/* Heatmap - Precarious Species */}
       <Source
         type="geojson"
         data={{
@@ -195,6 +196,7 @@ const DashboardMap: ReactFC = () => {
       >
         <Layer {...heatmapLayer(HeatmapType.Precarious)} />
       </Source>
+      {/* Heatmap - Invasive Species */}
       <Source
         type="geojson"
         data={{
