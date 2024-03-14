@@ -87,3 +87,19 @@ h6 {
 .alert-markdown p {
   margin-top: 10px;
 }
+
+/* React Alphabet Sorter */
+.as-item {
+  width: 50%;
+  display: inline-block;
+}
+.as-item__navigator {
+  font-weight: 600;
+  font-size: 30px;
+}
+.as-items__list {
+  padding-left: 40px !important;
+}
+.as-item__navigator {
+  left: -40px !important;
+}
