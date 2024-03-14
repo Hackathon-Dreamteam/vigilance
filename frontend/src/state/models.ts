@@ -16,6 +16,7 @@ export interface Observation {
   geoLocation: GeoLocation;
   location: string;
   iNaturalistLink: string;
+  taxonId: string;
 }
 
 export interface GeoLocation {
@@ -35,4 +36,5 @@ export interface Alert {
   speciesName: string;
   type: string;
   isReal: boolean;
+  taxonId: string;
 }
