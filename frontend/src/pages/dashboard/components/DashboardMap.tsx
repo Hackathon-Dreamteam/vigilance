@@ -1,8 +1,6 @@
 import Map, { Source, Layer, FullscreenControl, NavigationControl, Marker, MapRef } from 'react-map-gl';
 import { HeatmapType, heatmapLayer } from './HeatmapLayer';
 import { useAppStore } from '../../../state/useAppStore';
-import { Badge } from 'flowbite-react';
-import { HiOutlineQuestionMarkCircle } from 'react-icons/hi';
 import { map, uniq } from 'lodash';
 import { HiMapPin } from 'react-icons/hi2';
 import { ComponentProps, useCallback, useEffect, useMemo, useRef, useState } from 'react';
@@ -104,6 +102,11 @@ const DashboardMap: ReactFC = () => {
         bounds.extend({ lat: coord.latitude, lng: coord.longitude });
       }
 
+      // Extend the map left to have no points under left metrics
+      const west = bounds.getWest();
+      const south = bounds.getSouth();
+      bounds.extend({ lat: south, lon: west - 0.4 });
+
       setBounds(bounds);
 
       // Fit to bounds and keep pitch
@@ -132,7 +135,7 @@ const DashboardMap: ReactFC = () => {
         setPopupInfo(undefined);
         setZoom(zoom.viewState.zoom);
       },
-      style: { width: '100%', height: 600 },
+      style: { width: '100%', height: 'calc(100vh - 60px)' },
       mapStyle: import.meta.env.VITE_MAPBOX_MAP_STYLE,
       doubleClickZoom: false,
       touchZoomRotate: false,
@@ -179,74 +182,56 @@ const DashboardMap: ReactFC = () => {
   );
 
   return (
-    <>
-      <div className="border rounded-lg overflow-hidden">
-        <Map {...options}>
-          {/* Controls */}
-          <FullscreenControl position="bottom-right" />
-          <NavigationControl position="top-right" showCompass={false} visualizePitch={false} />
+    <Map {...options}>
+      {/* Controls */}
+      <FullscreenControl position="bottom-right" />
 
-          <Source
-            type="geojson"
-            data={{
-              type: 'GeometryCollection',
-              geometries: isPrecariousPoints
+      <Source
+        type="geojson"
+        data={{
+          type: 'GeometryCollection',
+          geometries: isPrecariousPoints
+        }}
+      >
+        <Layer {...heatmapLayer(HeatmapType.Precarious)} />
+      </Source>
+      <Source
+        type="geojson"
+        data={{
+          type: 'GeometryCollection',
+          geometries: isInvasivePoints
+        }}
+      >
+        <Layer {...heatmapLayer(HeatmapType.Invasive)} />
+      </Source>
+
+      {/* Pin & Infowindow */}
+      {map(clusters, (cluster, index) => {
+        const [longitude, latitude] = cluster.geometry.coordinates;
+
+        return (
+          <Marker
+            key={`marker-${index}`}
+            longitude={longitude}
+            latitude={latitude}
+            anchor="bottom"
+            onClick={e => {
+              e.originalEvent.stopPropagation();
+              setPopupInfo(cluster.properties);
             }}
           >
-            <Layer {...heatmapLayer(HeatmapType.Precarious)} />
-          </Source>
-          <Source
-            type="geojson"
-            data={{
-              type: 'GeometryCollection',
-              geometries: isInvasivePoints
-            }}
-          >
-            <Layer {...heatmapLayer(HeatmapType.Invasive)} />
-          </Source>
+            <HiMapPin size={20} color={theme`colors.secondary`} cursor={'pointer'} />
+          </Marker>
+        );
+      })}
+      {popupInfo && <MapInfowindow cluster={popupInfo} observations={filteredObservations} setPopupInfo={setPopupInfo} />}
 
-          {/* Pin & Infowindow */}
-          {map(clusters, (cluster, index) => {
-            const [longitude, latitude] = cluster.geometry.coordinates;
+      {/* Terrain layer */}
+      <Source id="mapbox-dem" type="raster-dem" url="mapbox://mapbox.mapbox-terrain-dem-v1" tileSize={512} maxzoom={14} />
 
-            return (
-              <Marker
-                key={`marker-${index}`}
-                longitude={longitude}
-                latitude={latitude}
-                anchor="bottom"
-                onClick={e => {
-                  e.originalEvent.stopPropagation();
-                  setPopupInfo(cluster.properties);
-                }}
-              >
-                <HiMapPin size={20} color={theme`colors.secondary`} cursor={'pointer'} />
-              </Marker>
-            );
-          })}
-          {popupInfo && <MapInfowindow cluster={popupInfo} observations={filteredObservations} setPopupInfo={setPopupInfo} />}
-
-          {/* Terrain layer */}
-          <Source id="mapbox-dem" type="raster-dem" url="mapbox://mapbox.mapbox-terrain-dem-v1" tileSize={512} maxzoom={14} />
-
-          {/* TODO: Add custom overlay for parks */}
-          {/* See: https://github.com/visgl/react-map-gl/blob/master/examples/custom-overlay/src/app.tsx */}
-        </Map>
-      </div>
-
-      <div className="grid gap-2 grid-cols-3 place-items-center text-center">
-        <div className="col-span-1 flex flex-col w-full">
-          <Badge color="red" icon={HiOutlineQuestionMarkCircle}>
-            Observation d'espèce invasive
-          </Badge>
-        </div>
-        <div className="col-span-1 flex flex-col w-full">
-          <Badge color="blue" icon={HiOutlineQuestionMarkCircle}>
-            Observation d'espèce précaire
-          </Badge>
-        </div>
-      </div>
-    </>
+      {/* TODO: Add custom overlay for parks */}
+      {/* See: https://github.com/visgl/react-map-gl/blob/master/examples/custom-overlay/src/app.tsx */}
+    </Map>
   );
 };
 

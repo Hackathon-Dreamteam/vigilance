@@ -1,4 +1,4 @@
-import { Badge, Card } from 'flowbite-react';
+import { Badge, Card as FlowbiteCard } from 'flowbite-react';
 import DashboardFilters from './components/DashboardFilters';
 import DashboardObservations from './components/DashboardObservations';
 import { useAppStore } from '../../state/useAppStore';
@@ -45,7 +45,7 @@ const Observations: ReactFC = () => {
       <div className="flex">
         <div className="mb-2">
           <h4>Historique d'observations</h4>
-          <p className="text-gray-500 mt-0.5">Espèces invasives</p>
+          <p className="text-current opacity-60 mt-0.5">Espèces invasives</p>
         </div>
         <div className="ml-auto">
           <Badge size="lg" className="bg-primary/10 text-primary">
@@ -60,33 +60,57 @@ const Observations: ReactFC = () => {
   );
 };
 
+const Card = styled(FlowbiteCard)`
+  ${tw`bg-black/70 border-none text-white/90`}
+  tr,
+  th,
+  td {
+    ${tw`bg-primary/10 border-black/40 text-white/90`}
+  }
+  thead {
+    ${tw`bg-primary/30`}
+  }
+`;
+
+const MapInformation = styled.div`
+  &::-webkit-scrollbar {
+    width: 12px;
+  }
+  &::-webkit-scrollbar-thumb {
+    ${tw`bg-gray-400/20 rounded-lg`}
+  }
+  max-height: calc(100vh - 60px);
+  direction: rtl;
+  > * {
+    direction: ltr;
+  }
+  ${tw`overflow-y-auto w-full flex flex-col gap-4 p-4`}
+`;
+
 const DashboardPage: ReactFC = () => {
   return (
-    <>
-      <DashboardFilters />
-      <div className="grid gap-5 grid-cols-5">
-        <div className="col-span-3 flex gap-5 flex-col">
-          <Card>
-            <h4>Aperçu</h4>
-            <DashboardSummary />
-          </Card>
-          <div className="rounded overflow-clip">
-            <Card>
-              <h5>Carte intéractive</h5>
-              <DashboardMap />
-            </Card>
-          </div>
-        </div>
-        <div className="col-span-2 flex flex-col gap-5">
+    <div className="relative -mx-8 -mt-6">
+      <div className="absolute w-2/5 top-0 bottom-0 z-10">
+        <MapInformation>
           <Card>
             <RealTimeObservations />
           </Card>
           <Card>
+            <h4>Aperçu</h4>
+            <DashboardSummary />
+          </Card>
+          <Card>
             <Observations />
           </Card>
-        </div>
+        </MapInformation>
       </div>
-    </>
+      <Card className="absolute right-4 top-4 z-10">
+        <DashboardFilters />
+      </Card>
+      <div className="absolute w-full z-0">
+        <DashboardMap />
+      </div>
+    </div>
   );
 };
 

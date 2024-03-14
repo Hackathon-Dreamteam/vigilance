@@ -14,12 +14,12 @@ const Datepicker = styled(FlowbiteDatepicker)`
 `;
 
 const StyledSpecieSelect = styled(Select)`
-  ${tw`w-64`}
+  ${tw`w-56`}
   ${tw`[select]:bg-white`}
 `;
 
 const StyledSourceSelect = styled(Select)`
-  ${tw`w-64`}
+  ${tw`w-56`}
   ${tw`[select]:bg-white`}
 `;
 
@@ -37,7 +37,7 @@ const DashboardFilters: React.FC = () => {
   });
 
   return (
-    <div className="flex items-center gap-2">
+    <div className="flex items-center gap-4">
       <Datepicker
         placeholder="De"
         value={formatDate(filterFrom)}
@@ -45,7 +45,7 @@ const DashboardFilters: React.FC = () => {
         defaultDate={filterFrom ?? undefined}
         showClearButton={false}
       />
-      <HiArrowNarrowRight />
+      <HiArrowNarrowRight className="-mx-3" />
       <Datepicker
         placeholder="À"
         value={formatDate(filterTo)}
@@ -83,7 +83,7 @@ const DashboardFilters: React.FC = () => {
         placeholder={'Source de données'}
         classNamePrefix={'react-select'}
       />
-      <Toggle className="ml-2" label="Invasives seulement" checked={invasiveOnly} onChange={x => setState({ invasiveOnly: x })} />
+      <Toggle label="Invasives seulement" checked={invasiveOnly} onChange={x => setState({ invasiveOnly: x })} />
     </div>
   );
 };

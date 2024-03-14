@@ -15,6 +15,7 @@ export interface Observation {
   date: Date;
   geoLocation: GeoLocation;
   location: string;
+  iNaturalistLink: string;
 }
 
 export interface GeoLocation {

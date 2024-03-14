@@ -23,6 +23,7 @@ export interface ComputedAppState {
   filteredObservations: Observation[];
   filteredInvasiveObservations: Observation[];
   filteredAlerts: Alert[];
+  filteredSpecies: string[];
   species: string[];
   sources: string[];
 }
@@ -47,6 +48,7 @@ const defaultStore = (): AppStore => ({
     filteredObservations: [],
     filteredInvasiveObservations: [],
     filteredAlerts: [],
+    filteredSpecies: [],
     regions: [],
     species: [],
     sources: []
@@ -81,6 +83,12 @@ const AppStoreProvider: ReactFC<{ initialState: Partial<AppState> }> = ({ childr
       filteredAlerts: chain(appState.alerts)
         .filter(x => x.locations === appState.region)
         .orderBy(x => x.date, 'desc')
+        .value(),
+      filteredSpecies: chain(appState.observations)
+        .filter(x => x.location === appState.region)
+        .map(x => x.speciesName)
+        .uniq()
+        .sort()
         .value(),
       regions: chain(appState.observations)
         .map(x => x.location)

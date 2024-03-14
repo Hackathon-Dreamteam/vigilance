@@ -1,4 +1,4 @@
-import { Button, Pagination as FlowbitePagination, Table } from 'flowbite-react';
+import { Button, Pagination as FlowbitePagination, Table as FlowbiteTable } from 'flowbite-react';
 import { format } from 'date-fns/format';
 import { Link } from 'react-router-dom';
 import { useState } from 'react';
@@ -6,13 +6,17 @@ import styled from 'styled-components';
 import tw from 'twin.macro';
 import { Observation } from '../../../state/models';
 
-const pageSize = 10;
+const pageSize = 5;
 
 const DashboardObservations: ReactFC<{ observations: Observation[] }> = ({ observations }) => {
   const formatDate = (date: Date | null) => (date ? format(date, 'PP') : '');
 
   const [currentPage, setCurrentPage] = useState(1);
   const totalPages = Math.max(Math.floor(observations.length / pageSize) + (observations.length % pageSize > 0 ? 1 : 0), 1);
+
+  const Table = styled(FlowbiteTable)`
+    ${tw`bg-transparent`}
+  `;
 
   const TableCell = styled(Table.Cell)`
     ${tw`py-2.5`}
@@ -25,6 +29,13 @@ const DashboardObservations: ReactFC<{ observations: Observation[] }> = ({ obser
   const Pagination = styled(FlowbitePagination)`
     button {
       ${tw`py-1 px-2.5 text-sm`}
+    }
+  `;
+
+  const DetailsButton = styled(Button)`
+    ${tw`bg-primary/60`}
+    span {
+      ${tw`bg-transparent text-white/90`}
     }
   `;
 
@@ -49,9 +60,9 @@ const DashboardObservations: ReactFC<{ observations: Observation[] }> = ({ obser
               <TableCell align="left">{x.location}</TableCell>
               <TableCell align="right">
                 <Link to={`/species/${x.speciesName}/${x.observationId}`}>
-                  <Button outline color="gray" size="xs">
+                  <DetailsButton outline size="xs">
                     Détails
-                  </Button>
+                  </DetailsButton>
                 </Link>
               </TableCell>
             </Table.Row>
