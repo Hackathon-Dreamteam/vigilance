@@ -79,7 +79,7 @@ public class GetActionableAdviceOnAlertQueryHandler : IRequestHandler<GetActiona
 
     private string GetImagePrompt(Alert alert, SpeciesReports speciesReports)
     {
-        return $"Crée une image réaliste d'un {alert.SpeciesName}, le but est de crée conscientisation des citoyens à cette situation: {this.GetAssistantInstruction(alert, speciesReports)}. Ne met pas de texte. {GetCityDescrition(alert.Locations)}";
+        return $"Crée une image réaliste d'un {alert.SpeciesName}, le but est de crée conscientisation des citoyens à cette situation: {this.GetAssistantInstruction(alert, speciesReports)}. Le focus doit être sur {alert.SpeciesName} et doit de taille réaliste. Ne met pas de texte. {GetCityDescrition(alert.Locations)}";
     }
 
     private string GetCityDescrition(Locations locations)
