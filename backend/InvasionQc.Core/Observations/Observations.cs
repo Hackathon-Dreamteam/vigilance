@@ -21,4 +21,6 @@ public class Observation
     public string Source { get; set; } = string.Empty;
 
     public string iNaturalistLink { get; set; }
+
+    public string TaxonId { get; internal set; }
 }
