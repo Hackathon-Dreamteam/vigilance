@@ -23,8 +23,8 @@ const CustomStyles = styled.createGlobalStyle`
     display: flex;
     flex-direction: column;
     ${tw`text-base`}
-    &:has(main) {
-      overflow-y: scroll;
+    &:has(main.fullScreen) {
+      overflow-y: hidden;
     }
   }
 `;

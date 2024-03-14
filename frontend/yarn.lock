@@ -5351,7 +5351,7 @@ rc@^1.2.7:
 
 react-alphabet-sorter@^1.0.2:
   version "1.0.2"
-  resolved "https://registry.yarnpkg.com/react-alphabet-sorter/-/react-alphabet-sorter-1.0.2.tgz#8b34b205cdace160bf145157eabe3369179fcfc6"
+  resolved "https://registry.npmjs.org/react-alphabet-sorter/-/react-alphabet-sorter-1.0.2.tgz"
   integrity sha512-NOvoZvN6L1QSsz/WxZ7FfgCt8SND0a7m8OefvAQRg6cytW7LxaeZvu1E10yFGxfj9UKW0w1Wf2jI5Mqljv0JXw==
   dependencies:
     classnames "^2.2.5"

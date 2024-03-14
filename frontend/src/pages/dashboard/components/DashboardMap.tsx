@@ -8,11 +8,11 @@ import MapInfowindow from './MapInfowindow';
 import mapboxgl from 'mapbox-gl';
 import type { Point } from 'geojson/index';
 import useSupercluster, { UseSuperclusterArgument } from 'use-supercluster';
-import { PointFeature } from 'supercluster';
+import { ClusterProperties, PointFeature } from 'supercluster';
 import { theme } from 'twin.macro';
 import objectHash from 'object-hash';
 
-interface ClusterEntry {
+export interface ClusterEntry {
   observationId: string;
 }
 
@@ -29,7 +29,7 @@ const DashboardMap: ReactFC = () => {
     computed: { filteredObservations }
   } = useAppStore();
 
-  const [popupInfo, setPopupInfo] = useState<Cluster>();
+  const [popupInfo, setPopupInfo] = useState<PointFeature<ClusterProperties & Cluster>>();
   const [zoom, setZoom] = useState(11);
   const [bounds, setBounds] = useState<mapboxgl.LngLatBounds>();
   const [points, setPoints] = useState<PointFeature<ClusterEntry>[]>([]);
@@ -76,7 +76,7 @@ const DashboardMap: ReactFC = () => {
       bounds: bounds && [bounds.getNorthWest().lng, bounds.getSouthEast().lat, bounds.getSouthEast().lng, bounds.getNorthWest().lat],
       zoom,
       options: {
-        radius: 40,
+        radius: 100,
         maxZoom: 30,
         reduce
       }
@@ -217,14 +217,15 @@ const DashboardMap: ReactFC = () => {
             anchor="bottom"
             onClick={e => {
               e.originalEvent.stopPropagation();
-              setPopupInfo(cluster.properties);
+              // eslint-disable-next-line @typescript-eslint/no-explicit-any
+              setPopupInfo(cluster as any);
             }}
           >
-            <HiMapPin size={20} color={theme`colors.secondary`} cursor={'pointer'} />
+            <HiMapPin size={20} color={theme`colors.gray.300`} cursor={'pointer'} style={{ transform: 'translate(0px, 24px)' }} />
           </Marker>
         );
       })}
-      {popupInfo && <MapInfowindow cluster={popupInfo} observations={filteredObservations} setPopupInfo={setPopupInfo} />}
+      {popupInfo && <MapInfowindow cluster={popupInfo} observations={filteredObservations} clearPopup={() => setPopupInfo(undefined)} />}
 
       {/* Terrain layer */}
       <Source id="mapbox-dem" type="raster-dem" url="mapbox://mapbox.mapbox-terrain-dem-v1" tileSize={512} maxzoom={14} />

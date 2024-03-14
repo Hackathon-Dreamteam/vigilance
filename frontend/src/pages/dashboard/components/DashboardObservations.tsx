@@ -33,7 +33,7 @@ const DashboardObservations: ReactFC<{ observations: Observation[] }> = ({ obser
   `;
 
   const DetailsButton = styled(Button)`
-    ${tw`bg-primary/60`}
+    ${tw`bg-primary/60 enabled:hover:bg-primary/40 transition-all`}
     span {
       ${tw`bg-transparent text-white/90`}
     }

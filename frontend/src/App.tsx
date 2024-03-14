@@ -7,6 +7,7 @@ import tw, { theme } from 'twin.macro';
 import { useAppInitialData, useObservationRefresh } from './services/app-data/app-data-service';
 import { defaultState } from './state/defaultState';
 import { useMemo } from 'react';
+import classNames from 'classnames';
 
 const Main = styled.main`
   min-height: calc(100vh - ${theme`spacing.24`});
@@ -31,7 +32,7 @@ const App: ReactFC = () => {
         <AppStoreProvider initialState={initialState!}>
           <AppWithStore>
             <Header />
-            <Main key={pathname}>
+            <Main key={pathname} className={classNames({ fullScreen: pathname === '/dashboard' })}>
               <Outlet />
             </Main>
           </AppWithStore>

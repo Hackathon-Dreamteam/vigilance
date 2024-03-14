@@ -57,9 +57,11 @@ export const useObservationRefresh = () => {
   const initialFetch = useRef(false);
 
   const refreshObservations = useCallback(async () => {
-    const { response: latestObservations } = await ApiHttpService.get<Observation[]>('/observations/latest');
+    const { response: latestObservations, success } = await ApiHttpService.get<Observation[]>('/observations/latest');
 
-    setState({ realTimeObservations: latestObservations?.map(x => ({ ...x, isRealTime: true })) });
+    if (success) {
+      setState({ realTimeObservations: latestObservations?.map(x => ({ ...x, isRealTime: true })) });
+    }
   }, [setState]);
 
   // Initial fetch

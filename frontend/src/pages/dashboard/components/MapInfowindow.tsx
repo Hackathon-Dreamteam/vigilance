@@ -6,31 +6,34 @@ import { format } from 'date-fns/format';
 import { Link } from 'react-router-dom';
 import { Cluster } from './DashboardMap';
 import { Observation } from '../../../state/models';
+import { ClusterProperties, PointFeature } from 'supercluster';
 
 interface Props {
   observations: Observation[];
-  cluster: Cluster;
-  setPopupInfo: (cluster: Cluster | undefined) => void;
+  cluster: PointFeature<ClusterProperties & Cluster>;
+  clearPopup: () => void;
 }
 
-const MapInfowindow: ReactFC<Props> = ({ observations, cluster, setPopupInfo }) => {
-  const clusterObservation = observations.find(x => x.observationId === cluster.observationId)!;
+const MapInfowindow: ReactFC<Props> = ({ observations, cluster, clearPopup }) => {
+  const clusterObservation = observations.find(x => x.observationId === cluster.properties.observationId)!;
 
-  observations = observations.filter(x => cluster.observationIds?.includes(x.observationId) || x.observationId === cluster.observationId);
+  observations = observations.filter(
+    x => cluster.properties.observationIds?.includes(x.observationId) || x.observationId === cluster.properties.observationId
+  );
 
   return (
     <Popup
       key="infowindow"
       anchor="bottom"
-      longitude={Number(clusterObservation.geoLocation.longitude)}
-      latitude={Number(clusterObservation.geoLocation.latitude)}
-      onClose={() => setPopupInfo(undefined)}
+      longitude={cluster.geometry.coordinates[0]}
+      latitude={cluster.geometry.coordinates[1]}
+      onClose={() => clearPopup()}
       className="min-w-72"
     >
       <div className="grid gap-2 grid-cols-2 divide-y">
         <div className="col-span-2 flex gap-5 flex-col">
           <h4>
-            <Link to={`/observations/${clusterObservation.observationId}`}>{clusterObservation.speciesName}</Link>
+            <Link to={`/species/${clusterObservation.speciesName}`}>{clusterObservation.speciesName}</Link>
             <Badge color="green" icon={HiMiniEye} className="inline-flex ml-2">
               {observations.length}
             </Badge>
@@ -57,21 +60,6 @@ const MapInfowindow: ReactFC<Props> = ({ observations, cluster, setPopupInfo }) 
             <b>Précaire : </b>
             {clusterObservation.isPrecarious ? 'Oui' : 'Non'}
           </p>
-          <p>
-            <b>Observations : </b>
-          </p>
-          <ul className="list-disc ml-3">
-            {observations.map(obs => (
-              <li key={obs.observationId}>
-                <b>
-                  <a href={obs.imageUrl} target="_blank" className="text-blue-700">
-                    Lien Externe
-                    <HiLink className="inline-block ml-1" />
-                  </a>
-                </b>
-              </li>
-            ))}
-          </ul>
         </div>
       </div>
     </Popup>

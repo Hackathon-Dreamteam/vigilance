@@ -21,10 +21,10 @@ const RealTimeObservations: ReactFC = () => {
       <RealTimeObservationsCardHeader $any={realTimeObservations.length > 0} key={realTimeObservations.length}>
         <div className="mb-2 flex items-center gap-3">
           <h4>Observations en temps réel</h4>
-          <FaSync className="w-4.5 h-4.5 fill-secondary/80 animate-spin-slow" />
+          <FaSync className="w-4.5 h-4.5 fill-primary/80 animate-spin-slow" />
         </div>
         <div className="ml-auto">
-          <Badge className="bg-secondary/20 text-secondary" size="lg">
+          <Badge className="bg-primary/30 text-white" size="lg">
             {realTimeObservations.length}
           </Badge>
         </div>
@@ -48,7 +48,7 @@ const Observations: ReactFC = () => {
           <p className="text-current opacity-60 mt-0.5">Espèces invasives</p>
         </div>
         <div className="ml-auto">
-          <Badge size="lg" className="bg-primary/10 text-primary">
+          <Badge size="lg" className="bg-primary/30 text-white">
             {filteredInvasiveObservations.length}
           </Badge>
         </div>
@@ -61,7 +61,7 @@ const Observations: ReactFC = () => {
 };
 
 const Card = styled(FlowbiteCard)`
-  ${tw`bg-black/70 border-none text-white/90`}
+  ${tw`bg-black/90 border-none text-white/90`}
   tr,
   th,
   td {
@@ -104,7 +104,7 @@ const DashboardPage: ReactFC = () => {
           </Card>
         </MapInformation>
       </div>
-      <Card className="absolute right-4 top-4 z-10">
+      <Card className="absolute top-4 right-4 z-10">
         <DashboardFilters />
       </Card>
       <div className="absolute w-full z-0">
