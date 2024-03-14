@@ -37,7 +37,7 @@ public class GetObservationsLatestQueryHandler : IStreamRequestHandler<GetObserv
                     GeoLocation = new GeoLocation(observationData.geojson.coordinates[0], observationData.geojson.coordinates[1]),
                     Source = "Community",
                     Date = observationDate,
-                    TaxonId = observationData.taxonId,
+                     TaxonId = $"{observationData.taxonId}",
                     ObservationId = $"c_{observationData.ObservationId}",
                     ImageUrl = observationData.ObservationPhotos
                         .Select(x => x.Metadata?.Url?.Replace("square.jpeg", "large.jpeg")?.Replace("square.jpg", "large.jpg"))
