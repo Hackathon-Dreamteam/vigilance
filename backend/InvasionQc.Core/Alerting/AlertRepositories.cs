@@ -53,7 +53,7 @@ public class AlertRepositories
             { "renouée du japon", "914922" }
         };
         
-        var random = new Random();s
+        var random = new Random();
         var randomAlerts = new Faker<Alert>()
             .RuleFor(o => o.Id, f => f.Random.Guid())
             .RuleFor(o => o.Type, f => f.PickRandom<Alert.AlertType>())
