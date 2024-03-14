@@ -42,6 +42,9 @@ body {
   width: 20px;
   font-size: 15px;
 }
+.mapboxgl-ctrl-attrib-button {
+  display: none !important;
+}
 
 /* Custom for React Select */
 .react-select__control {
