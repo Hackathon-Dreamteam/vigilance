@@ -38,23 +38,33 @@ public class AlertRepositories
     {
         var alertsSeeds = new List<Alert>()
         {
-            new (Guid.NewGuid(), Alert.AlertType.ObservationsRaising, "roseau commun", Locations.Gatineau, DateTimeOffset.Now, true),
-            new (Guid.NewGuid(), Alert.AlertType.ObservationsDropping, "Pluvier siffleur melodus", Locations.Laval, DateTimeOffset.Now, false),
-            new (Guid.NewGuid(), Alert.AlertType.UnexpectedSpecies, "Dinde Noir", Locations.Montreal, DateTimeOffset.Now, false),
+            new (Guid.NewGuid(), Alert.AlertType.ObservationsRaising, "roseau commun", Locations.Gatineau, DateTimeOffset.Now, true, "64237"),
+            new (Guid.NewGuid(), Alert.AlertType.ObservationsDropping, "Pluvier siffleur melodus", Locations.Laval, DateTimeOffset.Now, false, "4798"),
+            new (Guid.NewGuid(), Alert.AlertType.UnexpectedSpecies, "Dinde Noir", Locations.Montreal, DateTimeOffset.Now, false, "906"),
         };
 
-        var speciesNames = new[] { "érable à giguère", "coccinelle asiatique", "érable de norvège", "caryer ovale", "nerprun bourdaine", "renouée du japon" };
-
-        var random = new Random();
+        var speciesNames = new Dictionary<string, string>
+        {
+            { "érable à giguère", "47726" },
+            { "coccinelle asiatique", "48484" },
+            { "érable de norvège", "54763" },
+            { "caryer ovale", "54791" },
+            { "nerprun bourdaine", "82856" },
+            { "renouée du japon", "914922" }
+        };
+        
+        var random = new Random();s
         var randomAlerts = new Faker<Alert>()
             .RuleFor(o => o.Id, f => f.Random.Guid())
             .RuleFor(o => o.Type, f => f.PickRandom<Alert.AlertType>())
-            .RuleFor(o => o.SpeciesName, f => f.PickRandom(speciesNames))
+            .RuleFor(o => o.SpeciesName, f => f.PickRandom(speciesNames.Keys.ToList()))
             .RuleFor(o => o.Locations, f => f.PickRandom<Locations>())
             .RuleFor(o => o.Date, f => f.Date.RecentOffset(random.Next(0, 365)))
             .RuleFor(o => o.IsReal, f => false)
             .Generate(50);
 
+        randomAlerts.ForEach(alert => alert.TaxonId = speciesNames[alert.SpeciesName].ToString());
+        
         alertsSeeds.AddRange(randomAlerts);
 
 

@@ -9,11 +9,12 @@ public record Alert
 
     }
 
-    public Alert(Guid id, AlertType type, string speciesName, Locations locations, DateTimeOffset date, bool isReal)
+    public Alert(Guid id, AlertType type, string speciesName, Locations locations, DateTimeOffset date, bool isReal, string taxonId)
     {
         Id = id;
         Type = type;
         SpeciesName = speciesName;
+        TaxonId = taxonId;
         Locations = locations;
         Date = date;
         IsReal = isReal;
@@ -25,6 +26,7 @@ public record Alert
     public Locations Locations { get; set; }
     public DateTimeOffset Date { get; set; }
     public bool IsReal { get; set; }
+    public string TaxonId { get; set; }
 
 
     public enum AlertType
