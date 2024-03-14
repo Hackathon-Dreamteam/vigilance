@@ -30,9 +30,7 @@ const MapInfowindow: ReactFC<Props> = ({ observations, cluster, setPopupInfo }) 
       <div className="grid gap-2 grid-cols-2 divide-y">
         <div className="col-span-2 flex gap-5 flex-col">
           <h4>
-            <Link to={`/species/${clusterObservation.speciesName}/${clusterObservation.observationId}`}>
-              {clusterObservation.speciesName}
-            </Link>
+            <Link to={`/observations/${clusterObservation.observationId}`}>{clusterObservation.speciesName}</Link>
             <Badge color="green" icon={HiMiniEye} className="inline-flex ml-2">
               {observations.length}
             </Badge>

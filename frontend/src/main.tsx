@@ -12,6 +12,7 @@ import SpeciesPage from './pages/species/SpeciesPage.tsx';
 import SpeciesDetailsPage from './pages/species/SpeciesDetailsPage.tsx';
 import './styles/main.css';
 import AlertPublishPage from './pages/alert/AlertPublishPage.tsx';
+import ObservationsDetailsPage from './pages/observations/ObservationsDetailsPage.tsx';
 
 setDefaultOptions({ locale: fr });
 
@@ -28,8 +29,12 @@ const router = createBrowserRouter([
         Component: SpeciesPage
       },
       {
-        path: '/species/:speciesId/:observationId?',
+        path: '/species/:speciesId',
         Component: SpeciesDetailsPage
+      },
+      {
+        path: '/observations/:observationId',
+        Component: ObservationsDetailsPage
       },
       {
         path: '/alerts',
