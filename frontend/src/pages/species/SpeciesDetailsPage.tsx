@@ -8,6 +8,7 @@ import { Alert, Observation } from '../../state/models';
 import { format } from 'date-fns';
 import { toTitleCase } from '../../utils/string';
 import { HiArrowNarrowRight, HiLink } from 'react-icons/hi';
+import MetaTags from 'react-meta-tags';
 
 export interface SpecieContent {
   taxonSummary: {
@@ -146,125 +147,130 @@ const SpeciesDetailsPage: ReactFC = () => {
   };
 
   return (
-    <div className="flex flex-col gap-5">
-      <Breadcrumb>
-        <Breadcrumb.Item>
-          <Link to="/species" className="font-semibold">
-            Espèces
-          </Link>
-        </Breadcrumb.Item>
-        <Breadcrumb.Item>{speciesName}</Breadcrumb.Item>
-      </Breadcrumb>
-      <Card>
-        <h4>{speciesName}</h4>
-        {isLoading && (
-          <span>
-            <Spinner aria-label="Default status example" />
-            <span className="ml-3">Obtention du contenue</span>
-          </span>
-        )}
-        {!isLoading && specieImage && specieDescription && (
-          <div className="max-w-4xl m-auto">
-            <img className="drop-shadow-md m-auto max-w-md" src={specieImage?.imageUri} />
-            <h5 className="mb-5">Description</h5>
-            <p className="mt-5">{specieDescription?.description}</p>
-            {/* <p>{JSON.stringify(specieContent)}</p> */}
+    <>
+      <MetaTags>
+        <title>Vigilance - Espèce: {speciesName}</title>
+      </MetaTags>
+      <div className="flex flex-col gap-5">
+        <Breadcrumb>
+          <Breadcrumb.Item>
+            <Link to="/species" className="font-semibold">
+              Espèces
+            </Link>
+          </Breadcrumb.Item>
+          <Breadcrumb.Item>{speciesName}</Breadcrumb.Item>
+        </Breadcrumb>
+        <Card>
+          <h4>{speciesName}</h4>
+          {isLoading && (
+            <span>
+              <Spinner aria-label="Default status example" />
+              <span className="ml-3">Obtention du contenue</span>
+            </span>
+          )}
+          {!isLoading && specieImage && specieDescription && (
+            <div className="max-w-4xl m-auto">
+              <img className="drop-shadow-md m-auto max-w-md" src={specieImage?.imageUri} />
+              <h5 className="mb-5">Description</h5>
+              <p className="mt-5">{specieDescription?.description}</p>
+              {/* <p>{JSON.stringify(specieContent)}</p> */}
 
-            {/* Observations */}
-            <div className="mt-5">
-              <h5 className="mb-5">
-                Observations {'('}
-                {filteredObservations?.length}
-                {')'}:
-              </h5>
-              <Table className="drop-shadow-md">
-                <Table.Head>
-                  <TableHeadCell align="left">Nom de l'espèce</TableHeadCell>
-                  <TableHeadCell align="left">Date observée</TableHeadCell>
-                  <TableHeadCell align="left">Source</TableHeadCell>
-                  <TableHeadCell align="left">Lieu</TableHeadCell>
-                  <TableHeadCell align="left">Image</TableHeadCell>
-                </Table.Head>
-                <Table.Body className="divide-y">
-                  {pagedObservations?.map(x => (
-                    <Table.Row key={x.observationId} className="bg-white dark:border-gray-700 dark:bg-gray-800">
-                      <TableCell align="left" className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
-                        {x.speciesName}
-                      </TableCell>
-                      <TableCell align="left">{x.date ? format(x.date, 'PP') : ''}</TableCell>
-                      <TableCell align="left">{x.source}</TableCell>
-                      <TableCell align="left">{x.location}</TableCell>
-                      <TableCell align="left">
-                        <a href={x.imageUrl} target="_blank" className="text-blue-700">
-                          Lien Externe
-                          <HiLink className="inline-block ml-1" />
-                        </a>
-                      </TableCell>
-                    </Table.Row>
-                  ))}
-                </Table.Body>
-              </Table>
-              {getTotaObservationlPages() > 1 && (
-                <Pagination
-                  className="mt-3"
-                  layout="navigation"
-                  currentPage={currentOrganisationPage}
-                  totalPages={getTotaObservationlPages()}
-                  onPageChange={setCurrentOnservationPage}
-                />
-              )}
-            </div>
+              {/* Observations */}
+              <div className="mt-5">
+                <h5 className="mb-5">
+                  Observations {'('}
+                  {filteredObservations?.length}
+                  {')'}:
+                </h5>
+                <Table className="drop-shadow-md">
+                  <Table.Head>
+                    <TableHeadCell align="left">Nom de l'espèce</TableHeadCell>
+                    <TableHeadCell align="left">Date observée</TableHeadCell>
+                    <TableHeadCell align="left">Source</TableHeadCell>
+                    <TableHeadCell align="left">Lieu</TableHeadCell>
+                    <TableHeadCell align="left">Image</TableHeadCell>
+                  </Table.Head>
+                  <Table.Body className="divide-y">
+                    {pagedObservations?.map(x => (
+                      <Table.Row key={x.observationId} className="bg-white dark:border-gray-700 dark:bg-gray-800">
+                        <TableCell align="left" className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
+                          {x.speciesName}
+                        </TableCell>
+                        <TableCell align="left">{x.date ? format(x.date, 'PP') : ''}</TableCell>
+                        <TableCell align="left">{x.source}</TableCell>
+                        <TableCell align="left">{x.location}</TableCell>
+                        <TableCell align="left">
+                          <a href={x.imageUrl} target="_blank" className="text-blue-700">
+                            Lien Externe
+                            <HiLink className="inline-block ml-1" />
+                          </a>
+                        </TableCell>
+                      </Table.Row>
+                    ))}
+                  </Table.Body>
+                </Table>
+                {getTotaObservationlPages() > 1 && (
+                  <Pagination
+                    className="mt-3"
+                    layout="navigation"
+                    currentPage={currentOrganisationPage}
+                    totalPages={getTotaObservationlPages()}
+                    onPageChange={setCurrentOnservationPage}
+                  />
+                )}
+              </div>
 
-            {/* Alerts */}
-            <div className="mt-8">
-              <h5 className="mb-5">
-                Alertes {'('}
-                {filteredAlerts?.length}
-                {')'}:
-              </h5>
-              <Table className="drop-shadow-md">
-                <Table.Head>
-                  <TableHeadCell align="left">Nom de l'espèce</TableHeadCell>
-                  <TableHeadCell align="left">Date</TableHeadCell>
-                  <TableHeadCell align="left">Type</TableHeadCell>
-                  <TableHeadCell align="left">Lieu</TableHeadCell>
-                  <TableHeadCell align="left">Publier l'alerte</TableHeadCell>
-                </Table.Head>
-                <Table.Body className="divide-y">
-                  {pagedAlerts?.map(x => (
-                    <Table.Row key={x.id} className="bg-white dark:border-gray-700 dark:bg-gray-800">
-                      <TableCell align="left" className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
-                        {x.speciesName}
-                      </TableCell>
-                      <TableCell align="left">{x.date ? format(x.date, 'PP') : ''}</TableCell>
-                      <TableCell align="left">{renderAlertBadge(x.type)}</TableCell>
-                      <TableCell align="left">{x.locations}</TableCell>
-                      <TableCell align="left">
-                        <Link className="inline-flex" to={`/alerts/${x.id}`}>
-                          <Button size={'xs'} className="bg-primary enabled:hover:bg-primary/90 transition-all mt-3">
-                            Publier une alerte citoyenne
-                            <HiArrowNarrowRight className="ml-2 h-3 w-3" />
-                          </Button>
-                        </Link>
-                      </TableCell>
-                    </Table.Row>
-                  ))}
-                </Table.Body>
-              </Table>
-              {getTotaObservationlPages() > 1 && (
-                <Pagination
-                  className="mt-3"
-                  layout="navigation"
-                  currentPage={currentOrganisationPage}
-                  totalPages={getTotaObservationlPages()}
-                  onPageChange={setCurrentOnservationPage}
-                />
-              )}
+              {/* Alerts */}
+              <div className="mt-8">
+                <h5 className="mb-5">
+                  Alertes {'('}
+                  {filteredAlerts?.length}
+                  {')'}:
+                </h5>
+                <Table className="drop-shadow-md">
+                  <Table.Head>
+                    <TableHeadCell align="left">Nom de l'espèce</TableHeadCell>
+                    <TableHeadCell align="left">Date</TableHeadCell>
+                    <TableHeadCell align="left">Type</TableHeadCell>
+                    <TableHeadCell align="left">Lieu</TableHeadCell>
+                    <TableHeadCell align="left">Publier l'alerte</TableHeadCell>
+                  </Table.Head>
+                  <Table.Body className="divide-y">
+                    {pagedAlerts?.map(x => (
+                      <Table.Row key={x.id} className="bg-white dark:border-gray-700 dark:bg-gray-800">
+                        <TableCell align="left" className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
+                          {x.speciesName}
+                        </TableCell>
+                        <TableCell align="left">{x.date ? format(x.date, 'PP') : ''}</TableCell>
+                        <TableCell align="left">{renderAlertBadge(x.type)}</TableCell>
+                        <TableCell align="left">{x.locations}</TableCell>
+                        <TableCell align="left">
+                          <Link className="inline-flex" to={`/alerts/${x.id}`}>
+                            <Button size={'xs'} className="bg-primary enabled:hover:bg-primary/90 transition-all mt-3">
+                              Publier une alerte citoyenne
+                              <HiArrowNarrowRight className="ml-2 h-3 w-3" />
+                            </Button>
+                          </Link>
+                        </TableCell>
+                      </Table.Row>
+                    ))}
+                  </Table.Body>
+                </Table>
+                {getTotaObservationlPages() > 1 && (
+                  <Pagination
+                    className="mt-3"
+                    layout="navigation"
+                    currentPage={currentOrganisationPage}
+                    totalPages={getTotaObservationlPages()}
+                    onPageChange={setCurrentOnservationPage}
+                  />
+                )}
+              </div>
             </div>
-          </div>
-        )}
-      </Card>
-    </div>
+          )}
+        </Card>
+      </div>
+    </>
   );
 };
 

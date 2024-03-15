@@ -1,6 +1,7 @@
 import { Card } from 'flowbite-react';
 import { useAppStore } from '../../state/useAppStore';
 import AlpabeticalSorter from 'react-alphabet-sorter';
+import MetaTags from 'react-meta-tags';
 
 const SpeciesPage: ReactFC = () => {
   const {
@@ -12,14 +13,19 @@ const SpeciesPage: ReactFC = () => {
   });
 
   return (
-    <div className="flex flex-col gap-5">
-      <Card>
-        <h4>Espèces</h4>
-        <div>
-          <AlpabeticalSorter asGroup={data} asName="link" navigator={navigator} type="link" />
-        </div>
-      </Card>
-    </div>
+    <>
+      <MetaTags>
+        <title>Vigilance - Liste des Espèces</title>
+      </MetaTags>
+      <div className="flex flex-col gap-5">
+        <Card>
+          <h4>Espèces</h4>
+          <div>
+            <AlpabeticalSorter asGroup={data} asName="link" navigator={navigator} type="link" />
+          </div>
+        </Card>
+      </div>
+    </>
   );
 };
 

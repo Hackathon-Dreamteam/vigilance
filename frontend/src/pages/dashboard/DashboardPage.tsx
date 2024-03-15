@@ -7,6 +7,7 @@ import DashboardSummary from './components/DashboardSummary';
 import styled from 'styled-components';
 import tw from 'twin.macro';
 import { FaSync } from 'react-icons/fa';
+import MetaTags from 'react-meta-tags';
 
 const RealTimeObservationsCardHeader = styled.div<{ $any: boolean }>`
   ${tw`flex`}
@@ -93,28 +94,33 @@ const MapInformation = styled.div`
 
 const DashboardPage: ReactFC = () => {
   return (
-    <div className="relative -mx-8 -mt-6">
-      <div className="absolute w-2/5 top-0 bottom-0 z-10">
-        <MapInformation>
-          <Card>
-            <RealTimeObservations />
-          </Card>
-          <Card>
-            <h4>Aperçu</h4>
-            <DashboardSummary />
-          </Card>
-          <Card>
-            <Observations />
-          </Card>
-        </MapInformation>
+    <>
+      <MetaTags>
+        <title>Vigilance - Tableau de bord</title>
+      </MetaTags>
+      <div className="relative -mx-8 -mt-6">
+        <div className="absolute w-2/5 top-0 bottom-0 z-10">
+          <MapInformation>
+            <Card>
+              <RealTimeObservations />
+            </Card>
+            <Card>
+              <h4>Aperçu</h4>
+              <DashboardSummary />
+            </Card>
+            <Card>
+              <Observations />
+            </Card>
+          </MapInformation>
+        </div>
+        <Card className="absolute top-4 right-4 z-10">
+          <DashboardFilters />
+        </Card>
+        <div className="absolute w-full z-0">
+          <DashboardMap />
+        </div>
       </div>
-      <Card className="absolute top-4 right-4 z-10">
-        <DashboardFilters />
-      </Card>
-      <div className="absolute w-full z-0">
-        <DashboardMap />
-      </div>
-    </div>
+    </>
   );
 };
 

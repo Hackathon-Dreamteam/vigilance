@@ -2,8 +2,9 @@ import { Badge, Button, Card } from 'flowbite-react';
 import { useAppStore } from '../../state/useAppStore';
 import { Timeline } from 'flowbite-react';
 import { format } from 'date-fns';
-import { HiArrowNarrowRight, HiExclamation } from 'react-icons/hi';
+import { HiArrowNarrowRight } from 'react-icons/hi';
 import { Link } from 'react-router-dom';
+import MetaTags from 'react-meta-tags';
 
 const AlertPage: ReactFC = () => {
   const {
@@ -36,36 +37,41 @@ const AlertPage: ReactFC = () => {
   };
 
   return (
-    <div>
-      <Card>
-        <h4>Alertes ⚠️</h4>
-        <Timeline>
-          {Array.isArray(filteredAlerts) &&
-            filteredAlerts.length > 0 &&
-            filteredAlerts.map(alert => (
-              <Timeline.Item key={alert.id}>
-                <Timeline.Point />
-                <Timeline.Content>
-                  <Timeline.Time>{format(alert.date, 'PP')}</Timeline.Time>
-                  <Timeline.Title>
-                    {alert.speciesName} <span>{renderAlertBadge(alert.type)}</span>
-                  </Timeline.Title>
-                  <Timeline.Body>
-                    <Link className="inline-flex" to={`/alerts/${alert.id}`}>
-                      <Button className="bg-primary enabled:hover:bg-primary/90 transition-all mt-3">
-                        Publier une alerte citoyenne
-                        <HiArrowNarrowRight className="ml-2 h-3 w-3" />
-                      </Button>
-                    </Link>
-                  </Timeline.Body>
-                </Timeline.Content>
-              </Timeline.Item>
-            ))}
-          {!filteredAlerts ||
-            (filteredAlerts.length == 0 && <p>Félicitations, aucune alerte n'est présente pour la ville sélectionnée.</p>)}
-        </Timeline>
-      </Card>
-    </div>
+    <>
+      <MetaTags>
+        <title>Vigilance - Alertes</title>
+      </MetaTags>
+      <div>
+        <Card>
+          <h4>Alertes ⚠️</h4>
+          <Timeline>
+            {Array.isArray(filteredAlerts) &&
+              filteredAlerts.length > 0 &&
+              filteredAlerts.map(alert => (
+                <Timeline.Item key={alert.id}>
+                  <Timeline.Point />
+                  <Timeline.Content>
+                    <Timeline.Time>{format(alert.date, 'PP')}</Timeline.Time>
+                    <Timeline.Title>
+                      {alert.speciesName} <span>{renderAlertBadge(alert.type)}</span>
+                    </Timeline.Title>
+                    <Timeline.Body>
+                      <Link className="inline-flex" to={`/alerts/${alert.id}`}>
+                        <Button className="bg-primary enabled:hover:bg-primary/90 transition-all mt-3">
+                          Publier une alerte citoyenne
+                          <HiArrowNarrowRight className="ml-2 h-3 w-3" />
+                        </Button>
+                      </Link>
+                    </Timeline.Body>
+                  </Timeline.Content>
+                </Timeline.Item>
+              ))}
+            {!filteredAlerts ||
+              (filteredAlerts.length == 0 && <p>Félicitations, aucune alerte n'est présente pour la ville sélectionnée.</p>)}
+          </Timeline>
+        </Card>
+      </div>
+    </>
   );
 };
 
