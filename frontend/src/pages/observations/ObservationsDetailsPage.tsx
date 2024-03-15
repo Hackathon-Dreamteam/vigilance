@@ -1,6 +1,6 @@
 import Map, { Marker, MapRef } from 'react-map-gl';
 import { Breadcrumb, Card } from 'flowbite-react';
-import { useParams, Navigate } from 'react-router-dom';
+import { useParams, Navigate, Link } from 'react-router-dom';
 import { useAppStore } from '../../state/useAppStore';
 import { chain } from 'lodash';
 import { format } from 'date-fns';
@@ -65,7 +65,9 @@ const ObservationsDetailsPage: ReactFC = () => {
       </Breadcrumb>
       {selectedObservation && (
         <Card>
-          <h4>{selectedObservation?.speciesName}</h4>
+          <h4>
+            <Link to={`/species/${selectedObservation?.speciesName}`}>{selectedObservation?.speciesName}</Link>
+          </h4>
           <div className="m-auto max-w-4xl">
             <div className="grid grid-cols-6 gap-4">
               <div className="col-start-2 col-span-4">
@@ -78,7 +80,7 @@ const ObservationsDetailsPage: ReactFC = () => {
                   <h5 className="text-center">Détails de l'observation</h5>
                   <p className="mt-2">
                     <b>Espèce : </b>
-                    {selectedObservation.speciesName}
+                    <Link to={`/species/${selectedObservation?.speciesName}`}>{selectedObservation?.speciesName}</Link>
                   </p>
                   <p className="mt-2">
                     <b>Source de la donnée : </b>
