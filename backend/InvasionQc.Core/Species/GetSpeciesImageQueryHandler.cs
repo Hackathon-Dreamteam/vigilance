@@ -39,7 +39,7 @@ public class GetSpeciesImageQueryHandler : IRequestHandler<GetSpeciesImageQuery,
                 The mood conveys a sense of curiosity and coexistence, inviting viewers to ponder the relationship between nature and urban development.
                 """ + $"the specie is {speciesName} and the city is {location}";
 
-    }s
+    }
 }
 
 public record SpeciesImage(Uri ImageUri);
