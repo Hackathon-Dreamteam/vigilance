@@ -7,7 +7,7 @@ import { chain } from 'lodash';
 import { Alert, Observation } from '../../state/models';
 import { format } from 'date-fns';
 import { toTitleCase } from '../../utils/string';
-import { HiArrowNarrowRight, HiLink } from 'react-icons/hi';
+import { HiArrowNarrowRight, HiLink, HiOutlineQuestionMarkCircle } from 'react-icons/hi';
 import MetaTags from 'react-meta-tags';
 import Markdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
@@ -50,6 +50,8 @@ const SpeciesDetailsPage: ReactFC = () => {
   const [specieContent, setSpecieContent] = useState<SpecieContent>();
   const [specieDescription, setSpecieDescription] = useState<SpecieDescription>();
   const [specieImage, setSpecieImage] = useState<SpecieImage>();
+
+  console.log(specieContent);
 
   const loadSpecieContent = (id: string, taxonId: string) => {
     const specieDetailPromise = ApiHttpService.get<SpecieContent>(`/species/${id}/reports?location=All&taxonId=${taxonId}`);
@@ -173,6 +175,11 @@ const SpeciesDetailsPage: ReactFC = () => {
           {!isLoading && specieImage && specieDescription && (
             <div className="max-w-4xl m-auto">
               <img className="drop-shadow-md m-auto max-w-md" src={specieImage?.imageUri} />
+              {specieContent?.isInvasive && (
+                <Badge className="mt-3 max-w-32 mr-auto ml-auto" color="red" icon={HiOutlineQuestionMarkCircle}>
+                  Espèce Invasive
+                </Badge>
+              )}
               <h5 className="mb-5">Description</h5>
               <p className="mt-5">
                 <Markdown className="mt-5 alert-markdown" remarkPlugins={[[remarkGfm, { singleTilde: false }]]}>
@@ -180,8 +187,25 @@ const SpeciesDetailsPage: ReactFC = () => {
                 </Markdown>
               </p>
 
+              {specieContent?.taxonSummary && (
+                <>
+                  <hr className="divider-solid mt-5" />
+                  <h5 className="mt-5">Taxonomie (Anglais):</h5>
+                  {/* <p className="mt-5">Nom Latin: {specieContent?.taxonSummary?.latinName}</p> */}
+                  <p className="mt-5">
+                    Wikipedia: <p dangerouslySetInnerHTML={{ __html: specieContent?.taxonSummary?.wikipediaSummary }}></p>
+                  </p>
+                  <a href={specieContent?.taxonSummary?.wikipediaUrl} target="_blank" className="text-blue-700 mt-5 block">
+                    Lien Externe
+                    <HiLink className="inline-block ml-1" />
+                  </a>
+                </>
+              )}
+
               {/* Observations */}
-              <div className="mt-10">
+              <hr className="divider-solid mt-5" />
+
+              <div className="mt-5">
                 <h5 className="mb-5">
                   Observations {'('}
                   {filteredObservations?.length}
