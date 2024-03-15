@@ -223,7 +223,7 @@ const DashboardMap: ReactFC = () => {
               setPopupInfo(cluster as any);
             }}
           >
-            <HiMapPin size={20} color={theme`colors.gray.300`} cursor={'pointer'} style={{ transform: 'translate(0px, 24px)' }} />
+            <HiMapPin size={20} color={theme`colors.gray.700`} cursor={'pointer'} style={{ transform: 'translate(0px, 24px)' }} />
           </Marker>
         );
       })}
