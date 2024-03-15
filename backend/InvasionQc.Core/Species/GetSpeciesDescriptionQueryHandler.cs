@@ -25,7 +25,7 @@ public class GetSpeciesDescriptionQueryHandler : IRequestHandler<GetSpeciesDescr
     {
         var context = """
                       Vous êtes un expert en génération de contenu et en biodiversité et vous devez aider les élues municipaux.
-                      Je vais vous donner un nom d'animal et vous allez devoir me donner une description de l'animal: comment le reconnaitre et surtout son impact dans notre ecosysteme
+                      Je vais vous donner un nom d'espèce animal ou végétal et vous allez devoir me donner une description de: comment le reconnaitre et surtout son impact dans notre écosysteme
                       ainsi que les raisons pourquoi on devrait s'en soucier.
                       """;
 
