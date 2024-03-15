@@ -9,6 +9,8 @@ import { format } from 'date-fns';
 import { toTitleCase } from '../../utils/string';
 import { HiArrowNarrowRight, HiLink } from 'react-icons/hi';
 import MetaTags from 'react-meta-tags';
+import Markdown from 'react-markdown';
+import remarkGfm from 'remark-gfm';
 
 export interface SpecieContent {
   taxonSummary: {
@@ -172,11 +174,14 @@ const SpeciesDetailsPage: ReactFC = () => {
             <div className="max-w-4xl m-auto">
               <img className="drop-shadow-md m-auto max-w-md" src={specieImage?.imageUri} />
               <h5 className="mb-5">Description</h5>
-              <p className="mt-5">{specieDescription?.description}</p>
-              {/* <p>{JSON.stringify(specieContent)}</p> */}
+              <p className="mt-5">
+                <Markdown className="mt-5 alert-markdown" remarkPlugins={[[remarkGfm, { singleTilde: false }]]}>
+                  {specieDescription?.description}
+                </Markdown>
+              </p>
 
               {/* Observations */}
-              <div className="mt-5">
+              <div className="mt-10">
                 <h5 className="mb-5">
                   Observations {'('}
                   {filteredObservations?.length}
