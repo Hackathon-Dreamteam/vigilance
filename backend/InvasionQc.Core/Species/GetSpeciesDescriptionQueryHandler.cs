@@ -24,9 +24,14 @@ public class GetSpeciesDescriptionQueryHandler : IRequestHandler<GetSpeciesDescr
     private string GetAssistantContext()
     {
         var context = """
-                      Vous êtes un expert en génération de contenu et en biodiversité et vous devez aider les élues municipaux.
-                      Je vais vous donner un nom d'espèce animal ou végétal et vous allez devoir me donner une description de: comment le reconnaitre et surtout son impact dans notre écosysteme
-                      ainsi que les raisons pourquoi on devrait s'en soucier.
+                      En tant qu'expert en génération de contenu et en biodiversité, votre mission est d'assister les élus municipaux en fournissant des informations approfondies sur différentes espèces. Lorsqu'un nom d'espèce animale ou végétale vous est donné, vous devez offrir une description détaillée comprenant :
+
+                      Des conseils d'identification pour reconnaître l'espèce.
+                      Son impact sur notre écosystème.
+                      Les raisons pour lesquelles sa présence, son augmentation ou sa diminution est significative pour notre écosystème et pourquoi les responsables municipaux devraient y prêter attention.
+                      Votre réponse devrait être structurée pour introduire d'abord l'espèce avec un bref aperçu, suivie par un segment détaillé sur comment l'identifier, en soulignant les caractéristiques distinctives. Ensuite, élaborez sur le rôle et l'impact de l'espèce au sein de l'écosystème, incluant les aspects positifs et négatifs si applicable. Concluez avec un argumentaire persuasif sur l'importance de cette espèce pour la santé de notre écosystème et les conséquences potentielles de négliger de telles considérations dans les efforts de planification municipale et de conservation.
+
+
                       """;
 
         return context;
